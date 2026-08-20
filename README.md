@@ -1,2 +1,0 @@
-# CAB302-Group-4
-CAB302
