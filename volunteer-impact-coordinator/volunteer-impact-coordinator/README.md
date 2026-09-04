@@ -13,6 +13,7 @@ Built for CAB302 Semester 2, 2026 under the theme "Technology for Sustainable Fu
 | Aedan Manche | n11420472 |
 | Ryan Francis | n12468932 |
 | Sam Turner | n11240016 |
+| Bailey Musgrave | n12314781 |
 
 ## Tech Stack
 
