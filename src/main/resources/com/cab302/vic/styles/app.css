@@ -1,0 +1,118 @@
+/* App-wide styles for Volunteer Impact Coordinator */
+
+.root {
+    -fx-background-color: #f4f6fa;
+    -fx-font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -fx-font-size: 13px;
+}
+
+.title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e3a5f;
+}
+
+.subtitle {
+    -fx-text-fill: #556680;
+    -fx-font-size: 13px;
+}
+
+.field-label {
+    -fx-text-fill: #556680;
+    -fx-font-size: 11px;
+}
+
+.auth-card {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-effect: dropshadow(gaussian, rgba(30, 58, 95, 0.15), 12, 0, 0, 2);
+}
+
+.primary {
+    -fx-background-color: #2f6fd1;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+}
+
+.primary:hover {
+    -fx-background-color: #245aa6;
+}
+
+.secondary {
+    -fx-background-color: transparent;
+    -fx-text-fill: #2f6fd1;
+    -fx-border-color: #2f6fd1;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 6 14;
+    -fx-cursor: hand;
+}
+
+.secondary:hover {
+    -fx-background-color: #eaf1fb;
+}
+
+.danger {
+    -fx-background-color: transparent;
+    -fx-text-fill: #c0392b;
+    -fx-cursor: hand;
+}
+
+.danger:hover {
+    -fx-text-fill: #922a1f;
+    -fx-underline: true;
+}
+
+.error {
+    -fx-text-fill: #c0392b;
+}
+
+.success {
+    -fx-text-fill: #1e8449;
+}
+
+.top-bar {
+    -fx-background-color: white;
+    -fx-padding: 12 20;
+    -fx-border-color: transparent transparent #e1e6ee transparent;
+    -fx-border-width: 0 0 1 0;
+}
+
+.brand {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e3a5f;
+}
+
+.event-card {
+    -fx-background-color: white;
+    -fx-background-radius: 6;
+    -fx-padding: 14;
+    -fx-effect: dropshadow(gaussian, rgba(30, 58, 95, 0.08), 6, 0, 0, 1);
+}
+
+.event-card .event-title {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e3a5f;
+}
+
+.event-card .event-meta {
+    -fx-text-fill: #556680;
+    -fx-font-size: 12px;
+}
+
+.section-heading {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1e3a5f;
+}
+
+.list-view {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}

@@ -6,23 +6,26 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
 
-<VBox alignment="CENTER" spacing="12"
-      xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.cab302.vic.controller.LoginController">
-    <padding>
-        <Insets top="40" right="40" bottom="40" left="40"/>
-    </padding>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.cab302.vic.controller.LoginController"
+           styleClass="root">
+    <VBox alignment="CENTER" spacing="14" maxWidth="360" styleClass="auth-card">
+        <padding><Insets top="32" right="32" bottom="32" left="32"/></padding>
 
-    <Label text="Volunteer Impact Coordinator" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
-    <Label text="Sign in to continue"/>
+        <Label text="Volunteer Impact Coordinator" styleClass="title"/>
+        <Label text="Sign in to continue" styleClass="subtitle"/>
 
-    <TextField fx:id="usernameField" promptText="Username" maxWidth="280"/>
-    <PasswordField fx:id="passwordField" promptText="Password" maxWidth="280"/>
+        <TextField fx:id="usernameField" promptText="Username"/>
+        <PasswordField fx:id="passwordField" promptText="Password"/>
 
-    <Button text="Log In" onAction="#onLoginButtonClick" defaultButton="true"/>
-    <Hyperlink text="Create an account" onAction="#onRegisterLinkClick"/>
+        <Button text="Log In" onAction="#onLoginButtonClick" defaultButton="true"
+                maxWidth="Infinity" styleClass="primary"/>
 
-    <Label fx:id="messageLabel" style="-fx-text-fill: firebrick;"/>
-</VBox>
+        <Hyperlink text="Don't have an account? Create one" onAction="#onRegisterLinkClick"/>
+
+        <Label fx:id="messageLabel" wrapText="true"/>
+    </VBox>
+</StackPane>
