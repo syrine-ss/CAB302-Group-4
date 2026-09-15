@@ -6,34 +6,38 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Singleton that manages the SQLite database connection and schema.
+ * Manages the SQLite database connection and schema initialisation.
+ *
+ * Refactored from a hard-coded singleton so that tests can construct an
+ * in-memory or per-test database. The application still uses the default
+ * shared instance via {@link #getInstance()}.
  */
 public class DatabaseManager {
 
-    private static final String DB_URL = "jdbc:sqlite:vic.db";
+    private static final String DEFAULT_URL = "jdbc:sqlite:vic.db";
     private static DatabaseManager instance;
-    private Connection connection;
 
-    private DatabaseManager() {}
+    private final String url;
 
+    /** Construct a manager backed by the given JDBC URL. Useful for tests. */
+    public DatabaseManager(String url) {
+        this.url = url;
+    }
+
+    /** Shared instance backed by the default file (vic.db). */
     public static synchronized DatabaseManager getInstance() {
         if (instance == null) {
-            instance = new DatabaseManager();
+            instance = new DatabaseManager(DEFAULT_URL);
         }
         return instance;
     }
 
+    /** Open a new connection. Callers must close it (or use try-with-resources). */
     public Connection getConnection() throws SQLException {
-        if (connection == null || connection.isClosed()) {
-            connection = DriverManager.getConnection(DB_URL);
-        }
-        return connection;
+        return DriverManager.getConnection(url);
     }
 
-    /**
-     * Create tables if they do not already exist.
-     * Called once on application startup.
-     */
+    /** Create tables if they don't already exist. Safe to call every startup. */
     public void initialise() {
         String createUsers = """
             CREATE TABLE IF NOT EXISTS users (
@@ -52,6 +56,7 @@ public class DatabaseManager {
                 title TEXT NOT NULL,
                 description TEXT,
                 event_date TEXT NOT NULL,
+                event_time TEXT,
                 location TEXT,
                 volunteers_needed INTEGER,
                 created_by INTEGER,
@@ -83,7 +88,8 @@ public class DatabaseManager {
             );
             """;
 
-        try (Statement stmt = getConnection().createStatement()) {
+        try (Connection conn = getConnection();
+             Statement stmt = conn.createStatement()) {
             stmt.execute(createUsers);
             stmt.execute(createEvents);
             stmt.execute(createSignups);
