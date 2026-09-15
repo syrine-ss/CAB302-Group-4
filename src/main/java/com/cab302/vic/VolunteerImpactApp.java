@@ -1,29 +1,22 @@
 package com.cab302.vic;
 
 import com.cab302.vic.dao.DatabaseManager;
+import com.cab302.vic.util.SceneNavigator;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
+/**
+ * Application entry point. Initialises the SQLite schema on startup, then
+ * shows the login view.
+ */
 public class VolunteerImpactApp extends Application {
 
     public static final String APP_TITLE = "Volunteer Impact Coordinator";
 
     @Override
-    public void start(Stage stage) throws IOException {
-        // Initialise the database on startup
+    public void start(Stage stage) throws Exception {
         DatabaseManager.getInstance().initialise();
-
-        FXMLLoader loader = new FXMLLoader(
-                VolunteerImpactApp.class.getResource("view/login-view.fxml"));
-        Scene scene = new Scene(loader.load(), 800, 600);
-
-        stage.setTitle(APP_TITLE);
-        stage.setScene(scene);
-        stage.show();
+        SceneNavigator.switchTo(stage, "login-view.fxml", APP_TITLE);
     }
 
     public static void main(String[] args) {
