@@ -12,7 +12,7 @@ public class DatabaseManager {
 
     private static final String DB_URL = "jdbc:sqlite:vic.db";
     private static DatabaseManager instance;
-    private Connection connection;
+    private static Connection connection;
 
     private DatabaseManager() {}
 
@@ -23,7 +23,7 @@ public class DatabaseManager {
         return instance;
     }
 
-    public Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection(DB_URL);
         }
@@ -36,15 +36,15 @@ public class DatabaseManager {
      */
     public void initialise() {
         String createUsers = """
-            CREATE TABLE IF NOT EXISTS users (
+                CREATE TABLE IF NOT EXISTS users (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 username TEXT UNIQUE NOT NULL,
                 password_hash TEXT NOT NULL,
                 full_name TEXT NOT NULL,
                 email TEXT,
                 role TEXT NOT NULL
-            );
-            """;
+                );
+                """;
 
         String createEvents = """
             CREATE TABLE IF NOT EXISTS events (
@@ -90,6 +90,14 @@ public class DatabaseManager {
             stmt.execute(createHours);
         } catch (SQLException e) {
             throw new RuntimeException("Failed to initialise database", e);
+        }
+    }
+
+    public void close() {
+        try {
+            connection.close();
+        } catch (SQLException ex) {
+            throw new RuntimeException("Failed to close connection", ex);
         }
     }
 }

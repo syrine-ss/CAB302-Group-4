@@ -21,6 +21,16 @@ public class User {
         this.role = role;
     }
 
+    // Since id is auto-incrementing in table, have an initialisation without id
+    public User(String username, String passwordHash,
+                String fullName, String email, Role role) {
+        this.username = username;
+        this.passwordHash = passwordHash;
+        this.fullName = fullName;
+        this.email = email;
+        this.role = role;
+    }
+
     public int getId() { return id; }
     public String getUsername() { return username; }
     public String getPasswordHash() { return passwordHash; }
