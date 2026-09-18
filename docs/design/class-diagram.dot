@@ -1,0 +1,254 @@
+digraph VIC {
+  graph [compound=true, rankdir=TB, splines=true, nodesep=0.5, ranksep=0.8, fontname="Helvetica", bgcolor="white", label="Volunteer Impact Coordinator — Class Diagram\nCAB302 Group 4 · Layered MVC with DAO pattern", labelloc="t", fontsize=22];
+  node  [shape=plaintext, fontname="Helvetica", fontsize=10];
+  edge  [fontname="Helvetica", fontsize=9, color="#444444"];
+
+  // ---------- APPLICATION ----------
+  subgraph cluster_app {
+    label="com.cab302.vic"; style="rounded,filled"; fillcolor="#F4F6F8"; color="#B0BEC5"; fontsize=13; fontname="Helvetica-Bold";
+    App [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#37474F"><FONT COLOR="white"><B>VolunteerImpactApp</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">+ start(Stage) : void<BR ALIGN="LEFT"/>+ main(String[]) : void<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+  }
+
+  // ---------- CONTROLLERS (View layer) ----------
+  subgraph cluster_ctrl {
+    label="controller  —  JavaFX / FXML  (View + Controller)"; style="rounded,filled"; fillcolor="#E8F1FB"; color="#90CAF9"; fontsize=13; fontname="Helvetica-Bold";
+
+    LoginC [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#1565C0"><FONT COLOR="white"><B>LoginController</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">- onLoginButtonClick() : void<BR ALIGN="LEFT"/>- onRegisterLinkClick() : void<BR ALIGN="LEFT"/>- routeToDashboard(User) : void<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+
+    RegC [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#1565C0"><FONT COLOR="white"><B>RegisterController</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">+ initialize() : void<BR ALIGN="LEFT"/>- onCreateAccountClick() : void<BR ALIGN="LEFT"/>- onBackToLoginClick() : void<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+
+    CoordC [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#1565C0"><FONT COLOR="white"><B>CoordinatorDashboardController</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">+ selectedEvent : SimpleObjectProperty&lt;Event&gt;<BR ALIGN="LEFT"/></TD></TR>
+        <TR><TD ALIGN="LEFT">+ initialize() : void<BR ALIGN="LEFT"/>- refreshEvents() : void<BR ALIGN="LEFT"/>- onCreateEventClick() : void<BR ALIGN="LEFT"/>- onEditSelectedEventClick() : void<BR ALIGN="LEFT"/>- onLogoutClick() : void<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+
+    VolC [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#1565C0"><FONT COLOR="white"><B>VolunteerDashboardController</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">+ initialize() : void<BR ALIGN="LEFT"/>- onLogoutClick() : void<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+
+    FormC [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#1565C0"><FONT COLOR="white"><B>EventFormController</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">+ initialize() : void<BR ALIGN="LEFT"/>- populateForm(Event) : void<BR ALIGN="LEFT"/>- onSaveClick() : void<BR ALIGN="LEFT"/>- onCancelClick() : void<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+  }
+
+  // ---------- SERVICES (business logic) ----------
+  subgraph cluster_svc {
+    label="service  —  business rules &amp; validation"; style="rounded,filled"; fillcolor="#E8F5E9"; color="#A5D6A7"; fontsize=13; fontname="Helvetica-Bold";
+
+    AuthS [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#2E7D32"><FONT COLOR="white"><B>AuthService</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">- userDAO : UserDAO<BR ALIGN="LEFT"/></TD></TR>
+        <TR><TD ALIGN="LEFT">+ register(username, password, fullName,<BR ALIGN="LEFT"/>&#160;&#160;&#160;&#160;email, role) : User<BR ALIGN="LEFT"/>+ login(username, password) : User<BR ALIGN="LEFT"/>+ isPasswordStrong(String) : boolean<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+
+    EventS [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#2E7D32"><FONT COLOR="white"><B>EventService</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">- eventDAO : EventDAO<BR ALIGN="LEFT"/></TD></TR>
+        <TR><TD ALIGN="LEFT">+ create(...) : Event<BR ALIGN="LEFT"/>+ update(...) : Event<BR ALIGN="LEFT"/>+ findAll() : List&lt;Event&gt;<BR ALIGN="LEFT"/>+ findByCoordinator(int) : List&lt;Event&gt;<BR ALIGN="LEFT"/>+ findById(int) : Optional&lt;Event&gt;<BR ALIGN="LEFT"/>- validateFields(...) : void<BR ALIGN="LEFT"/>- assertNotInPast(String) : void<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+
+    AuthEx [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#EF6C00"><FONT COLOR="white"><B>AuthException</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT"><I>extends Exception</I><BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+
+    EventEx [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#EF6C00"><FONT COLOR="white"><B>EventException</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT"><I>extends Exception</I><BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+  }
+
+  // ---------- DAO (persistence) ----------
+  subgraph cluster_dao {
+    label="dao  —  persistence (DAO pattern)"; style="rounded,filled"; fillcolor="#FFF8E1"; color="#FFCC80"; fontsize=13; fontname="Helvetica-Bold";
+
+    IUserDAO [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#6D4C41"><FONT COLOR="white"><B>&#171;interface&#187;<BR/>UserDAO</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">+ create(User) : User<BR ALIGN="LEFT"/>+ findById(int) : Optional&lt;User&gt;<BR ALIGN="LEFT"/>+ findByUsername(String) : Optional&lt;User&gt;<BR ALIGN="LEFT"/>+ existsByUsername(String) : boolean<BR ALIGN="LEFT"/>+ findAll() : List&lt;User&gt;<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+
+    IEventDAO [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#6D4C41"><FONT COLOR="white"><B>&#171;interface&#187;<BR/>EventDAO</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">+ create(Event) : Event<BR ALIGN="LEFT"/>+ findById(int) : Optional&lt;Event&gt;<BR ALIGN="LEFT"/>+ findAll() : List&lt;Event&gt;<BR ALIGN="LEFT"/>+ findByCoordinator(int) : List&lt;Event&gt;<BR ALIGN="LEFT"/>+ update(Event) : boolean<BR ALIGN="LEFT"/>+ delete(int) : boolean<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+
+    SqlUser [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#8D6E63"><FONT COLOR="white"><B>SqliteUserDAO</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">- db : DatabaseManager<BR ALIGN="LEFT"/></TD></TR>
+        <TR><TD ALIGN="LEFT">- querySingle(sql, binder) : Optional&lt;User&gt;<BR ALIGN="LEFT"/>- mapRow(ResultSet) : User<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+
+    SqlEvent [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#8D6E63"><FONT COLOR="white"><B>SqliteEventDAO</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">- db : DatabaseManager<BR ALIGN="LEFT"/></TD></TR>
+        <TR><TD ALIGN="LEFT">- list(sql, binder) : List&lt;Event&gt;<BR ALIGN="LEFT"/>- bindEvent(PreparedStatement, Event) : void<BR ALIGN="LEFT"/>- mapRow(ResultSet) : Event<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+
+    DbMgr [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#8D6E63"><FONT COLOR="white"><B>DatabaseManager</B> &#171;singleton&#187;</FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">- url : String<BR ALIGN="LEFT"/></TD></TR>
+        <TR><TD ALIGN="LEFT">+ getInstance() : DatabaseManager<BR ALIGN="LEFT"/>+ getConnection() : Connection<BR ALIGN="LEFT"/>+ initialise() : void<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+  }
+
+  // ---------- MODEL ----------
+  subgraph cluster_model {
+    label="model  —  domain entities"; style="rounded,filled"; fillcolor="#F3E5F5"; color="#CE93D8"; fontsize=13; fontname="Helvetica-Bold";
+
+    UserM [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#6A1B9A"><FONT COLOR="white"><B>User</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">- id : int<BR ALIGN="LEFT"/>- username : String<BR ALIGN="LEFT"/>- passwordHash : String<BR ALIGN="LEFT"/>- fullName : String<BR ALIGN="LEFT"/>- email : String<BR ALIGN="LEFT"/>- role : Role<BR ALIGN="LEFT"/></TD></TR>
+        <TR><TD ALIGN="LEFT">+ getters / setters<BR ALIGN="LEFT"/>+ equals(Object) : boolean<BR ALIGN="LEFT"/>+ hashCode() : int<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+
+    RoleE [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#8E24AA"><FONT COLOR="white"><B>&#171;enum&#187; Role</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">COORDINATOR<BR ALIGN="LEFT"/>VOLUNTEER<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+
+    EventM [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#6A1B9A"><FONT COLOR="white"><B>Event</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">- id : int<BR ALIGN="LEFT"/>- title : String<BR ALIGN="LEFT"/>- description : String<BR ALIGN="LEFT"/>- eventDate : String (ISO-8601)<BR ALIGN="LEFT"/>- eventTime : String<BR ALIGN="LEFT"/>- location : String<BR ALIGN="LEFT"/>- volunteersNeeded : int<BR ALIGN="LEFT"/>- createdBy : int<BR ALIGN="LEFT"/></TD></TR>
+        <TR><TD ALIGN="LEFT">+ getters / setters<BR ALIGN="LEFT"/>+ parsedDate() : LocalDate<BR ALIGN="LEFT"/>+ equals(Object) : boolean<BR ALIGN="LEFT"/>+ hashCode() : int<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+  }
+
+  // ---------- UTIL ----------
+  subgraph cluster_util {
+    label="util  —  cross-cutting helpers"; style="rounded,filled"; fillcolor="#ECEFF1"; color="#B0BEC5"; fontsize=13; fontname="Helvetica-Bold";
+
+    Session [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#455A64"><FONT COLOR="white"><B>SessionManager</B> &#171;singleton&#187;</FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">- currentUser : User<BR ALIGN="LEFT"/></TD></TR>
+        <TR><TD ALIGN="LEFT">+ getInstance() : SessionManager<BR ALIGN="LEFT"/>+ setCurrentUser(User) : void<BR ALIGN="LEFT"/>+ getCurrentUser() : User<BR ALIGN="LEFT"/>+ isLoggedIn() : boolean<BR ALIGN="LEFT"/>+ isCoordinator() : boolean<BR ALIGN="LEFT"/>+ clear() : void<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+
+    Nav [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#455A64"><FONT COLOR="white"><B>SceneNavigator</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">+ switchTo(Stage, fxml, title) : T<BR ALIGN="LEFT"/>+ switchTo(Node, fxml, title) : T<BR ALIGN="LEFT"/>- addStylesheetIfAvailable(Scene) : void<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+
+    Hasher [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#455A64"><FONT COLOR="white"><B>PasswordHasher</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">+ hash(String) : String<BR ALIGN="LEFT"/>+ verify(String, String) : boolean<BR ALIGN="LEFT"/>- digest(String, byte[]) : byte[]<BR ALIGN="LEFT"/>- constantTimeEquals(byte[], byte[]) : boolean<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+  }
+
+  // ---------- TEST DOUBLES ----------
+  subgraph cluster_test {
+    label="src/test  —  test doubles (in-memory, no database)"; style="rounded,filled"; fillcolor="#FFEBEE"; color="#EF9A9A"; fontsize=13; fontname="Helvetica-Bold";
+
+    FakeUser [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#C62828"><FONT COLOR="white"><B>FakeUserDAO</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">- users : List&lt;User&gt; (in memory)<BR ALIGN="LEFT"/></TD></TR>
+        <TR><TD ALIGN="LEFT"><I>implements UserDAO</I><BR ALIGN="LEFT"/>no SQL, no file I/O<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+
+    FakeEvent [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#C62828"><FONT COLOR="white"><B>FakeEventDAO</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">- events : List&lt;Event&gt; (in memory)<BR ALIGN="LEFT"/></TD></TR>
+        <TR><TD ALIGN="LEFT"><I>implements EventDAO</I><BR ALIGN="LEFT"/>no SQL, no file I/O<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+
+    AuthTest [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#AD1457"><FONT COLOR="white"><B>AuthServiceTest</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">registerStoresHashedPassword<BR ALIGN="LEFT"/>registerRejectsDuplicateUsername<BR ALIGN="LEFT"/>registerRejectsWeakPassword<BR ALIGN="LEFT"/>loginErrorDoesNotRevealWhichPart<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+
+    EventTest [label=<
+      <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4" BGCOLOR="white">
+        <TR><TD BGCOLOR="#AD1457"><FONT COLOR="white"><B>EventServiceTest</B></FONT></TD></TR>
+        <TR><TD ALIGN="LEFT">createRejectsPastDate<BR ALIGN="LEFT"/>createRejectsBlankTitle<BR ALIGN="LEFT"/>updateAppliesSameValidation<BR ALIGN="LEFT"/>findByCoordinatorFiltersCorrectly<BR ALIGN="LEFT"/></TD></TR>
+      </TABLE>>];
+  }
+
+  // ---------- RELATIONSHIPS (verified against source) ----------
+  App -> LoginC [style=dashed, label="loads login view"];
+
+  // Controller -> Service
+  LoginC  -> AuthS  [style=dashed, label="uses"];
+  RegC    -> AuthS  [style=dashed, label="uses"];
+  CoordC  -> EventS [style=dashed, label="uses"];
+  VolC    -> EventS [style=dashed, label="uses"];
+  FormC   -> EventS [style=dashed, label="uses"];
+
+  // All five controllers use the util helpers - drawn once at cluster level
+  // to keep the diagram readable (see note in oo-design-notes.md).
+  CoordC -> Session [ltail=cluster_ctrl, lhead=cluster_util, style=dashed,
+                     color="#78909C", fontcolor="#546E7A",
+                     label="all controllers use\nSessionManager + SceneNavigator",
+                     constraint=false];
+
+  // Controllers construct the concrete SQLite DAOs themselves:
+  //   new EventService(new SqliteEventDAO(DatabaseManager.getInstance()))
+  CoordC -> SqlEvent [ltail=cluster_ctrl, style=dotted, color="#C62828",
+                      fontcolor="#C62828", label="constructs concrete DAO",
+                      constraint=false];
+
+  // Service -> DAO abstraction
+  AuthS  -> IUserDAO  [arrowhead=odiamond, dir=back, label="depends on\nabstraction"];
+  EventS -> IEventDAO [arrowhead=odiamond, dir=back, label="depends on\nabstraction"];
+
+  AuthS  -> Hasher  [style=dashed, color="#78909C", label="uses"];
+  AuthS  -> AuthEx  [style=dashed, color="#EF6C00", label="throws"];
+  EventS -> EventEx [style=dashed, color="#EF6C00", label="throws"];
+
+  // Implementations
+  SqlUser  -> IUserDAO  [arrowhead=onormal, style=dashed, label="implements"];
+  SqlEvent -> IEventDAO [arrowhead=onormal, style=dashed, label="implements"];
+
+  SqlUser  -> DbMgr [arrowhead=vee];
+  SqlEvent -> DbMgr [arrowhead=vee, label="uses"];
+
+  SqlUser  -> UserM  [style=dashed, label="maps rows to"];
+  SqlEvent -> EventM [style=dashed];
+
+  UserM   -> RoleE   [arrowhead=diamond, dir=back];
+  Session -> UserM   [arrowhead=vee, label="holds current"];
+
+  // Test doubles implement the SAME interfaces, so the services can be tested
+  // with no database. This is what the interface split buys.
+  FakeUser  -> IUserDAO  [arrowhead=onormal, style=dashed, color="#C62828", label="implements", fontcolor="#C62828"];
+  FakeEvent -> IEventDAO [arrowhead=onormal, style=dashed, color="#C62828", label="implements", fontcolor="#C62828"];
+
+  AuthTest  -> AuthS     [style=dashed, color="#AD1457", label="tests", fontcolor="#AD1457"];
+  EventTest -> EventS    [style=dashed, color="#AD1457", label="tests", fontcolor="#AD1457"];
+  AuthTest  -> FakeUser  [style=dotted, color="#AD1457", label="injects"];
+  EventTest -> FakeEvent [style=dotted, color="#AD1457", label="injects"];
+}
