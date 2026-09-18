@@ -45,10 +45,6 @@ A map of the assessment criteria to the evidence in this repository.
 | Model tests | `src/test/java/com/cab302/vic/model/` |
 | Test doubles — in-memory DAOs that isolate the database | `src/test/java/com/cab302/vic/dao/` |
 
-The test doubles are worth a look: `FakeUserDAO` and `FakeEventDAO` implement the same
-interfaces as the SQLite classes, so the service layer is tested with no database, no file
-I/O, and no JavaFX window.
-
 ### Version control and CI
 
 | Evidence | Where |
@@ -71,7 +67,7 @@ I/O, and no JavaFX window.
 | Peniel Desta | n12501735 |
 
 The project began with seven members. Bailey Musgrave (n12314781) and Aedan Manche
-(n11420472) withdrew from the unit in week 8; their outstanding work was redistributed
+(n11420472) withdrew from the unit in week 9; their work was redistributed
 among the remaining five. Both appear in the commit history, and the redistribution is
 recorded in `docs/planning/sprint-and-release-plan.md`.
 
