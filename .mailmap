@@ -1,0 +1,11 @@
+# Maps the various git identities used during the project to one canonical
+# name per team member, so `git shortlog` reports contributions accurately.
+# Several members committed from both the GitHub web interface and a local
+# terminal, which produced different author names for the same person.
+
+Syrine Shraim <b.shraim2004@gmail.com> <b.shraim2004@gmail.com>
+Ryan Francis <ryanfrancismail@gmail.com> <ryanfrancismail@gmail.com>
+Ryan Francis <ryanfrancismail@gmail.com> <132410116+ryanstacks@users.noreply.github.com>
+Aedan Manche <am.university@outlook.com> <am.university@outlook.com>
+Bailey Musgrave <baileym007@hotmail.com> <baileym007@hotmail.com>
+Maia Sherwin <maiasherwin@gmail.com> <maiasherwin@gmail.com>
