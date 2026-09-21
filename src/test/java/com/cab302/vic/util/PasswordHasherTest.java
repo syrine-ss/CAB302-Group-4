@@ -62,4 +62,29 @@ class PasswordHasherTest {
     void hashRejectsNullPassword() {
         assertThrows(IllegalArgumentException.class, () -> PasswordHasher.hash(null));
     }
+
+    @Test
+    void verifyReturnsFalseWhenStoredHashIsTamperedWith() {
+        String stored = PasswordHasher.hash("Correct!Horse1");
+
+        String[] parts = stored.split(":", 2);
+
+        String hash = parts[1];
+
+        char replacement =
+                hash.charAt(0) == 'A'? 'B' : 'A';
+
+        String tamperedHash =
+                replacement + hash.substring(1);
+
+        String tamperedStored =
+                parts[0] + ":" + tamperedHash;
+
+        assertFalse(
+                PasswordHasher.verify(
+                        "correct!Horse1",
+                        tamperedStored
+                )
+        );
+    }
 }

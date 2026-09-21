@@ -80,6 +80,38 @@ class AuthServiceTest {
                 () -> auth.register("   ", "Strong!Pass1", "Blank Name", "b@e.com", User.Role.VOLUNTEER));
     }
 
+    @Test
+    void rejectedDuplicateRegistrationDoesNotOverwriteExistingUser() throws AuthException {
+        User original = auth.register(
+                "maia",
+                "Strong!Pass1",
+                "Maia Sherwin",
+                "m@e.com",
+                User.Role.VOLUNTEER
+        );
+
+        assertThrows(
+                AuthException.class,
+                () -> auth.register(
+                        "maia",
+                        "Another!Pass1",
+                        "Someone Else",
+                                "s@e.com",
+                        User.Role.COORDINATOR
+                )
+        );
+
+        User stored = userDAO
+                .findByUsername("maia")
+                .orElseThrow();
+
+        assertEquals(original.getId(), stored.getId());
+        assertEquals("Maia Sherwin", stored.getFullName());
+        assertEquals("m@e.com", stored.getEmail());
+        assertEquals(User.Role.VOLUNTEER, stored.getRole());
+        assertEquals(1, userDAO.size());
+    }
+
     // ---------- login ----------
 
     @Test
@@ -122,4 +154,5 @@ class AuthServiceTest {
         assertThrows(AuthException.class, () -> auth.login(null, "Strong!Pass1"));
         assertThrows(AuthException.class, () -> auth.login("someone", null));
     }
+
 }
