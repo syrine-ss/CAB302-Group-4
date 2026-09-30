@@ -7,6 +7,12 @@ import java.util.Objects;
  * Represents a volunteer event created by a coordinator.
  * Dates are stored as ISO-8601 strings in SQLite; this class exposes them
  * both as strings (for FXML binding) and as {@link LocalDate}.
+ *
+ * <p>Prefer {@link #builder()} over the all-argument constructor. The
+ * constructor takes four consecutive String parameters (description,
+ * eventDate, eventTime, location), which the compiler cannot tell apart,
+ * so swapping two of them produces a silent bug rather than an error.
+ * The Builder names every value at the call site instead.
  */
 public class Event {
 
@@ -69,5 +75,62 @@ public class Event {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    // ------------------------------------------------------------------
+    // Builder
+    // ------------------------------------------------------------------
+
+    /** Start building an Event with named values instead of positional ones. */
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /** Start from an existing event, for edit flows that change a few fields. */
+    public static Builder builderFrom(Event source) {
+        return new Builder()
+                .id(source.id)
+                .title(source.title)
+                .description(source.description)
+                .date(source.eventDate)
+                .time(source.eventTime)
+                .location(source.location)
+                .volunteersNeeded(source.volunteersNeeded)
+                .createdBy(source.createdBy);
+    }
+
+    /**
+     * Fluent builder for {@link Event}.
+     *
+     * <p>Optional text fields default to an empty string rather than null,
+     * so callers never have to null-check them when rendering.
+     */
+    public static class Builder {
+        private int id = 0;
+        private String title = "";
+        private String description = "";
+        private String eventDate = "";
+        private String eventTime = "";
+        private String location = "";
+        private int volunteersNeeded = 1;
+        private int createdBy = 0;
+
+        public Builder id(int id) { this.id = id; return this; }
+        public Builder title(String title) { this.title = title; return this; }
+        public Builder description(String description) { this.description = orEmpty(description); return this; }
+        public Builder date(String isoDate) { this.eventDate = orEmpty(isoDate); return this; }
+        public Builder time(String time) { this.eventTime = orEmpty(time); return this; }
+        public Builder location(String location) { this.location = orEmpty(location); return this; }
+        public Builder volunteersNeeded(int n) { this.volunteersNeeded = n; return this; }
+        public Builder createdBy(int userId) { this.createdBy = userId; return this; }
+
+        public Event build() {
+            return new Event(id, title, description, eventDate, eventTime,
+                    location, volunteersNeeded, createdBy);
+        }
+
+        private static String orEmpty(String s) {
+            return s == null ? "" : s;
+        }
     }
 }
