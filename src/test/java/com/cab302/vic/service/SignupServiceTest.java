@@ -180,7 +180,61 @@ class SignupServiceTest {
         SignupException ex = assertThrows(SignupException.class,
                 () -> service.markAttendance(event.getId(), VOLUNTEER, true));
 
-        assertTrue(ex.getMessage().toLowerCase().contains("after the event date"));
+        assertTrue(ex.getMessage().toLowerCase().contains("day of the event"));
+    }
+
+    @Test
+    void attendanceCanBeRecordedOnTheDayOfTheEvent() throws SignupException {
+        // A coordinator running a working bee this morning should be able to
+        // mark the register that afternoon, not have to wait until tomorrow.
+        Event today = eventDAO.create(Event.builder()
+                .title("Working bee happening today")
+                .date(LocalDate.now().toString())
+                .volunteersNeeded(10)
+                .createdBy(COORDINATOR)
+                .build());
+        service.signUp(today.getId(), VOLUNTEER);
+
+        Signup updated = service.markAttendance(today.getId(), VOLUNTEER, true);
+
+        assertTrue(updated.isAttended());
+    }
+
+    @Test
+    void anEventTodayIsStillOpenForSignups() throws SignupException {
+        // Deliberately a different rule from attendance: someone can decide
+        // to come along to this afternoon's event.
+        Event today = eventDAO.create(Event.builder()
+                .title("Working bee happening today")
+                .date(LocalDate.now().toString())
+                .volunteersNeeded(10)
+                .createdBy(COORDINATOR)
+                .build());
+
+        Signup signup = service.signUp(today.getId(), VOLUNTEER);
+
+        assertTrue(signup.getId() > 0, "an event today must still accept signups");
+    }
+
+    @Test
+    void theFullSameDayJourneyWorksEndToEnd() throws SignupException {
+        // Guards the demo path: create today, sign up, mark attendance, all
+        // in one sitting. Before attendance allowed same-day this was
+        // impossible without waiting for the next calendar day.
+        Event today = eventDAO.create(Event.builder()
+                .title("Beach Clean-up")
+                .date(LocalDate.now().toString())
+                .location("Manly Beach")
+                .volunteersNeeded(5)
+                .createdBy(COORDINATOR)
+                .build());
+
+        service.signUp(today.getId(), VOLUNTEER);
+        assertTrue(service.isSignedUp(today.getId(), VOLUNTEER));
+
+        service.markAttendance(today.getId(), VOLUNTEER, true);
+        assertTrue(signupDAO.find(today.getId(), VOLUNTEER).orElseThrow().isAttended(),
+                "attendance on the day must persist, so hours can then be logged");
     }
 
     @Test

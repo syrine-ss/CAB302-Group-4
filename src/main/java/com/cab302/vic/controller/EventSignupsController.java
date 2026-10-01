@@ -49,9 +49,9 @@ public class EventSignupsController {
         headingLabel.setText(event.getTitle());
         signupList.setCellFactory(list -> new SignupCell(this));
 
-        hintLabel.setText(eventHasPassed()
+        hintLabel.setText(canRecordAttendance()
                 ? "Tick each volunteer who attended. They can log hours once ticked."
-                : "Attendance can be recorded once the event date has passed.");
+                : "Attendance can be recorded from the day of the event onwards.");
 
         refresh();
     }
@@ -73,9 +73,14 @@ public class EventSignupsController {
         }
     }
 
-    boolean eventHasPassed() {
+    /**
+     * Whether the register can be marked yet: the day of the event onwards.
+     * Mirrors the rule in SignupService, so the checkbox is only enabled
+     * when the service would actually accept the change.
+     */
+    boolean canRecordAttendance() {
         LocalDate date = event.parsedDate();
-        return date != null && date.isBefore(LocalDate.now());
+        return date != null && !date.isAfter(LocalDate.now());
     }
 
     @FXML
@@ -120,7 +125,7 @@ public class EventSignupsController {
             CheckBox attended = new CheckBox("Attended");
             attended.setSelected(signup.isAttended());
             // Ticking before the event would let someone claim hours early.
-            attended.setDisable(!parent.eventHasPassed());
+            attended.setDisable(!parent.canRecordAttendance());
             attended.setOnAction(e -> parent.setAttendance(signup, attended.isSelected(), attended));
 
             Region spacer = new Region();

@@ -67,18 +67,20 @@ public class SignupService {
 
     /**
      * Record whether a volunteer turned up. Only meaningful once the event
-     * has happened, so earlier calls are rejected.
+     * is under way, so calls before the day of the event are rejected.
      *
      * @throws SignupException when the event is still in the future or the
      *         volunteer was never signed up.
      */
     public Signup markAttendance(int eventId, int volunteerId, boolean attended)
             throws SignupException {
+        // Allowed from the day of the event onwards: see canRecordAttendance.
         Event event = eventDAO.findById(eventId)
                 .orElseThrow(() -> new SignupException("That event no longer exists"));
 
-        if (!hasPassed(event)) {
-            throw new SignupException("Attendance can only be recorded after the event date");
+        if (!canRecordAttendance(event)) {
+            throw new SignupException(
+                    "Attendance can only be recorded on or after the day of the event");
         }
 
         Signup signup = signupDAO.find(eventId, volunteerId)
@@ -115,9 +117,29 @@ public class SignupService {
         return signupDAO.countForEvent(event.getId()) >= event.getVolunteersNeeded();
     }
 
-    /** True once the event date is in the past. Events on today still count as upcoming. */
+    /**
+     * True once the event date is in the past.
+     *
+     * <p>An event happening today is still open for signups: someone can
+     * decide to come along to this afternoon's working bee.
+     */
     static boolean hasPassed(Event event) {
         LocalDate date = event.parsedDate();
         return date != null && date.isBefore(LocalDate.now());
+    }
+
+    /**
+     * True once the event is under way or finished, meaning its date is
+     * today or earlier.
+     *
+     * <p>Deliberately a different rule from {@link #hasPassed}. Attendance
+     * is taken at the event itself, so a coordinator running a working bee
+     * this morning should be able to mark the register that afternoon
+     * rather than waiting until the next day. Signups use the stricter
+     * rule, because an event today can still accept volunteers.
+     */
+    static boolean canRecordAttendance(Event event) {
+        LocalDate date = event.parsedDate();
+        return date != null && !date.isAfter(LocalDate.now());
     }
 }
