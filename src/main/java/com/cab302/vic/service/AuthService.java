@@ -65,6 +65,22 @@ public class AuthService {
         return user;
     }
 
+    /**
+     * Look up a user by id, for screens that show who did something
+     * (for example the volunteers signed up to an event).
+     *
+     * <p>Exposed here rather than handing controllers the UserDAO, so the
+     * controller layer keeps talking only to services.
+     */
+    public java.util.Optional<User> findById(int id) {
+        return userDAO.findById(id);
+    }
+
+    /** Display name for a user id, or a neutral placeholder if they are gone. */
+    public String displayName(int userId) {
+        return userDAO.findById(userId).map(User::getFullName).orElse("Unknown volunteer");
+    }
+
     /** Exposed for tests and for UI hints. */
     public static boolean isPasswordStrong(String password) {
         return password != null && PASSWORD_RULE.matcher(password).matches();

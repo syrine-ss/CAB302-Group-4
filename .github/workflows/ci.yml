@@ -11,7 +11,7 @@ on:
 
 jobs:
   build-and-test:
-    name: Build and test (JDK 21)
+    name: Build, test and package (JDK 21)
     runs-on: ubuntu-latest
 
     steps:
@@ -30,6 +30,48 @@ jobs:
 
       - name: Run tests
         run: mvn -B test
+
+      # Proves the build script actually works, not just that the code
+      # compiles. This is the step that produces the runnable artefact.
+      - name: Package runnable JAR
+        run: mvn -B package -DskipTests
+
+      # A JAR that exists is not the same as a JAR that starts. JavaFX needs
+      # a display, so the app is launched under a virtual framebuffer and
+      # then closed. If the shaded JAR were missing the JavaFX natives or
+      # the SQLite driver, it would fail here rather than in front of a marker.
+      - name: Smoke test the packaged JAR
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq xvfb libgtk-3-0 > /dev/null
+          JAR=$(ls target/*-all.jar | head -1)
+          echo "Testing $JAR"
+          # Start under Xvfb, give it time to open a window, then stop it.
+          xvfb-run -a timeout 25s java -jar "$JAR" > app.log 2>&1 &
+          APP=$!
+          sleep 20
+          if kill -0 $APP 2>/dev/null; then
+            echo "Application started and stayed running."
+            kill $APP 2>/dev/null || true
+          else
+            wait $APP
+            CODE=$?
+            # 124 is timeout's own exit code, which means it ran the full time.
+            if [ "$CODE" -ne 124 ] && [ "$CODE" -ne 0 ]; then
+              echo "Application exited early with code $CODE"
+              cat app.log
+              exit 1
+            fi
+          fi
+          echo "--- application output ---"
+          cat app.log || true
+
+      - name: Upload runnable JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: volunteer-impact-coordinator-jar
+          path: target/*-all.jar
+          if-no-files-found: error
 
       - name: Upload test reports
         if: always()

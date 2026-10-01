@@ -10,15 +10,14 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.cab302.vic.controller.CoordinatorDashboardController"
+            fx:controller="com.cab302.vic.controller.VolunteerHoursController"
             styleClass="root">
 
     <top>
         <HBox alignment="CENTER_LEFT" spacing="12" styleClass="top-bar">
             <Label text="Volunteer Impact Coordinator" styleClass="brand"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Label fx:id="welcomeLabel"/>
-            <Button text="Log out" onAction="#onLogoutClick" styleClass="danger"/>
+            <Button text="Back to events" onAction="#onBackClick" styleClass="secondary"/>
         </HBox>
     </top>
 
@@ -27,15 +26,15 @@
             <padding><Insets top="20" right="24" bottom="20" left="24"/></padding>
 
             <HBox alignment="CENTER_LEFT" spacing="10">
-                <Label text="Your Events" styleClass="section-heading"/>
+                <Label text="My Hours" styleClass="section-heading"/>
                 <Region HBox.hgrow="ALWAYS"/>
-                <Button text="Review hours" onAction="#onReviewHoursClick" styleClass="secondary"/>
-                <Button text="Signups" onAction="#onManageSignupsClick" styleClass="secondary"/>
-                <Button text="Edit selected" onAction="#onEditSelectedEventClick" styleClass="secondary"/>
-                <Button text="+ New Event" onAction="#onCreateEventClick" styleClass="primary"/>
+                <Label fx:id="totalLabel" styleClass="success"/>
             </HBox>
 
-            <ListView fx:id="eventList" VBox.vgrow="ALWAYS"/>
+            <Label text="Events you attended. Log your hours and the coordinator will review them."
+                   styleClass="event-meta" wrapText="true"/>
+
+            <ListView fx:id="hoursList" VBox.vgrow="ALWAYS"/>
         </VBox>
     </center>
 </BorderPane>
