@@ -26,8 +26,15 @@ public class EventService {
         validateFields(title, eventDate, volunteersNeeded);
         assertNotInPast(eventDate);
 
-        Event event = new Event(0, title.trim(), safe(description), eventDate,
-                safe(eventTime), safe(location), volunteersNeeded, createdBy);
+        Event event = Event.builder()
+                .title(title.trim())
+                .description(safe(description))
+                .date(eventDate)
+                .time(safe(eventTime))
+                .location(safe(location))
+                .volunteersNeeded(volunteersNeeded)
+                .createdBy(createdBy)
+                .build();
         return eventDAO.create(event);
     }
 
