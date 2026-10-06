@@ -37,6 +37,9 @@ public class VolunteerHoursController {
 
     private final HoursService hoursService = ServiceFactory.getInstance().hours();
 
+    /**
+     * Initialises the volunteer hours view by displaying the current hours and attended events.
+     */
     @FXML
     public void initialize() {
         hoursList.setCellFactory(list -> new RowCell(this));

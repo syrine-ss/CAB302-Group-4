@@ -34,7 +34,8 @@ public class CoordinatorDashboardController {
     public static final SimpleObjectProperty<Event> selectedEvent = new SimpleObjectProperty<>();
 
     /**
-     * Welcomes the user on the dashboard after logging in and loads their events.
+     * Initialises the welcome message and events for the (coordinator) user on
+     * their dashboard after logging in.
      */
     @FXML
     public void initialize() {

@@ -30,6 +30,9 @@ public class RegisterController {
 
     private final AuthService authService = ServiceFactory.getInstance().auth();
 
+    /**
+     * Initialises the get and set role choices for a user creating an account
+     */
     @FXML
     public void initialize() {
         roleChoice.getItems().setAll(User.Role.VOLUNTEER, User.Role.COORDINATOR);

@@ -37,7 +37,8 @@ public class HoursReviewController {
     private final HoursService hoursService = ServiceFactory.getInstance().hours();
 
     /**
-     *
+     * Initalises the display of the hours from volunteers needed for approval
+     * or rejection by the coordinator of the given event.
      */
     @FXML
     public void initialize() {

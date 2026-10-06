@@ -38,6 +38,10 @@ public class VolunteerDashboardController {
     private final EventService eventService = ServiceFactory.getInstance().events();
     private final SignupService signupService = ServiceFactory.getInstance().signups();
 
+    /**
+     * Initialises the welcome message and events for the (volunteer) user on
+     * their dashboard after logging in.
+     */
     @FXML
     public void initialize() {
         User user = SessionManager.getInstance().getCurrentUser();
