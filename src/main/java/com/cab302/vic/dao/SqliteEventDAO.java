@@ -16,10 +16,21 @@ public class SqliteEventDAO implements EventDAO {
 
     private final DatabaseManager db;
 
+    /**
+     * Creates an event DAO using the specified database manager
+     *
+     * @param db the database manager
+     */
     public SqliteEventDAO(DatabaseManager db) {
         this.db = db;
     }
 
+    /**
+     * Create a new event into by inserting into the event database
+     * @param event the event to be inserted into the db
+     * @return the event parameter
+     * @throws RuntimeException if event failed to insert
+     */
     @Override
     public Event create(Event event) {
         String sql = "INSERT INTO events (title, description, event_date, event_time, " +
@@ -37,6 +48,11 @@ public class SqliteEventDAO implements EventDAO {
         }
     }
 
+    /**
+     *
+     * @param id an event id
+     * @return
+     */
     @Override
     public Optional<Event> findById(int id) {
         String sql = "SELECT * FROM events WHERE id = ?";

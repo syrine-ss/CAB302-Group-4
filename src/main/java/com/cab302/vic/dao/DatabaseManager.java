@@ -20,12 +20,18 @@ public class DatabaseManager {
 
     private final String url;
 
-    /** Construct a manager backed by the given JDBC URL. Useful for tests. */
+    /**
+     * Construct a manager backed by the given JDBC URL. Useful for tests.
+     * @param url The JDBC url
+     * */
     public DatabaseManager(String url) {
         this.url = url;
     }
 
-    /** Shared instance backed by the default file (vic.db). */
+    /**
+     * Shared instance backed by the default file (vic.db).
+     * @return the database manager instance
+     * */
     public static synchronized DatabaseManager getInstance() {
         if (instance == null) {
             instance = new DatabaseManager(DEFAULT_URL);
@@ -33,12 +39,19 @@ public class DatabaseManager {
         return instance;
     }
 
-    /** Open a new connection. Callers must close it (or use try-with-resources). */
+    /**
+     * Open a new connection. Callers must close it (or use try-with-resources).
+     * @return a database connection
+     * @throws SQLException if a database connection cannot be established
+     */
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url);
     }
 
-    /** Create tables if they don't already exist. Safe to call every startup. */
+    /**
+     * Create tables if they don't already exist. Safe to call every startup.
+     * @throws RuntimeException if the database cannot be initialised
+     */
     public void initialise() {
         String createUsers = """
             CREATE TABLE IF NOT EXISTS users (
@@ -107,12 +120,6 @@ public class DatabaseManager {
 
     /**
      * Bring an older database file up to the current schema.
-     *
-     * <p>CREATE TABLE IF NOT EXISTS silently does nothing when a table is
-     * already there, so a developer with a database from an earlier sprint
-     * would otherwise keep the old columns and hit runtime SQL errors. This
-     * adds any columns introduced since, which is cheap and safe to run on
-     * every startup.
      */
     private void migrate(Connection conn) throws SQLException {
         addColumnIfMissing(conn, "signups", "signed_up_on", "TEXT");
