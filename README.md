@@ -15,20 +15,20 @@ A map of the assessment criteria to the evidence in this repository.
 
 | Evidence | Path |
 |---|---|
-| Product backlog — 23 user stories, acceptance criteria, MoSCoW priorities | `docs/Project backlog/User stories - All.md` |
+| Product backlog: 23 user stories, acceptance criteria, MoSCoW priorities | `docs/Project backlog/User stories - All.md` |
 | How the backlog was built, and what changed between drafts and final | `docs/Project backlog/README.md` |
 | Individual story drafts (iteration evidence) | `docs/Project backlog/User Stories - Ryan.txt`, `docs/Project backlog/User Stories - Aedan.txt` |
 | Sprint 1 plan, release plan, risk register, and week 9 revision | `docs/planning/sprint-and-release-plan.md` |
 | Project brief and requirements | `docs/project-brief.md`, `docs/requirements.md` |
 | Meeting minutes | `docs/Minutes & Notes/` |
-| Project management board | Trello — export included in the submission zip |
+| Project management board | Trello (export included in the submission zip) |
 
 ### Object-oriented design
 
 | Evidence | Path |
 |---|---|
 | Class diagram (layered, colour-coded by package) | `docs/design/class-diagram.png` |
-| Written design rationale — OO principles, patterns, known limitations | `docs/design/oo-design-notes.md` |
+| Written design rationale: OO principles, patterns, known limitations | `docs/design/oo-design-notes.md` |
 | MVC controllers | `src/main/java/com/cab302/vic/controller/` |
 | Business rules and validation | `src/main/java/com/cab302/vic/service/` |
 | DAO interfaces and SQLite implementations | `src/main/java/com/cab302/vic/dao/` |
@@ -43,7 +43,7 @@ A map of the assessment criteria to the evidence in this repository.
 | Service-level behaviour tests | `src/test/java/com/cab302/vic/service/` |
 | Password hashing tests | `src/test/java/com/cab302/vic/util/PasswordHasherTest.java` |
 | Model tests | `src/test/java/com/cab302/vic/model/` |
-| Test doubles — in-memory DAOs that isolate the database | `src/test/java/com/cab302/vic/dao/` |
+| Test doubles: in-memory DAOs that isolate the database | `src/test/java/com/cab302/vic/dao/` |
 
 ### Version control and CI
 
@@ -51,7 +51,7 @@ A map of the assessment criteria to the evidence in this repository.
 |---|---|
 | Commit history and contributor summary | `git-shortlog.txt` and `git-log.txt` in the submission zip |
 | Author identity mapping (several members committed from both the web UI and a terminal) | `.mailmap` |
-| Continuous integration — builds and runs the full test suite on every push and pull request | `.github/workflows/ci.yml` |
+| Continuous integration: builds and runs the full test suite on every push and pull request | `.github/workflows/ci.yml` |
 | Branches and pull requests | GitHub repository history |
 
 ---
@@ -98,7 +98,7 @@ mvn clean javafx:run
 ```
 
 Running `VolunteerImpactApp` directly from the IDE will fail with "JavaFX runtime
-components are missing" — use the Maven `javafx:run` goal instead.
+components are missing". Use the Maven `javafx:run` goal instead.
 
 The SQLite database (`vic.db`) is created automatically on first run, so no setup is
 needed. It is git-ignored, so each developer has their own local copy.
