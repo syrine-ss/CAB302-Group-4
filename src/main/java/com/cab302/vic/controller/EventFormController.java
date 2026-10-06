@@ -37,6 +37,9 @@ public class EventFormController {
 
     private Event editingEvent;
 
+    /**
+     * Initialises the event form for coordinators and checks if editing an event or not.
+     */
     @FXML
     public void initialize() {
         volunteersSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 500, 5));

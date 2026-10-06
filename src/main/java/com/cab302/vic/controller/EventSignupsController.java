@@ -39,6 +39,10 @@ public class EventSignupsController {
 
     private Event event;
 
+    /**
+     * Initialise the selected event sign up view for coordinators.
+     * Displays sign up and volunteer attendance information.
+     */
     @FXML
     public void initialize() {
         event = CoordinatorDashboardController.selectedEvent.get();

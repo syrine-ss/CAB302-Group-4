@@ -33,6 +33,9 @@ public class CoordinatorDashboardController {
     /** Set once when the scene is edited; lets the form controller know which event to load. */
     public static final SimpleObjectProperty<Event> selectedEvent = new SimpleObjectProperty<>();
 
+    /**
+     * Welcomes the user on the dashboard after logging in and loads their events.
+     */
     @FXML
     public void initialize() {
         User user = SessionManager.getInstance().getCurrentUser();

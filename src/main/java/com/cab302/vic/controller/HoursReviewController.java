@@ -36,6 +36,9 @@ public class HoursReviewController {
 
     private final HoursService hoursService = ServiceFactory.getInstance().hours();
 
+    /**
+     *
+     */
     @FXML
     public void initialize() {
         pendingList.setCellFactory(list -> new PendingCell(this));
