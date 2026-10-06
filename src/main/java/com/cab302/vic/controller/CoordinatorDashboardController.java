@@ -1,10 +1,9 @@
 package com.cab302.vic.controller;
 
-import com.cab302.vic.dao.DatabaseManager;
-import com.cab302.vic.dao.SqliteEventDAO;
 import com.cab302.vic.model.Event;
 import com.cab302.vic.model.User;
 import com.cab302.vic.service.EventService;
+import com.cab302.vic.service.ServiceFactory;
 import com.cab302.vic.util.SceneNavigator;
 import com.cab302.vic.util.SessionManager;
 import javafx.beans.property.SimpleObjectProperty;
@@ -29,8 +28,7 @@ public class CoordinatorDashboardController {
     @FXML private Label welcomeLabel;
     @FXML private ListView<Event> eventList;
 
-    private final EventService eventService =
-            new EventService(new SqliteEventDAO(DatabaseManager.getInstance()));
+    private final EventService eventService = ServiceFactory.getInstance().events();
 
     /** Set once when the scene is edited; lets the form controller know which event to load. */
     public static final SimpleObjectProperty<Event> selectedEvent = new SimpleObjectProperty<>();

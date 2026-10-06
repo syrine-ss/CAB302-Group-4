@@ -1,10 +1,9 @@
 package com.cab302.vic.controller;
 
-import com.cab302.vic.dao.SqliteUserDAO;
-import com.cab302.vic.dao.DatabaseManager;
 import com.cab302.vic.model.User;
 import com.cab302.vic.service.AuthException;
 import com.cab302.vic.service.AuthService;
+import com.cab302.vic.service.ServiceFactory;
 import com.cab302.vic.util.SceneNavigator;
 import com.cab302.vic.util.SessionManager;
 import javafx.fxml.FXML;
@@ -25,8 +24,7 @@ public class LoginController {
     @FXML private PasswordField passwordField;
     @FXML private Label messageLabel;
 
-    private final AuthService authService =
-            new AuthService(new SqliteUserDAO(DatabaseManager.getInstance()));
+    private final AuthService authService = ServiceFactory.getInstance().auth();
 
     @FXML
     protected void onLoginButtonClick() {
