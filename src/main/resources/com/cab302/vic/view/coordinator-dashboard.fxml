@@ -29,8 +29,6 @@
             <HBox alignment="CENTER_LEFT" spacing="10">
                 <Label text="Your Events" styleClass="section-heading"/>
                 <Region HBox.hgrow="ALWAYS"/>
-                <Button text="Review hours" onAction="#onReviewHoursClick" styleClass="secondary"/>
-                <Button text="Signups" onAction="#onManageSignupsClick" styleClass="secondary"/>
                 <Button text="Edit selected" onAction="#onEditSelectedEventClick" styleClass="secondary"/>
                 <Button text="+ New Event" onAction="#onCreateEventClick" styleClass="primary"/>
             </HBox>

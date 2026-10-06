@@ -26,18 +26,8 @@ public class EventService {
         validateFields(title, eventDate, volunteersNeeded);
         assertNotInPast(eventDate);
 
-        // Built through the Builder rather than the eight-argument
-        // constructor: four of those arguments are Strings in a row, so a
-        // mistyped call would compile and fail silently at runtime.
-        Event event = Event.builder()
-                .title(title.trim())
-                .description(description)
-                .date(eventDate)
-                .time(eventTime)
-                .location(location)
-                .volunteersNeeded(volunteersNeeded)
-                .createdBy(createdBy)
-                .build();
+        Event event = new Event(0, title.trim(), safe(description), eventDate,
+                safe(eventTime), safe(location), volunteersNeeded, createdBy);
         return eventDAO.create(event);
     }
 

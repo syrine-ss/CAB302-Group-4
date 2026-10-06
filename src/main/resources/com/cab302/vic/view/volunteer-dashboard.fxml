@@ -26,13 +26,7 @@
         <VBox spacing="12">
             <padding><Insets top="20" right="24" bottom="20" left="24"/></padding>
 
-            <HBox alignment="CENTER_LEFT" spacing="10">
-                <Label text="Upcoming Events" styleClass="section-heading"/>
-                <Region HBox.hgrow="ALWAYS"/>
-                <Label fx:id="hoursSummaryLabel" styleClass="success"/>
-                <Button text="My Hours" onAction="#onMyHoursClick" styleClass="secondary"/>
-            </HBox>
-
+            <Label text="Upcoming Events" styleClass="section-heading"/>
             <ListView fx:id="eventList" VBox.vgrow="ALWAYS"/>
         </VBox>
     </center>

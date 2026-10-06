@@ -1,9 +1,10 @@
 package com.cab302.vic.controller;
 
+import com.cab302.vic.dao.DatabaseManager;
+import com.cab302.vic.dao.SqliteUserDAO;
 import com.cab302.vic.model.User;
 import com.cab302.vic.service.AuthException;
 import com.cab302.vic.service.AuthService;
-import com.cab302.vic.service.ServiceFactory;
 import com.cab302.vic.util.SceneNavigator;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
@@ -28,7 +29,8 @@ public class RegisterController {
     @FXML private ChoiceBox<User.Role> roleChoice;
     @FXML private Label messageLabel;
 
-    private final AuthService authService = ServiceFactory.getInstance().auth();
+    private final AuthService authService =
+            new AuthService(new SqliteUserDAO(DatabaseManager.getInstance()));
 
     /**
      * Initialises the get and set role choices for a user creating an account
