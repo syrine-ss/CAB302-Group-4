@@ -63,6 +63,43 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.2.5</version>
             </plugin>
+            <!--
+  Measures how much of the code the tests actually execute.
+  The agent runs during mvn test, and the report is written to
+  target/site/jacoco/index.html.
+
+  The controllers and the app entry point are excluded. They need a
+  running JavaFX window to exercise, so counting them would drag the
+  figure down without saying anything useful about the code we can
+  actually test. They hold no business logic - validation lives in
+  the service layer.
+-->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.12</version>
+                <configuration>
+                    <excludes>
+                        <exclude>com/cab302/vic/controller/**</exclude>
+                        <exclude>com/cab302/vic/VolunteerImpactApp.class</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
