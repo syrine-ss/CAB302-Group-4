@@ -64,8 +64,46 @@
                 <version>3.2.5</version>
             </plugin>
             <!--
+              Measures how much of the code the tests actually execute. The
+              agent runs during mvn test and writes the report to
+              target/site/jacoco/index.html.
+
+              The controllers, the application class and the Launcher are
+              excluded. They need a running JavaFX window to exercise, so
+              counting them would drag the figure down without saying anything
+              useful about the code we can actually test. None of them hold
+              business logic; validation lives in the service layer.
+            -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.12</version>
+                <configuration>
+                    <excludes>
+                        <exclude>com/cab302/vic/controller/**</exclude>
+                        <exclude>com/cab302/vic/VolunteerImpactApp.class</exclude>
+                        <exclude>com/cab302/vic/Launcher.class</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--
               Packages the app and all its libraries into one runnable JAR,
-              target/volunteer-impact-coordinator-<version>-all.jar, started with
+              target/volunteer-impact-coordinator-&lt;version&gt;-all.jar, started with
               java -jar. The entry point is Launcher rather than
               VolunteerImpactApp; see Launcher's Javadoc for why.
             -->
