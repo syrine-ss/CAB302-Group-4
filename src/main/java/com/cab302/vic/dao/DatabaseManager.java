@@ -2,6 +2,7 @@ package com.cab302.vic.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -83,6 +84,8 @@ public class DatabaseManager {
                 event_id INTEGER NOT NULL,
                 user_id INTEGER NOT NULL,
                 attended INTEGER DEFAULT 0,
+                signed_up_on TEXT,
+                UNIQUE (event_id, user_id),
                 FOREIGN KEY (event_id) REFERENCES events(id),
                 FOREIGN KEY (user_id) REFERENCES users(id)
             );
@@ -94,7 +97,8 @@ public class DatabaseManager {
                 user_id INTEGER NOT NULL,
                 event_id INTEGER NOT NULL,
                 hours REAL NOT NULL,
-                approved INTEGER DEFAULT 0,
+                status TEXT NOT NULL DEFAULT 'PENDING',
+                review_note TEXT DEFAULT '',
                 logged_on TEXT NOT NULL,
                 FOREIGN KEY (user_id) REFERENCES users(id),
                 FOREIGN KEY (event_id) REFERENCES events(id)
@@ -107,8 +111,51 @@ public class DatabaseManager {
             stmt.execute(createEvents);
             stmt.execute(createSignups);
             stmt.execute(createHours);
+            addMissingColumns(stmt);
         } catch (SQLException e) {
             throw new RuntimeException("Failed to initialise database", e);
+        }
+    }
+
+    /**
+     * Adds the columns introduced for signups and hours tracking to a database
+     * created by an earlier version of the app.
+     *
+     * <p>{@code CREATE TABLE IF NOT EXISTS} leaves an existing table untouched,
+     * so without this step an older {@code vic.db} would be missing the new
+     * columns and fail at runtime. Each column is only added if it is absent,
+     * so this is safe to run on every startup.
+     *
+     * @param stmt an open statement on the database being initialised
+     * @throws SQLException if a column cannot be checked or added
+     */
+    private static void addMissingColumns(Statement stmt) throws SQLException {
+        addColumnIfAbsent(stmt, "signups", "signed_up_on", "TEXT");
+        addColumnIfAbsent(stmt, "hours_logged", "status", "TEXT NOT NULL DEFAULT 'PENDING'");
+        addColumnIfAbsent(stmt, "hours_logged", "review_note", "TEXT DEFAULT ''");
+    }
+
+    /**
+     * Adds one column to a table unless the table already has it.
+     *
+     * @param stmt       an open statement on the database
+     * @param table      the table to change
+     * @param column     the column name to add
+     * @param definition the column type and constraints
+     * @throws SQLException if the table cannot be read or altered
+     */
+    private static void addColumnIfAbsent(Statement stmt, String table, String column,
+                                          String definition) throws SQLException {
+        boolean present = false;
+        try (ResultSet rs = stmt.executeQuery("PRAGMA table_info(" + table + ")")) {
+            while (rs.next()) {
+                if (column.equalsIgnoreCase(rs.getString("name"))) {
+                    present = true;
+                }
+            }
+        }
+        if (!present) {
+            stmt.execute("ALTER TABLE " + table + " ADD COLUMN " + column + " " + definition);
         }
     }
 
