@@ -135,16 +135,16 @@ public class SqliteEventDAO implements EventDAO {
     }
 
     private static Event mapRow(ResultSet rs) throws SQLException {
-        return new Event(
-                rs.getInt("id"),
-                rs.getString("title"),
-                rs.getString("description"),
-                rs.getString("event_date"),
-                rs.getString("event_time"),
-                rs.getString("location"),
-                rs.getInt("volunteers_needed"),
-                rs.getInt("created_by")
-        );
+        return Event.builder()
+                .id(rs.getInt("id"))
+                .title(rs.getString("title"))
+                .description(rs.getString("description"))
+                .date(rs.getString("event_date"))
+                .time(rs.getString("event_time"))
+                .location(rs.getString("location"))
+                .volunteersNeeded(rs.getInt("volunteers_needed"))
+                .createdBy(rs.getInt("created_by"))
+                .build();
     }
 
     @FunctionalInterface
