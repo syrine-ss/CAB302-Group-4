@@ -1,7 +1,9 @@
 name: CI
 
 # Runs on every push and every pull request against main, so broken code
-# is caught before it is merged.
+# is caught before it is merged. Compiles, runs the tests, writes a coverage
+# report, packages the runnable JAR with build.sh, starts it on a virtual
+# display to check it launches, and keeps the JAR as a downloadable artifact.
 on:
   push:
     branches: [ main ]
@@ -38,3 +40,53 @@ jobs:
           name: surefire-reports
           path: target/surefire-reports/
           if-no-files-found: ignore
+
+      # Publishes the JaCoCo coverage report so it can be downloaded from the
+      # run. This has to come before the JAR build below, because build.sh runs
+      # mvn clean and would delete the report first.
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jacoco-coverage-report
+          path: target/site/jacoco/
+          if-no-files-found: ignore
+
+      # Builds the JAR the same way a developer would, so the build script
+      # itself is tested on every push. Tests already ran above.
+      - name: Build runnable JAR with the build script
+        run: bash build.sh --skip-tests
+
+      - name: Install a virtual display for the smoke test
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq --no-install-recommends xvfb libgtk-3-0t64 \
+            || sudo apt-get install -y -qq --no-install-recommends xvfb libgtk-3-0
+
+      # Starts the packaged app on a virtual screen and checks it is still
+      # running after 20 seconds. Catches problems unit tests cannot, such as a
+      # missing FXML file or a JAR that will not start.
+      - name: Smoke test the JAR
+        run: |
+          jar=$(ls target/*-all.jar | head -n 1)
+          set +e
+          xvfb-run -a timeout 20 java -jar "$jar" > smoke.log 2>&1
+          code=$?
+          set -e
+          cat smoke.log
+          if [ "$code" -ne 124 ]; then
+            echo "::error::The app exited after less than 20 seconds (exit code $code)."
+            exit 1
+          fi
+          if grep -q "Exception" smoke.log; then
+            echo "::error::The app logged an exception while starting."
+            exit 1
+          fi
+          echo "The app started and was still running after 20 seconds."
+
+      - name: Upload runnable JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: volunteer-impact-coordinator-jar
+          path: target/*-all.jar
+          if-no-files-found: error
