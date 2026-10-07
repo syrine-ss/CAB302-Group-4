@@ -64,16 +64,16 @@
                 <version>3.2.5</version>
             </plugin>
             <!--
-  Measures how much of the code the tests actually execute.
-  The agent runs during mvn test, and the report is written to
-  target/site/jacoco/index.html.
+              Measures how much of the code the tests actually execute. The
+              agent runs during mvn test and writes the report to
+              target/site/jacoco/index.html.
 
-  The controllers and the app entry point are excluded. They need a
-  running JavaFX window to exercise, so counting them would drag the
-  figure down without saying anything useful about the code we can
-  actually test. They hold no business logic - validation lives in
-  the service layer.
--->
+              The controllers, the application class and the Launcher are
+              excluded. They need a running JavaFX window to exercise, so
+              counting them would drag the figure down without saying anything
+              useful about the code we can actually test. None of them hold
+              business logic; validation lives in the service layer.
+            -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -82,6 +82,7 @@
                     <excludes>
                         <exclude>com/cab302/vic/controller/**</exclude>
                         <exclude>com/cab302/vic/VolunteerImpactApp.class</exclude>
+                        <exclude>com/cab302/vic/Launcher.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -97,6 +98,48 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--
+              Packages the app and all its libraries into one runnable JAR,
+              target/volunteer-impact-coordinator-&lt;version&gt;-all.jar, started with
+              java -jar. The entry point is Launcher rather than
+              VolunteerImpactApp; see Launcher's Javadoc for why.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>all</shadedClassifierName>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.cab302.vic.Launcher</mainClass>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                            </transformers>
+                            <filters>
+                                <!-- Signature and module files from the libraries stop a merged JAR from starting. -->
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                        <exclude>module-info.class</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
