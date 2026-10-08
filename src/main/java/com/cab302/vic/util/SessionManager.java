@@ -12,6 +12,8 @@ public final class SessionManager {
     private static SessionManager instance;
     private User currentUser;
 
+    private SessionManager() {}
+
     /**
      * Returns the instance of the session manager, creating it if needed
      * @return the session manager instance
