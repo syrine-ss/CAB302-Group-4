@@ -24,8 +24,6 @@ import java.io.IOException;
  */
 public class VolunteerDashboardController {
 
-    private VolunteerDashboardController() {};
-
     @FXML private Label welcomeLabel;
     @FXML private ListView<Event> eventList;
 
