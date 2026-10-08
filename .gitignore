@@ -9,3 +9,4 @@ Thumbs.db
 *.db
 *.db-journal
 *.log
+/docs/Javadoc/

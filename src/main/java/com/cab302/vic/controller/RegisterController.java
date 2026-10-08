@@ -21,6 +21,9 @@ import java.io.IOException;
  */
 public class RegisterController {
 
+    private RegisterController() {
+    }
+
     @FXML private TextField usernameField;
     @FXML private TextField fullNameField;
     @FXML private TextField emailField;

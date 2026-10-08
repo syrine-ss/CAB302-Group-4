@@ -34,19 +34,34 @@ public class Signup {
         this.signedUpOn = signedUpOn;
     }
 
-    /** @return the database id, or 0 if not yet saved */
+    /**
+     * Return the signup id
+     * @return the signup database id, or 0 if not yet saved
+     */
     public int getId() { return id; }
 
-    /** @return the id of the event signed up for */
+    /**
+     * Return the event id of a signed up event
+     * @return the id of the event signed up for 
+     */
     public int getEventId() { return eventId; }
 
-    /** @return the id of the volunteer who signed up */
+    /**
+     * Return the id of a signed up volunteer
+     * @return the id of the volunteer who signed up 
+     */
     public int getUserId() { return userId; }
 
-    /** @return true once the coordinator has marked the volunteer as attended */
+    /**
+     * Return whether the coordinator has marked the volunteer as attended
+     * @return true if set to attended
+     */
     public boolean isAttended() { return attended; }
 
-    /** @return the date of signing up, as YYYY-MM-DD */
+    /**
+     * Return the date of signing up
+     * @return the signup date, as YYYY-MM-DD
+     */
     public String getSignedUpOn() { return signedUpOn; }
 
     /**

@@ -8,7 +8,14 @@ import java.util.Objects;
  */
 public class User {
 
-    public enum Role { COORDINATOR, VOLUNTEER }
+    /**
+     * User's role to be defined on sign up
+     */
+    public enum Role {
+        /** User with co-ordinator role and privileges */
+        COORDINATOR,
+        /** User with volunteer role */
+        VOLUNTEER }
 
     private int id;
     private String username;
@@ -17,6 +24,16 @@ public class User {
     private String email;
     private Role role;
 
+    /**
+     * Creates a user with the specified details
+     *
+     * @param id the user's id
+     * @param username the user's username
+     * @param passwordHash the user's password hash
+     * @param fullName the user's full name
+     * @param email the user's email address
+     * @param role the user's role
+     */
     public User(int id, String username, String passwordHash,
                 String fullName, String email, Role role) {
         this.id = id;
@@ -27,16 +44,51 @@ public class User {
         this.role = role;
     }
 
+    /**
+     * Returns the user id.
+     * @return the user id
+     */
     public int getId() { return id; }
+    /**
+     * Returns user's username.
+     * @return user's username
+     */
     public String getUsername() { return username; }
+    /**
+     * Returns the user's password hash.
+     * @return the user's password hash
+     */
     public String getPasswordHash() { return passwordHash; }
+    /**
+     * Returns the user's full name.
+     * @return the user's full name
+     */
     public String getFullName() { return fullName; }
+    /**
+     * Returns the user's email.
+     * @return the user's email
+     */
     public String getEmail() { return email; }
+    /**
+     * Returns the user's role
+     * @return the user's role
+     */
     public Role getRole() { return role; }
 
-    /** Set by the DAO once the row is inserted and a primary key is assigned. */
+    /**
+     * Sets the user id
+     * @param id user id
+     */
     public void setId(int id) { this.id = id; }
+    /**
+     * Sets the user's full name
+     * @param fullName user's full name
+     */
     public void setFullName(String fullName) { this.fullName = fullName; }
+    /**
+     * Sets the user's email'
+     * @param email user's email
+     */
     public void setEmail(String email) { this.email = email; }
 
     @Override

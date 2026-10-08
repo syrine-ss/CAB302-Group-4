@@ -19,10 +19,20 @@ public class SqliteUserDAO implements UserDAO {
 
     private final DatabaseManager db;
 
+    /**
+     * Creates a user DAO using the given database
+     * @param db the database manager
+     */
     public SqliteUserDAO(DatabaseManager db) {
         this.db = db;
     }
 
+    /**
+     * Create a new user in the database
+     * @param user the new user
+     * @return the user
+     * @throws RuntimeException if user failed to insert in database
+     */
     @Override
     public User create(User user) {
         String sql = "INSERT INTO users (username, password_hash, full_name, email, role) VALUES (?, ?, ?, ?, ?)";
@@ -46,16 +56,32 @@ public class SqliteUserDAO implements UserDAO {
         }
     }
 
+    /**
+     * Find user by id in database
+     * @param id user id
+     * @return list including user, empty if not found
+     */
     @Override
     public Optional<User> findById(int id) {
         return querySingle("SELECT * FROM users WHERE id = ?", ps -> ps.setInt(1, id));
     }
 
+    /**
+     * Find user by username in database
+     * @param username username
+     * @return list including relevant user, empty if not found
+     */
     @Override
     public Optional<User> findByUsername(String username) {
         return querySingle("SELECT * FROM users WHERE username = ?", ps -> ps.setString(1, username));
     }
 
+    /**
+     * Find if username exists in database
+     * @param username username to be checked
+     * @return true if in username is in table
+     * @throws RuntimeException if failed to check username
+     */
     @Override
     public boolean existsByUsername(String username) {
         String sql = "SELECT COUNT(*) FROM users WHERE username = ?";
@@ -70,6 +96,10 @@ public class SqliteUserDAO implements UserDAO {
         }
     }
 
+    /**
+     * Get all users in database
+     * @return list of all users
+     */
     @Override
     public List<User> findAll() {
         String sql = "SELECT * FROM users ORDER BY id";

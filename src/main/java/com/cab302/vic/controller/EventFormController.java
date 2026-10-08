@@ -25,6 +25,8 @@ import java.time.LocalDate;
  */
 public class EventFormController {
 
+    private EventFormController() {};
+
     @FXML private Label headingLabel;
     @FXML private TextField titleField;
     @FXML private TextArea descriptionArea;

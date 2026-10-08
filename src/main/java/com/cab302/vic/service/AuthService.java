@@ -19,12 +19,22 @@ public class AuthService {
 
     private final UserDAO userDAO;
 
+    /**
+     * Creates an authentication service using the specified user data access object
+     * @param userDAO the data access object used to manage user data
+     */
     public AuthService(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
 
     /**
      * Register a new user with a hashed password.
+     * @param username username
+     * @param password password
+     * @param email email
+     * @param role role
+     * @param fullName full name
+     * @return registered user
      * @throws AuthException when the username is taken or the password is too weak.
      */
     public User register(String username, String password, String fullName,
@@ -52,6 +62,9 @@ public class AuthService {
      * Authenticate a user by username and password.
      * The error message is deliberately generic so it doesn't reveal
      * whether the username or the password was wrong.
+     * @param username username
+     * @param password  password
+     * @return the user
      * @throws AuthException when credentials are invalid.
      */
     public User login(String username, String password) throws AuthException {
@@ -65,7 +78,11 @@ public class AuthService {
         return user;
     }
 
-    /** Exposed for tests and for UI hints. */
+    /**
+     * Exposed for tests and for UI hints.
+     * @param password password
+     * @return true for strong password
+     */
     public static boolean isPasswordStrong(String password) {
         return password != null && PASSWORD_RULE.matcher(password).matches();
     }

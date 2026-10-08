@@ -13,18 +13,37 @@ import java.util.Optional;
  */
 public interface UserDAO {
 
-    /** Insert a new user and return the same user with its assigned id. */
+    /**
+     * Insert a new user and return the same user with its assigned id
+     * @param user the new user
+     * @return the new user
+     */
     User create(User user);
 
-    /** Find a user by primary key. Empty when no user exists with that id. */
+    /**
+     * Find a user by primary key. Empty when no user exists with that id.
+     * @param id the user id
+     * @return the user, otherwise an empty list
+     */
     Optional<User> findById(int id);
 
-    /** Find a user by username. Usernames are unique. */
+    /**
+     * Find a user by username. Usernames are unique.
+     * @param username username to be found
+     * @return user found by username, empty list otherwise
+     */
     Optional<User> findByUsername(String username);
 
-    /** True when a user with the given username already exists. */
+    /**
+     * Find if username exists in database
+     * @param username username to be checked
+     * @return true if in username is in table
+     */
     boolean existsByUsername(String username);
 
-    /** Return every user. Primarily used for admin views and tests. */
+    /**
+     * Get all users in database
+     * @return list of all users
+     */
     List<User> findAll();
 }

@@ -25,6 +25,7 @@ public final class PasswordHasher {
 
     /**
      * Hash a plaintext password with a freshly generated random salt.
+     * @param password user's password
      * @return string in the form "base64Salt:base64Hash"
      */
     public static String hash(String password) {
@@ -39,6 +40,8 @@ public final class PasswordHasher {
 
     /**
      * Verify a plaintext password against a stored "salt:hash" string.
+     * @param password user's password
+     * @param stored stored salt:hash string
      * @return true when the password matches, false otherwise
      */
     public static boolean verify(String password, String stored) {

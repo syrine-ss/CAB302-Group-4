@@ -19,7 +19,16 @@ public final class SceneNavigator {
 
     private SceneNavigator() {}
 
-    /** Load a new scene from an FXML file and show it in the given window. */
+    /**
+     * Loads a new scene from an FXML file and displays it in the given window.
+     *
+     * @param stage the window in which to display the scene
+     * @param fxmlName the name of the FXML file to load
+     * @param title the title of the window
+     * @param <T> the type of the FXML controller
+     * @return the controller associated with the loaded FXML file
+     * @throws IOException if the FXML file cannot be loaded
+     */
     public static <T> T switchTo(Stage stage, String fxmlName, String title) throws IOException {
         FXMLLoader loader = new FXMLLoader(SceneNavigator.class.getResource(VIEW_ROOT + fxmlName));
         Parent root = loader.load();
@@ -31,7 +40,16 @@ public final class SceneNavigator {
         return loader.getController();
     }
 
-    /** Convenience for controllers that already hold a Node. */
+    /**
+     * Switches to a new scene using the window associated with the given node.
+     *
+     * @param source the node whose window will be used
+     * @param fxmlName the name of the FXML file to load
+     * @param title the title of the window
+     * @param <T> the type of the FXML controller
+     * @return the controller associated with the loaded FXML file
+     * @throws IOException if the FXML file cannot be loaded
+     */
     public static <T> T switchTo(Node source, String fxmlName, String title) throws IOException {
         Stage stage = (Stage) source.getScene().getWindow();
         return switchTo(stage, fxmlName, title);

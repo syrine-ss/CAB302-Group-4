@@ -34,7 +34,6 @@ public class SignupService {
 
     /**
      * Creates the service using the system clock.
-     *
      * @param signupDAO storage for signups
      * @param eventDAO  storage for events, used to check dates and capacity
      */
@@ -44,7 +43,6 @@ public class SignupService {
 
     /**
      * Creates the service with a specific clock. Used by tests.
-     *
      * @param signupDAO storage for signups
      * @param eventDAO  storage for events
      * @param clock     where "today" comes from
@@ -57,12 +55,10 @@ public class SignupService {
 
     /**
      * Signs a volunteer up for an event.
-     *
      * @param eventId the event to join
      * @param userId  the volunteer
      * @return the new signup
-     * @throws SignupException if the event doesn't exist, has already
-     *                         happened, is full, or they are already signed up
+     * @throws SignupException if the event doesn't exist, has already happened, is full, or they are already signed up
      */
     public Signup signUp(int eventId, int userId) throws SignupException {
         Event event = findEvent(eventId);
@@ -81,11 +77,9 @@ public class SignupService {
 
     /**
      * Removes a volunteer from an event.
-     *
      * @param eventId the event to leave
      * @param userId  the volunteer
-     * @throws SignupException if they aren't signed up, the event has already
-     *                         happened, or their attendance has been recorded
+     * @throws SignupException if they aren't signed up, the event has already happened, or their attendance has been recorded
      */
     public void withdraw(int eventId, int userId) throws SignupException {
         Event event = findEvent(eventId);
@@ -102,7 +96,6 @@ public class SignupService {
 
     /**
      * Records whether a volunteer attended an event.
-     *
      * @param eventId       the event
      * @param userId        the volunteer
      * @param attended      true if they attended
@@ -126,6 +119,7 @@ public class SignupService {
     }
 
     /**
+     * Check if a volunteer is signed up for the event
      * @param eventId the event
      * @param userId  the volunteer
      * @return true if the volunteer is signed up for the event
@@ -135,24 +129,27 @@ public class SignupService {
     }
 
     /**
+     * Get all the volunteers signup for an event
      * @param eventId the event
-     * @return everyone signed up for the event, for the attendance register
+     * @return everyone signed up for the event
      */
     public List<Signup> signupsForEvent(int eventId) {
         return signupDAO.findByEvent(eventId);
     }
 
     /**
+     * Get every event a volunteer is signed up for
      * @param userId the volunteer
-     * @return every event the volunteer is signed up for
+     * @return the list of events
      */
     public List<Signup> signupsForVolunteer(int userId) {
         return signupDAO.findByUser(userId);
     }
 
     /**
+     * Get the number of open spots left for volunteers to fill for a given event
      * @param event the event
-     * @return how many more volunteers can sign up, never below zero
+     * @return number of volunteer spots open, never below zero
      */
     public int spotsLeft(Event event) {
         return Math.max(0, event.getVolunteersNeeded() - signupDAO.countForEvent(event.getId()));
@@ -161,7 +158,6 @@ public class SignupService {
     /**
      * Attendance can be marked from the day of the event onwards, so a
      * coordinator can do it the same afternoon.
-     *
      * @param event the event
      * @return true if the event is today or earlier
      */

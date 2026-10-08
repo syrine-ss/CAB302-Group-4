@@ -26,6 +26,8 @@ import java.util.List;
  */
 public class CoordinatorDashboardController {
 
+    private CoordinatorDashboardController() {};
+
     @FXML private Label welcomeLabel;
     @FXML private ListView<Event> eventList;
 

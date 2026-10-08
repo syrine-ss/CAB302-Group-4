@@ -9,36 +9,37 @@ import java.util.Optional;
 public interface HoursDAO {
 
     /**
-     * Saves a new entry and assigns its id.
-     *
-     * @param entry the entry to save
-     * @return the same entry, with its id set
+     * Insert hours logged by a volunteer into database
+     * @param entry the entry hours logged by volunteer
+     * @return the entry inputted
      */
     HoursEntry create(HoursEntry entry);
 
     /**
+     * Find hours logged in database using its id
      * @param id the entry id
-     * @return the entry, if it exists
+     * @return list hours logged by that id, empty if none found
      */
     Optional<HoursEntry> findById(int id);
 
     /**
+     * Find hours logged in database using the relevant event id
      * @param eventId the event
-     * @return every entry logged against the event, oldest first
+     * @return list of hours logged for that event id if any found, oldest first
      */
     List<HoursEntry> findByEvent(int eventId);
 
     /**
+     * Find hours entry by a user id
      * @param userId the volunteer
      * @return every entry the volunteer has logged, oldest first
      */
     List<HoursEntry> findByUser(int userId);
 
     /**
-     * Saves a coordinator's decision on an entry.
-     *
+     * Update entry hours in the hours logged table
      * @param entry the entry, with its new status and note
-     * @return true when the entry was found and updated
+     * @return true if update was successful
      */
     boolean updateReview(HoursEntry entry);
 }
