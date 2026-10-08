@@ -11,11 +11,6 @@ import javafx.stage.Stage;
  */
 public class VolunteerImpactApp extends Application {
 
-    private VolunteerImpactApp() {};
-
-    /**
-     * App title
-     */
     public static final String APP_TITLE = "Volunteer Impact Coordinator";
 
     @Override
@@ -24,10 +19,6 @@ public class VolunteerImpactApp extends Application {
         SceneNavigator.switchTo(stage, "login-view.fxml", APP_TITLE);
     }
 
-    /**
-     * Launches the JavaFX application
-     * @param args command line arguments
-     */
     public static void main(String[] args) {
         launch(args);
     }

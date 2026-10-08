@@ -20,10 +20,6 @@ import java.io.IOException;
  * then routes back to the login screen with a success flag.
  */
 public class RegisterController {
-
-    private RegisterController() {
-    }
-
     @FXML private TextField usernameField;
     @FXML private TextField fullNameField;
     @FXML private TextField emailField;

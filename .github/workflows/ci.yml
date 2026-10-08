@@ -46,9 +46,6 @@ jobs:
       - name: Build runnable JAR with the build script
         run: bash build.sh --skip-tests
 
-      - name: Generate Javadoc
-        run: mvn javadoc:javadoc
-
       - name: Install a virtual display for the smoke test
         run: |
           sudo apt-get update -qq
@@ -82,6 +79,9 @@ jobs:
           name: volunteer-impact-coordinator-jar
           path: target/*-all.jar
           if-no-files-found: error
+
+      - name: Generate Javadoc
+        run: mvn javadoc:javadoc
 
       - name: Publish Javadoc
         uses: JamesIves/github-pages-deploy-action@v4

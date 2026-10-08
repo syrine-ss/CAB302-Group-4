@@ -21,9 +21,6 @@ import java.io.IOException;
  */
 public class LoginController {
 
-    private LoginController() {
-    }
-
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private Label messageLabel;
