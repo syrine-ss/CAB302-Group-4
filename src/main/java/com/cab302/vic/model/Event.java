@@ -49,24 +49,87 @@ public class Event {
         this.createdBy = createdBy;
     }
 
+    /**
+     * Returns the event ID.
+     * @return the event ID
+     */
     public int getId() { return id; }
+    /**
+     * Returns the event title.
+     * @return the event title
+     */
     public String getTitle() { return title; }
+    /**
+     * Returns the event description.
+     * @return the event description
+     */
     public String getDescription() { return description; }
+    /**
+     * Returns the event date.
+     * @return the event date
+     */
     public String getEventDate() { return eventDate; }
+    /**
+     * Returns the event time.
+     * @return the event time
+     */
     public String getEventTime() { return eventTime; }
+    /**
+     * Returns the event location.
+     * @return the event location
+     */
     public String getLocation() { return location; }
+    /**
+     * Returns the number of volunteers needed for event.
+     * @return the number of volunteers
+     */
     public int getVolunteersNeeded() { return volunteersNeeded; }
+    /**
+     * Returns the event co-ordinator.
+     * @return the event co-ordinator
+     */
     public int getCreatedBy() { return createdBy; }
 
+    /**
+     * Sets the event id
+     * @param id event id
+     */
     public void setId(int id) { this.id = id; }
+    /**
+     * Sets the event title
+     * @param title title
+     */
     public void setTitle(String title) { this.title = title; }
+    /**
+     * Sets the event description
+     * @param description event description
+     */
     public void setDescription(String description) { this.description = description; }
+    /**
+     * Sets the event date
+     * @param eventDate event date
+     */
     public void setEventDate(String eventDate) { this.eventDate = eventDate; }
+    /**
+     * Sets the event time
+     * @param eventTime event time
+     */
     public void setEventTime(String eventTime) { this.eventTime = eventTime; }
+    /**
+     * Sets the event location
+     * @param location event location
+     */
     public void setLocation(String location) { this.location = location; }
+    /**
+     * Sets the number of volunteers needed for event
+     * @param volunteersNeeded number of volunteers needed for event
+     */
     public void setVolunteersNeeded(int volunteersNeeded) { this.volunteersNeeded = volunteersNeeded; }
 
-    /** Parse the stored eventDate as a LocalDate. Returns null when the string can't be parsed. */
+    /** 
+     * Parse the stored eventDate as a LocalDate. Returns null when the string can't be parsed.
+     * @return the local date
+     */
     public LocalDate parsedDate() {
         try {
             return LocalDate.parse(eventDate);
@@ -119,6 +182,7 @@ public class Event {
         }
 
         /**
+         * Build the event by setting event id
          * @param id the database id; leave unset for a new, unsaved event
          * @return this builder
          */
@@ -128,6 +192,7 @@ public class Event {
         }
 
         /**
+         * Build the event by setting event title
          * @param title the event title (required)
          * @return this builder
          */
@@ -137,6 +202,7 @@ public class Event {
         }
 
         /**
+         * Build the event by setting event description
          * @param description what volunteers will be doing; null is stored as empty
          * @return this builder
          */
@@ -146,6 +212,7 @@ public class Event {
         }
 
         /**
+         * Build the event by setting event date
          * @param eventDate the date as YYYY-MM-DD (required)
          * @return this builder
          */
@@ -155,6 +222,7 @@ public class Event {
         }
 
         /**
+         * Build the event by setting event time
          * @param eventTime the start time as HH:mm; null is stored as empty
          * @return this builder
          */
@@ -164,6 +232,7 @@ public class Event {
         }
 
         /**
+         * Build the event by setting event location
          * @param location where the event is held; null is stored as empty
          * @return this builder
          */
@@ -173,6 +242,7 @@ public class Event {
         }
 
         /**
+         * Build the event by setting the number of volunteers needed
          * @param volunteersNeeded how many volunteers the coordinator wants
          * @return this builder
          */
@@ -182,6 +252,7 @@ public class Event {
         }
 
         /**
+         * Build the event by setting the event coordinator
          * @param createdBy the id of the coordinator who created the event
          * @return this builder
          */

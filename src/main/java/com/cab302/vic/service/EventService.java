@@ -16,11 +16,26 @@ public class EventService {
 
     private final EventDAO eventDAO;
 
+    /**
+     * Creates an event service using the specified event data access object
+     * @param eventDAO the data access object used to manage event data
+     */
     public EventService(EventDAO eventDAO) {
         this.eventDAO = eventDAO;
     }
 
-    /** Create a new event after validating required fields and date. */
+    /**
+     * Create a new event after validating required fields and date.
+     * @param title event title
+     * @param description event description
+     * @param eventDate event date
+     * @param eventTime event time
+     * @param location event location
+     * @param volunteersNeeded number of volunteers needed
+     * @param createdBy event coordinator id
+     * @return created event
+     * @throws EventException if event failed to be created
+     */
     public Event create(String title, String description, String eventDate, String eventTime,
                         String location, int volunteersNeeded, int createdBy) throws EventException {
         validateFields(title, eventDate, volunteersNeeded);
@@ -38,7 +53,18 @@ public class EventService {
         return eventDAO.create(event);
     }
 
-    /** Update an existing event. Same validation rules as create. */
+    /**
+     * Update an existing event. Same validation rules as create.
+     * @param eventId event id
+     * @param title event title
+     * @param description event description
+     * @param eventDate event date
+     * @param eventTime event time
+     * @param location event location
+     * @param volunteersNeeded number of volunteers needed
+     * @return the update event if successful
+     * @throws EventException if failed to update event
+     */
     public Event update(int eventId, String title, String description, String eventDate, String eventTime,
                         String location, int volunteersNeeded) throws EventException {
         Event existing = eventDAO.findById(eventId)
@@ -61,14 +87,28 @@ public class EventService {
         return existing;
     }
 
+    /**
+     * Find all events
+     * @return list of all events
+     */
     public List<Event> findAll() {
         return eventDAO.findAll();
     }
 
+    /**
+     * Find event by coordinator
+     * @param coordinatorId coordinator id
+     * @return list of events
+     */
     public List<Event> findByCoordinator(int coordinatorId) {
         return eventDAO.findByCoordinator(coordinatorId);
     }
 
+    /**
+     * Find event by event id
+     * @param id event id
+     * @return return a list containing the event, or an empty list
+     */
     public Optional<Event> findById(int id) {
         return eventDAO.findById(id);
     }

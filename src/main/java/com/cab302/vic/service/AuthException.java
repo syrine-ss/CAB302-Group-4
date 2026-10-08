@@ -6,6 +6,11 @@ package com.cab302.vic.service;
  * Uses a checked exception so callers must handle it deliberately.
  */
 public class AuthException extends Exception {
+
+    /**
+     * Creates an authentication exception with the specified message
+     * @param message the error message
+     */
     public AuthException(String message) {
         super(message);
     }

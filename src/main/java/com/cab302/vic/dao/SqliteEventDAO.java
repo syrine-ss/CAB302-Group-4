@@ -18,7 +18,6 @@ public class SqliteEventDAO implements EventDAO {
 
     /**
      * Creates an event DAO using the specified database manager
-     *
      * @param db the database manager
      */
     public SqliteEventDAO(DatabaseManager db) {
@@ -49,9 +48,10 @@ public class SqliteEventDAO implements EventDAO {
     }
 
     /**
-     *
+     * Find an event in the database by id
      * @param id an event id
-     * @return
+     * @return a list including the event, empty if none found
+     * @throws RuntimeException if fails to find event id
      */
     @Override
     public Optional<Event> findById(int id) {
@@ -67,17 +67,32 @@ public class SqliteEventDAO implements EventDAO {
         }
     }
 
+    /**
+     * Find all events in the database
+     * @return a list of events, ordered by event date
+     */
     @Override
     public List<Event> findAll() {
         return list("SELECT * FROM events ORDER BY event_date ASC", ps -> {});
     }
 
+    /**
+     * Find events in the database by a coordinator id
+     * @param coordinatorId the coordinator id
+     * @return list of events from coordinator id
+     */
     @Override
     public List<Event> findByCoordinator(int coordinatorId) {
         return list("SELECT * FROM events WHERE created_by = ? ORDER BY event_date ASC",
                 ps -> ps.setInt(1, coordinatorId));
     }
 
+    /**
+     * Updates an existing event in the database
+     * @param event event to be updated
+     * @return boolean true if event was updated
+     * @throws RuntimeException if failed to update event
+     */
     @Override
     public boolean update(Event event) {
         String sql = "UPDATE events SET title=?, description=?, event_date=?, event_time=?, " +
@@ -97,6 +112,12 @@ public class SqliteEventDAO implements EventDAO {
         }
     }
 
+    /**
+     * Deletes an event in the database using its event id
+     * @param id the id of event to be deleted
+     * @return boolean true if updated
+     * @throws  RuntimeException if failed to delete event
+     */
     @Override
     public boolean delete(int id) {
         try (Connection conn = db.getConnection();

@@ -13,13 +13,13 @@ public interface SignupDAO {
 
     /**
      * Saves a new signup and assigns its id.
-     *
      * @param signup the signup to save
      * @return the same signup, with its id set
      */
     Signup create(Signup signup);
 
     /**
+     * Find signups for a volunteer for a specific event
      * @param eventId the event
      * @param userId  the volunteer
      * @return the volunteer's signup for that event, if there is one
@@ -27,18 +27,21 @@ public interface SignupDAO {
     Optional<Signup> find(int eventId, int userId);
 
     /**
+     * Find all signups for an event
      * @param eventId the event
      * @return every signup for the event, in the order people signed up
      */
     List<Signup> findByEvent(int eventId);
 
     /**
+     * Find all signups for a volunteer
      * @param userId the volunteer
      * @return every event signup the volunteer has
      */
     List<Signup> findByUser(int userId);
 
     /**
+     * Get the total number of volunteers signed up for an event
      * @param eventId the event
      * @return how many volunteers are signed up for it
      */
@@ -46,7 +49,6 @@ public interface SignupDAO {
 
     /**
      * Records whether a volunteer attended.
-     *
      * @param eventId  the event
      * @param userId   the volunteer
      * @param attended true if they attended
@@ -56,7 +58,6 @@ public interface SignupDAO {
 
     /**
      * Removes a volunteer's signup.
-     *
      * @param eventId the event
      * @param userId  the volunteer
      * @return true when a signup was found and removed

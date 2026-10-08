@@ -66,28 +66,52 @@ public class HoursEntry {
         this.loggedOn = loggedOn;
     }
 
-    /** @return the database id, or 0 if not yet saved */
+    /**
+     * Return the hours entry id
+     * @return the database id, or 0 if not yet saved
+     */
     public int getId() { return id; }
 
-    /** @return the id of the volunteer who logged the hours */
+    /**
+     * Return the id of the volunteer who logged the hours
+     * @return the volunteer id
+     */
     public int getUserId() { return userId; }
 
-    /** @return the id of the event the hours were worked at */
+    /**
+     * Return id of the event the hours were worked at
+     * @return the event id
+     */
     public int getEventId() { return eventId; }
 
-    /** @return the number of hours worked */
+    /**
+     * Return number of hours worked
+     * @return the number of hours worked
+     */
     public double getHours() { return hours; }
 
-    /** @return where the entry is in review */
+    /**
+     * Return entry review status
+     * @return entry status
+     */
     public Status getStatus() { return status; }
 
-    /** @return the coordinator's note, or an empty string if there is none */
+    /**
+     * Return the coordinator's note
+     * @return coordinator's note as string, or an empty string if there is none
+     */
     public String getReviewNote() { return reviewNote; }
 
-    /** @return the date the hours were logged, as YYYY-MM-DD */
+    /**
+     * Return the data the entry horus was logged
+     * @return the date as YYYY-MM-DD
+     */
     public String getLoggedOn() { return loggedOn; }
 
-    /** @return true while the entry is waiting for the coordinator */
+    /**
+     * Return whether the event is pending approval by coordinator
+     * @return true if pending approval
+     */
     public boolean isPending() { return status == Status.PENDING; }
 
     /**

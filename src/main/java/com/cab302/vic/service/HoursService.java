@@ -39,8 +39,7 @@ public class HoursService {
     private final Clock clock;
 
     /**
-     * Creates the service using the system clock.
-     *
+     * Creates the service using the system clock
      * @param hoursDAO  storage for hours entries
      * @param signupDAO storage for signups, used to check attendance
      * @param eventDAO  storage for events, used to check who coordinates them
@@ -51,7 +50,6 @@ public class HoursService {
 
     /**
      * Creates the service with a specific clock. Used by tests.
-     *
      * @param hoursDAO  storage for hours entries
      * @param signupDAO storage for signups
      * @param eventDAO  storage for events
@@ -66,7 +64,6 @@ public class HoursService {
 
     /**
      * Logs hours for an event the volunteer attended. The entry starts as pending.
-     *
      * @param eventId the event the hours were worked at
      * @param userId  the volunteer
      * @param hours   how many hours they worked
@@ -98,7 +95,6 @@ public class HoursService {
 
     /**
      * Approves a pending entry.
-     *
      * @param entryId       the entry
      * @param coordinatorId the coordinator making the decision
      * @param note          an optional comment, or null
@@ -112,7 +108,6 @@ public class HoursService {
 
     /**
      * Rejects a pending entry. A reason is required.
-     *
      * @param entryId       the entry
      * @param coordinatorId the coordinator making the decision
      * @param reason        why it was rejected, shown to the volunteer
@@ -128,8 +123,9 @@ public class HoursService {
     }
 
     /**
+     * Access the pending hours entries for a coordinator across all the coordinator's events, oldest first
      * @param coordinatorId the coordinator
-     * @return pending entries across all of the coordinator's events, oldest first
+     * @return list of pending entries
      */
     public List<HoursEntry> pendingForCoordinator(int coordinatorId) {
         List<HoursEntry> pending = new ArrayList<>();
@@ -145,16 +141,18 @@ public class HoursService {
     }
 
     /**
+     * Every entry the volunteer has logged, with its review status
      * @param userId the volunteer
-     * @return every entry the volunteer has logged, with its review status
+     * @return list of logged entries
      */
     public List<HoursEntry> entriesForVolunteer(int userId) {
         return hoursDAO.findByUser(userId);
     }
 
     /**
+     * Get the total number approved hours for a given volunteer
      * @param userId the volunteer
-     * @return the total of the volunteer's approved hours
+     * @return the total of approved hours
      */
     public double totalApprovedHours(int userId) {
         return hoursDAO.findByUser(userId).stream()

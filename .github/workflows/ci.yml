@@ -90,3 +90,6 @@ jobs:
           name: volunteer-impact-coordinator-jar
           path: target/*-all.jar
           if-no-files-found: error
+
+      - name: Generate Javadoc
+        run: mvn javadoc:javadoc
