@@ -1,6 +1,8 @@
 package com.cab302.vic.service;
 
 import com.cab302.vic.dao.FakeEventDAO;
+import com.cab302.vic.dao.FakeHoursDAO;
+import com.cab302.vic.dao.FakeSignupDAO;
 import com.cab302.vic.dao.FakeUserDAO;
 import com.cab302.vic.model.Event;
 import com.cab302.vic.model.User;
@@ -18,19 +20,25 @@ class ServiceFactoryTest {
 
     private FakeUserDAO userDAO;
     private FakeEventDAO eventDAO;
+    private FakeSignupDAO signupDAO;
+    private FakeHoursDAO hoursDAO;
     private ServiceFactory factory;
 
     @BeforeEach
     void setUp() {
         userDAO = new FakeUserDAO();
         eventDAO = new FakeEventDAO();
-        factory = new ServiceFactory(userDAO, eventDAO);
+        signupDAO = new FakeSignupDAO();
+        hoursDAO = new FakeHoursDAO();
+        factory = new ServiceFactory(userDAO, eventDAO, signupDAO, hoursDAO);
     }
 
     @Test
     void returnsTheSameServiceEachTime() {
         assertSame(factory.auth(), factory.auth());
         assertSame(factory.events(), factory.events());
+        assertSame(factory.signups(), factory.signups());
+        assertSame(factory.hours(), factory.hours());
     }
 
     @Test
@@ -51,9 +59,25 @@ class ServiceFactoryTest {
     }
 
     @Test
+    void signupServiceUsesTheSuppliedDaos() throws Exception {
+        Event event = factory.events().create("Tree planting", "",
+                LocalDate.now().plusDays(7).toString(), "09:00", "Park", 8, 1);
+
+        factory.signups().signUp(event.getId(), 10);
+
+        assertTrue(signupDAO.find(event.getId(), 10).isPresent());
+    }
+
+    @Test
     void rejectsMissingDaos() {
-        assertThrows(IllegalArgumentException.class, () -> new ServiceFactory(null, eventDAO));
-        assertThrows(IllegalArgumentException.class, () -> new ServiceFactory(userDAO, null));
+        assertThrows(IllegalArgumentException.class,
+                () -> new ServiceFactory(null, eventDAO, signupDAO, hoursDAO));
+        assertThrows(IllegalArgumentException.class,
+                () -> new ServiceFactory(userDAO, null, signupDAO, hoursDAO));
+        assertThrows(IllegalArgumentException.class,
+                () -> new ServiceFactory(userDAO, eventDAO, null, hoursDAO));
+        assertThrows(IllegalArgumentException.class,
+                () -> new ServiceFactory(userDAO, eventDAO, signupDAO, null));
     }
 
     @Test

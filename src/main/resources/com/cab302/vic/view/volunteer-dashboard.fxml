@@ -26,7 +26,8 @@
         <VBox spacing="12">
             <padding><Insets top="20" right="24" bottom="20" left="24"/></padding>
 
-            <Label text="Upcoming Events" styleClass="section-heading"/>
+            <Label text="Events" styleClass="section-heading"/>
+            <Label text="Sign up for an event, or withdraw before it starts." styleClass="subtitle"/>
             <ListView fx:id="eventList" VBox.vgrow="ALWAYS"/>
         </VBox>
     </center>
