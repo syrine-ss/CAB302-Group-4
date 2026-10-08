@@ -1,10 +1,9 @@
 package com.cab302.vic.controller;
 
-import com.cab302.vic.dao.DatabaseManager;
-import com.cab302.vic.dao.SqliteEventDAO;
 import com.cab302.vic.model.Event;
 import com.cab302.vic.service.EventException;
 import com.cab302.vic.service.EventService;
+import com.cab302.vic.service.ServiceFactory;
 import com.cab302.vic.util.SceneNavigator;
 import com.cab302.vic.util.SessionManager;
 import javafx.fxml.FXML;
@@ -34,8 +33,7 @@ public class EventFormController {
     @FXML private Spinner<Integer> volunteersSpinner;
     @FXML private Label messageLabel;
 
-    private final EventService eventService =
-            new EventService(new SqliteEventDAO(DatabaseManager.getInstance()));
+    private final EventService eventService = ServiceFactory.getInstance().events();
 
     private Event editingEvent;
 
