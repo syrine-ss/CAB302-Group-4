@@ -62,7 +62,7 @@ public class SignupService {
      */
     public Signup signUp(int eventId, int userId) throws SignupException {
         Event event = findEvent(eventId);
-        if (isBeforeToday(event)) {
+        if (hasPassed(event)) {
             throw new SignupException("This event has already happened");
         }
         if (signupDAO.find(eventId, userId).isPresent()) {
@@ -88,7 +88,7 @@ public class SignupService {
         if (signup.isAttended()) {
             throw new SignupException("Your attendance has already been recorded for this event");
         }
-        if (isBeforeToday(event)) {
+        if (hasPassed(event)) {
             throw new SignupException("You can't withdraw from an event that has already happened");
         }
         signupDAO.delete(eventId, userId);
@@ -166,17 +166,22 @@ public class SignupService {
         return date != null && !date.isAfter(today());
     }
 
+    /**
+     * Signups stay open on the day itself, so only earlier dates count as passed.
+     *
+     * @param event the event
+     * @return true if the event's date is before today
+     */
+    public boolean hasPassed(Event event) {
+        LocalDate date = event.parsedDate();
+        return date != null && date.isBefore(today());
+    }
+
     // --- helpers ---
 
     private Event findEvent(int eventId) throws SignupException {
         return eventDAO.findById(eventId)
                 .orElseThrow(() -> new SignupException("Event not found"));
-    }
-
-    /** Signups stay open on the day itself, so only earlier dates count as passed. */
-    private boolean isBeforeToday(Event event) {
-        LocalDate date = event.parsedDate();
-        return date != null && date.isBefore(today());
     }
 
     private LocalDate today() {

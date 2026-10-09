@@ -120,6 +120,13 @@ class SignupServiceTest {
         assertEquals(0, service.spotsLeft(event));
     }
 
+    @Test
+    void hasPassedIsFalseOnTheDayAndTrueAfter() {
+        assertFalse(service.hasPassed(eventOn(TODAY.plusDays(1), 5)));
+        assertFalse(service.hasPassed(eventOn(TODAY, 5)));
+        assertTrue(service.hasPassed(eventOn(TODAY.minusDays(1), 5)));
+    }
+
     // ---------- withdrawing ----------
 
     @Test
