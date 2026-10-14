@@ -116,3 +116,33 @@
     -fx-background-insets: 0;
     -fx-padding: 0;
 }
+
+/* Volunteer dashboard: scrolling list of event cards */
+.events-scroll,
+.events-scroll > .viewport {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+}
+
+.event-card .signed-up {
+    -fx-text-fill: #196f3d;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+}
+
+/* Banner confirming a sign up or withdrawal. Text keeps 4.5:1+ on its background. */
+.status-banner {
+    -fx-padding: 8 12;
+    -fx-background-radius: 4;
+    -fx-font-weight: bold;
+}
+
+.status-banner.success {
+    -fx-background-color: #e9f6ee;
+    -fx-text-fill: #196f3d;
+}
+
+.status-banner.error {
+    -fx-background-color: #fdeeec;
+    -fx-text-fill: #a93226;
+}
