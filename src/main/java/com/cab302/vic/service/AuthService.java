@@ -17,6 +17,11 @@ public class AuthService {
     private static final Pattern PASSWORD_RULE =
             Pattern.compile("^(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,}$");
 
+    // Something@something.something with no spaces. Deliberately simple:
+    // it catches typos like a missing @ or domain without rejecting real addresses.
+    private static final Pattern EMAIL_RULE =
+            Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
+
     private final UserDAO userDAO;
 
     /**
@@ -35,7 +40,8 @@ public class AuthService {
      * @param role role
      * @param fullName full name
      * @return registered user
-     * @throws AuthException when the username is taken or the password is too weak.
+     * @throws AuthException when a required field is missing, the email is invalid,
+     *         the username is taken or the password is too weak.
      */
     public User register(String username, String password, String fullName,
                          String email, User.Role role) throws AuthException {
@@ -44,6 +50,9 @@ public class AuthService {
         }
         if (fullName == null || fullName.isBlank()) {
             throw new AuthException("Full name is required");
+        }
+        if (!isEmailValid(email)) {
+            throw new AuthException("Enter a valid email address, like name@example.com");
         }
         if (!isPasswordStrong(password)) {
             throw new AuthException(
@@ -85,5 +94,14 @@ public class AuthService {
      */
     public static boolean isPasswordStrong(String password) {
         return password != null && PASSWORD_RULE.matcher(password).matches();
+    }
+
+    /**
+     * Checks that an email address has the basic name@domain.tld shape.
+     * @param email email
+     * @return true when the email looks valid
+     */
+    public static boolean isEmailValid(String email) {
+        return email != null && EMAIL_RULE.matcher(email).matches();
     }
 }
