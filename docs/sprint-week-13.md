@@ -13,11 +13,17 @@ This will be the final sprint for the development this application.
 This encapsulates the tasks required and timeline for both the Project Progress and Performance submission 
 and the Application Presentation.
 
+
 ### Sprint Goal
 The final sprint's major goal is the application will be fully developed by the end of this sprint - including updated 
 styling and accessibility, all 'must' and some 'should' User Stories has been implemented, and the app has undergone 
 refactoring. The application will need final testing and bug fixes. It will also require documentation of any changes, 
 refactoring and design elements, as well.
+
+For the final submission, evidence of Feedback‑Driven Improvement, Quality Assurance, Refactoring, UX Validation is needed:
+- The source code is thoroughly tested and documented
+- The UI considers usability, accessibility, and other UX quality metrics
+- Quality improvements are systematic and documented
 
 ### Sprint Tasks and Assignments
 #### 1: Finalising coverage reporting | Ryan              
@@ -38,7 +44,7 @@ with review from peers and testing before commiting.
 
 #### 3: Application styling and accessibility | Syrine
 Update the application styling using measurable UX enhancements (e.g., better usability, accessibility). Make sure to 
-edit any new files as they are committed (e.g. Maia's tasks being committed).
+edit any new files as they are committed (e.g. Maia's tasks being committed). The UI considers usability, accessibility, and other UX quality metrics.
 
 #### 4: Remaining refactoring | Sam, Peniel
 Refactoring the remaining files that haven't undergone refactoring. architectural refactoring (aligned with your OOD criterion) and
@@ -50,12 +56,7 @@ Final submission will require evidence of systematic improvements through docume
 accessibility). A concise record (change log/design notes/refactoring) ties issues/findings to decisions to code/tests/UI updates. 
 
 Refer to Syrine's `docs/refactoring-and-patterns.md` file for this. Feel free to rearrange the documents and remove/add files as needed 
-files for the final submission. Improvements related to the feedback from Submission 1 is acknowledged (brief notes).
-
-Evidence of Feedback‑Driven Improvement, Quality Assurance, Refactoring, UX Validation
-- The source code is thoroughly tested and documented
-- The UI considers usability, accessibility, and other UX quality metrics
-- Quality improvements are systematic and documented
+files for the final submission. Improvements related to the feedback from Submission 1 is acknowledged (brief notes). Quality improvements are systematic and documented.
 
 #### 6: Bug fixes | Sam, Peniel
 Any bugs (or issues found during testing) will need to be fixed (and maybe documented). This is assigned to Sam and Peniel 
@@ -65,10 +66,10 @@ as it aligns with refactoring.
 As the app is updated, it will need to be tested to find bugs (beyond the automatic build tests). Anyone is free to test and look for bugs,
 and the full app will need to be tested for the application submission and presentation. 
 
-When new parts of the application are inserted or updated, they will need testing files added.
+When new parts of the application are inserted or updated, they will need testing files added. The source code is thoroughly tested and documented.
 
 #### 8: Presentation planning | Maia, All 
-Preperation for the 5-minute presentation during Week 13. This will require a powerpoint. There are 5 mandatory topics to cover:
+Preparation for the 5-minute presentation during Week 13 will be started by Maia - filling in the general group information. After the Monday checkpoint, everyone can begin helping on finalising the presentation. This will require a powerpoint. There are 5 mandatory topics to cover:
 1. The Problem, the Users, and the Purpose
 2. How You Worked as a Team
 3. Your Development Approach and Key Decisions
@@ -89,7 +90,7 @@ code/tests/UI updates
 ### Timeline
 The presentation takes place during the Week 13 tutorial, Thursday 22nd of October 4-6pm.
 
-The final submission
+The final submission is due on the Friday (23rd) of Week 13.
 
 | Date                     | Checkpoint              | Tasks due at Checkpoint                                                      |
 |--------------------------|-------------------------|------------------------------------------------------------------------------|
