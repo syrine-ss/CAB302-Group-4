@@ -51,14 +51,22 @@ public class CoordinatorDashboardController {
         eventList.setItems(FXCollections.observableArrayList(events));
     }
 
-    @FXML
-    protected void onCreateEventClick() {
-        selectedEvent.set(null);
+    /**
+     * Helper method to handle opening the event form.
+     */
+
+    private void openEventForm(String windowTitle) {
         try {
-            SceneNavigator.switchTo(welcomeLabel, "event-form.fxml", "Create Event");
+            SceneNavigator.switchTo(welcomeLabel, "event-form.fxml", windowTitle);
         } catch (IOException e) {
             showError("Could not open the event form: " + e.getMessage());
         }
+    }
+
+    @FXML
+    protected void onCreateEventClick() {
+        selectedEvent.set(null);
+        openEventForm("Create Event");
     }
 
     @FXML
@@ -69,11 +77,7 @@ public class CoordinatorDashboardController {
             return;
         }
         selectedEvent.set(event);
-        try {
-            SceneNavigator.switchTo(welcomeLabel, "event-form.fxml", "Edit Event");
-        } catch (IOException e) {
-            showError("Could not open the event form: " + e.getMessage());
-        }
+        openEventForm("Edit Event");
     }
 
     @FXML
