@@ -12,20 +12,28 @@
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.cab302.vic.controller.LoginController"
            styleClass="root">
-    <VBox alignment="CENTER" spacing="14" maxWidth="360" styleClass="auth-card">
+    <VBox alignment="CENTER" spacing="12" maxWidth="360" styleClass="auth-card">
         <padding><Insets top="32" right="32" bottom="32" left="32"/></padding>
 
         <Label text="Volunteer Impact Coordinator" styleClass="title"/>
         <Label text="Sign in to continue" styleClass="subtitle"/>
 
-        <TextField fx:id="usernameField" promptText="Username"/>
-        <PasswordField fx:id="passwordField" promptText="Password"/>
+        <!-- Visible labels so the field name stays on screen while typing (finding L1) -->
+        <VBox spacing="4">
+            <Label fx:id="usernameLabel" text="_Username" mnemonicParsing="true" styleClass="field-label"/>
+            <TextField fx:id="usernameField" promptText="e.g. jsmith"/>
+        </VBox>
+        <VBox spacing="4">
+            <Label fx:id="passwordLabel" text="_Password" mnemonicParsing="true" styleClass="field-label"/>
+            <PasswordField fx:id="passwordField"/>
+        </VBox>
+
+        <!-- Message sits right above the button instead of at the bottom of the card -->
+        <Label fx:id="messageLabel" wrapText="true" visible="false" managed="false"/>
 
         <Button text="Log In" onAction="#onLoginButtonClick" defaultButton="true"
                 maxWidth="Infinity" styleClass="primary"/>
 
         <Hyperlink text="Don't have an account? Create one" onAction="#onRegisterLinkClick"/>
-
-        <Label fx:id="messageLabel" wrapText="true"/>
     </VBox>
 </StackPane>

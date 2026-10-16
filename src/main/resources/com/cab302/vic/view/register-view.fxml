@@ -13,25 +13,50 @@
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.cab302.vic.controller.RegisterController"
            styleClass="root">
-    <VBox alignment="CENTER" spacing="10" maxWidth="380" styleClass="auth-card">
-        <padding><Insets top="28" right="28" bottom="28" left="28"/></padding>
+    <VBox alignment="CENTER" spacing="8" maxWidth="400" styleClass="auth-card">
+        <padding><Insets top="22" right="28" bottom="22" left="28"/></padding>
 
         <Label text="Create an Account" styleClass="title"/>
         <Label text="Fill in your details to get started" styleClass="subtitle"/>
 
-        <TextField fx:id="usernameField" promptText="Username"/>
-        <TextField fx:id="fullNameField" promptText="Full name"/>
-        <TextField fx:id="emailField" promptText="Email"/>
-        <PasswordField fx:id="passwordField" promptText="Password (8+ chars, 1 uppercase, 1 special)"/>
-        <PasswordField fx:id="confirmPasswordField" promptText="Confirm password"/>
+        <!-- Each field has a visible label (finding R1) and its own error line
+             directly underneath (finding R4). Error lines take no space until used. -->
+        <VBox spacing="3">
+            <Label fx:id="usernameLabel" text="_Username" mnemonicParsing="true" styleClass="field-label"/>
+            <TextField fx:id="usernameField" promptText="e.g. jsmith"/>
+            <Label fx:id="usernameError" styleClass="field-error-text" wrapText="true" visible="false" managed="false"/>
+        </VBox>
+        <VBox spacing="3">
+            <Label fx:id="fullNameLabel" text="_Full name" mnemonicParsing="true" styleClass="field-label"/>
+            <TextField fx:id="fullNameField" promptText="e.g. Jordan Smith"/>
+            <Label fx:id="fullNameError" styleClass="field-error-text" wrapText="true" visible="false" managed="false"/>
+        </VBox>
+        <VBox spacing="3">
+            <Label fx:id="emailLabel" text="_Email" mnemonicParsing="true" styleClass="field-label"/>
+            <TextField fx:id="emailField" promptText="e.g. name@example.com"/>
+            <Label fx:id="emailError" styleClass="field-error-text" wrapText="true" visible="false" managed="false"/>
+        </VBox>
+        <VBox spacing="3">
+            <Label fx:id="passwordLabel" text="_Password" mnemonicParsing="true" styleClass="field-label"/>
+            <PasswordField fx:id="passwordField"/>
+            <!-- Rules stay visible while typing and tick off live (finding R2) -->
+            <Label fx:id="passwordHint" styleClass="hint" wrapText="true"/>
+            <Label fx:id="passwordError" styleClass="field-error-text" wrapText="true" visible="false" managed="false"/>
+        </VBox>
+        <VBox spacing="3">
+            <Label fx:id="confirmPasswordLabel" text="C_onfirm password" mnemonicParsing="true" styleClass="field-label"/>
+            <PasswordField fx:id="confirmPasswordField"/>
+            <Label fx:id="confirmPasswordError" styleClass="field-error-text" wrapText="true" visible="false" managed="false"/>
+        </VBox>
+        <VBox spacing="3">
+            <Label fx:id="roleLabel" text="_Role" mnemonicParsing="true" styleClass="field-label"/>
+            <ChoiceBox fx:id="roleChoice" maxWidth="Infinity"/>
+        </VBox>
 
-        <Label text="Role" styleClass="field-label"/>
-        <ChoiceBox fx:id="roleChoice" maxWidth="Infinity"/>
+        <Label fx:id="messageLabel" wrapText="true" visible="false" managed="false"/>
 
         <Button text="Create Account" onAction="#onCreateAccountClick" defaultButton="true"
                 maxWidth="Infinity" styleClass="primary"/>
         <Hyperlink text="Already have an account? Log in" onAction="#onBackToLoginClick"/>
-
-        <Label fx:id="messageLabel" wrapText="true"/>
     </VBox>
 </StackPane>

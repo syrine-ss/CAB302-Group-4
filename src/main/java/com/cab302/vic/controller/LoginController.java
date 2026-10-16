@@ -6,10 +6,12 @@ import com.cab302.vic.service.AuthService;
 import com.cab302.vic.service.ServiceFactory;
 import com.cab302.vic.util.SceneNavigator;
 import com.cab302.vic.util.SessionManager;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputControl;
 
 import java.io.IOException;
 
@@ -20,18 +22,52 @@ import java.io.IOException;
  */
 public class LoginController {
 
+    private static final String INVALID = "invalid";
+
+    @FXML private Label usernameLabel;
+    @FXML private Label passwordLabel;
     @FXML private TextField usernameField;
     @FXML private PasswordField passwordField;
     @FXML private Label messageLabel;
 
     private final AuthService authService = ServiceFactory.getInstance().auth();
 
+    /**
+     * Links each visible label to its field so screen readers announce the
+     * label and Alt + the underlined letter moves focus to the field.
+     */
+    @FXML
+    public void initialize() {
+        usernameLabel.setLabelFor(usernameField);
+        passwordLabel.setLabelFor(passwordField);
+        usernameField.textProperty().addListener((obs, old, now) -> clearInvalid(usernameField));
+        passwordField.textProperty().addListener((obs, old, now) -> clearInvalid(passwordField));
+    }
+
+    /**
+     * Called by the register screen after an account is created, so the new
+     * user lands here with their username filled in and only has to type
+     * their password.
+     *
+     * @param username the username that was just registered
+     */
+    public void prefillAfterRegistration(String username) {
+        usernameField.setText(username);
+        showSuccess("Account created. Enter your password to log in.");
+        Platform.runLater(passwordField::requestFocus);
+    }
+
     @FXML
     protected void onLoginButtonClick() {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        if (username == null || username.isBlank() || password == null || password.isBlank()) {
+        boolean missingUser = username == null || username.isBlank();
+        boolean missingPassword = password == null || password.isBlank();
+        if (missingUser || missingPassword) {
+            if (missingUser) markInvalid(usernameField);
+            if (missingPassword) markInvalid(passwordField);
+            (missingUser ? usernameField : passwordField).requestFocus();
             showError("Please enter both username and password.");
             return;
         }
@@ -41,6 +77,8 @@ public class LoginController {
             SessionManager.getInstance().setCurrentUser(user);
             routeToDashboard(user);
         } catch (AuthException e) {
+            passwordField.clear();
+            passwordField.requestFocus();
             showError(e.getMessage());
         } catch (IOException e) {
             showError("Could not open the dashboard: " + e.getMessage());
@@ -66,11 +104,31 @@ public class LoginController {
         SceneNavigator.switchTo(usernameField, fxml, title);
     }
 
+    private static void markInvalid(TextInputControl field) {
+        if (!field.getStyleClass().contains(INVALID)) {
+            field.getStyleClass().add(INVALID);
+        }
+    }
+
+    private static void clearInvalid(TextInputControl field) {
+        field.getStyleClass().removeAll(INVALID);
+    }
+
     private void showError(String message) {
-        messageLabel.getStyleClass().removeAll("success");
-        if (!messageLabel.getStyleClass().contains("error")) {
-            messageLabel.getStyleClass().add("error");
+        showMessage(message, "error", "success");
+    }
+
+    private void showSuccess(String message) {
+        showMessage(message, "success", "error");
+    }
+
+    private void showMessage(String message, String addClass, String removeClass) {
+        messageLabel.getStyleClass().removeAll(removeClass);
+        if (!messageLabel.getStyleClass().contains(addClass)) {
+            messageLabel.getStyleClass().add(addClass);
         }
         messageLabel.setText(message);
+        messageLabel.setVisible(true);
+        messageLabel.setManaged(true);
     }
 }
