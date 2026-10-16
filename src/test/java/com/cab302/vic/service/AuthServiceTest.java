@@ -81,6 +81,28 @@ class AuthServiceTest {
     }
 
     @Test
+    void registerRejectsInvalidEmail() {
+        assertThrows(AuthException.class,
+                () -> auth.register("noat", "Strong!Pass1", "No At", "noat.example.com", User.Role.VOLUNTEER),
+                "Email without @ should be rejected");
+        assertThrows(AuthException.class,
+                () -> auth.register("nodomain", "Strong!Pass1", "No Domain", "nodomain@", User.Role.VOLUNTEER),
+                "Email without a domain should be rejected");
+        assertThrows(AuthException.class,
+                () -> auth.register("blank", "Strong!Pass1", "Blank Email", "", User.Role.VOLUNTEER),
+                "Blank email should be rejected");
+        assertEquals(0, userDAO.size(), "Nothing should be saved when the email is invalid");
+    }
+
+    @Test
+    void isEmailValidAcceptsNormalAddresses() {
+        assertTrue(AuthService.isEmailValid("syrine@example.com"));
+        assertTrue(AuthService.isEmailValid("first.last+tag@uni.qut.edu.au"));
+        assertFalse(AuthService.isEmailValid(null));
+        assertFalse(AuthService.isEmailValid("two@@example.com"));
+    }
+
+    @Test
     void rejectedDuplicateRegistrationDoesNotOverwriteExistingUser() throws AuthException {
         User original = auth.register(
                 "maia",

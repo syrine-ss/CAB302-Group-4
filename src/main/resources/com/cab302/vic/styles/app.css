@@ -17,9 +17,31 @@
     -fx-font-size: 13px;
 }
 
+/* Field labels sit above each input. 12px bold, #3d4b63 is 8.8:1 on white. */
 .field-label {
+    -fx-text-fill: #3d4b63;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+/* Helper text that stays visible under a field, e.g. the password rules */
+.hint {
     -fx-text-fill: #556680;
-    -fx-font-size: 11px;
+    -fx-font-size: 12px;
+}
+
+/* Inline error shown directly under the field it belongs to */
+.field-error-text {
+    -fx-text-fill: #c0392b;
+    -fx-font-size: 12px;
+}
+
+.text-field.invalid,
+.password-field.invalid {
+    -fx-border-color: #c0392b;
+    -fx-border-width: 1.5;
+    -fx-border-radius: 3;
+    -fx-background-radius: 3;
 }
 
 .auth-card {
@@ -70,8 +92,9 @@
     -fx-text-fill: #c0392b;
 }
 
+/* #196f3d is 5.7:1 on the page background (old #1e8449 was 4.4:1, below WCAG AA) */
 .success {
-    -fx-text-fill: #1e8449;
+    -fx-text-fill: #196f3d;
 }
 
 .top-bar {
