@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -23,12 +24,32 @@
     </top>
 
     <center>
-        <VBox spacing="12">
+        <VBox spacing="10">
             <padding><Insets top="20" right="24" bottom="20" left="24"/></padding>
 
-            <Label text="Events" styleClass="section-heading"/>
-            <Label text="Sign up for an event, or withdraw before it starts." styleClass="subtitle"/>
-            <ListView fx:id="eventList" VBox.vgrow="ALWAYS"/>
+            <HBox alignment="CENTER_LEFT" spacing="12">
+                <VBox spacing="2">
+                    <Label text="Events" styleClass="section-heading"/>
+                    <Label text="Sign up for an event, or withdraw before it starts." styleClass="subtitle"/>
+                </VBox>
+                <Region HBox.hgrow="ALWAYS"/>
+                <!-- Quick way to see only your own events (finding V3) -->
+                <CheckBox fx:id="myEventsOnly" text="Only show events I've signed up for"
+                          onAction="#onFilterChanged"/>
+            </HBox>
+
+            <!-- Confirms what just happened after sign up / withdraw (finding V4) -->
+            <Label fx:id="statusLabel" styleClass="status-banner" wrapText="true" maxWidth="Infinity"
+                   visible="false" managed="false"/>
+
+            <!-- Cards are laid out in a plain VBox rather than a ListView, so there is no
+                 selection highlight (finding V5) and Tab moves straight between the
+                 buttons on each card (finding V7). -->
+            <ScrollPane fitToWidth="true" VBox.vgrow="ALWAYS" styleClass="events-scroll">
+                <VBox fx:id="eventsBox" spacing="10">
+                    <padding><Insets top="2" right="4" bottom="8" left="2"/></padding>
+                </VBox>
+            </ScrollPane>
         </VBox>
     </center>
 </BorderPane>
