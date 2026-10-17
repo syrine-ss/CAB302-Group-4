@@ -30,7 +30,7 @@ public class CoordinatorDashboardController {
 
     private final EventService eventService = ServiceFactory.getInstance().events();
 
-    /** Set once when the scene is edited; lets the form controller know which event to load. */
+    /** Set once when the scene is edited. Lets a controller know which event to load */
     public static final SimpleObjectProperty<Event> selectedEvent = new SimpleObjectProperty<>();
 
     /**
@@ -77,6 +77,21 @@ public class CoordinatorDashboardController {
     }
 
     @FXML
+    protected void onReviewSelectedEventClick() {
+        Event event = eventList.getSelectionModel().getSelectedItem();
+        if (event == null) {
+            showError("Select an event to review first.");
+            return;
+        }
+        selectedEvent.set(event);
+        try {
+            SceneNavigator.switchTo(welcomeLabel, "event-review.fxml", "Review event");
+        } catch (IOException e) {
+            showError("Could not open the event form: " + e.getMessage());
+        }
+    }
+
+    @FXML
     protected void onLogoutClick() {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
                 "Are you sure you want to log out?", ButtonType.YES, ButtonType.NO);
@@ -108,9 +123,9 @@ public class CoordinatorDashboardController {
                 return;
             }
             VBox box = new VBox(4);
-            box.getStyleClass().add("event-card");
+            box.getStyleClass().add("list-card");
             Label title = new Label(event.getTitle());
-            title.getStyleClass().add("event-title");
+            title.getStyleClass().add("list-title");
             Label meta = new Label(event.getEventDate() + " at " + safe(event.getLocation())
                     + "  |  " + event.getVolunteersNeeded() + " volunteers needed");
             meta.getStyleClass().add("event-meta");
