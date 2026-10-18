@@ -23,7 +23,7 @@ Round 1: heuristic review  ──►  findings  ──►  fixes in PRs  ──�
 | Result | Value |
 |---|---|
 | Heuristic review findings fixed | 16 / 16 |
-| Accessibility checks passed (code-verifiable) | 6 / 14 before, 11 / 14 after |
+| Accessibility checks passed | 11 / 22 before, 19 / 22 after, 0 failing |
 | Success text contrast | 4.36:1 before, 5.7:1 after |
 | Round 2 tasks completed without help | 8 / 8 |
 | Round 2 mean SUS | 88.75 (average is about 68) |

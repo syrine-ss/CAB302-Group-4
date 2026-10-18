@@ -58,9 +58,10 @@ brackets match the review.
 | U13 | Heuristic review (V6) | Empty dashboard is just blank | Explain why it is empty | PR #37 | | ✅ |
 | U14 | Usability test, round 2 (2 participants, 16 Oct) | Check the fixes with real users on tasks T1 to T4 | Run the test plan tasks on the fixed version | [`results-round-2.md`](usability/results-round-2.md) | 8 / 8 tasks completed without help; 2 errors, both in T1; mean SUS 88.75 (average is about 68) | ✅ |
 | U15 | Usability test, round 2 (F1, F2) | One rejected password and one wrong click in T1, both from one participant | Severity 1: no change, but record the target of wrong clicks in future sessions | Noted in `results-round-2.md` | | ✅ |
+| U16 | Accessibility checklist (D3), keyboard check | Focused buttons show no outline: the custom button colours replace JavaFX's focus ring, so keyboard users can't see where they are | Draw a visible outline on focused buttons | `.primary:focused`, `.secondary:focused`, `.danger:focused` in `app.css`, branch `ux/focus-visible` | Checklist D3 ❌ → ✅ | ✅ |
 
-Overall: the 14 checklist items that can be verified from the code went from
-6 passed, 7 failed to 11 passed, 0 failed (see the checklist summary), and in round 2
+Overall: the accessibility checklist went from 11 of 22 passed (9 failed) to
+19 of 22 passed with none failing (see the checklist summary), and in round 2
 both participants completed every volunteer task without help, with a mean SUS of 88.75.
 
 ## Retrospectives
