@@ -156,7 +156,7 @@ public class HoursService {
      */
     public double totalApprovedHours(int userId) {
         return hoursDAO.findByUser(userId).stream()
-                .filter(e -> e.getStatus() == HoursEntry.Status.APPROVED)
+                .filter(HoursEntry::isApproved)
                 .mapToDouble(HoursEntry::getHours)
                 .sum();
     }
