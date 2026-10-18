@@ -130,6 +130,15 @@ public class HoursEntry {
         return status == Status.APPROVED;
     }
 
+    /**
+     * returns whether this hours entry has been rejected.
+     *
+     * @return true if rejected, otherwise false
+     */
+    public boolean isRejected() {
+        return status == Status.REJECTED;
+    }
+
     public void setId(int id) { this.id = id; }
 
     /**
