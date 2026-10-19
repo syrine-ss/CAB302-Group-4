@@ -6,6 +6,7 @@ import com.cab302.vic.model.Event;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.time.Clock;
 
 /**
  * Business logic for creating, editing, and listing events.
@@ -15,13 +16,19 @@ import java.util.Optional;
 public class EventService {
 
     private final EventDAO eventDAO;
+    private final Clock clock;
 
     /**
      * Creates an event service using the specified event data access object
      * @param eventDAO the data access object used to manage event data
      */
     public EventService(EventDAO eventDAO) {
+        this(eventDAO, Clock.systemDefaultZone()); //supplies date to secondary constructor
+    }
+
+    public EventService(EventDAO eventDAO, Clock clock) {
         this.eventDAO = eventDAO;
+        this.clock = clock;
     }
 
     /**
@@ -128,10 +135,10 @@ public class EventService {
         }
     }
 
-    private static void assertNotInPast(String isoDate) throws EventException {
+    private void assertNotInPast(String isoDate) throws EventException {
         try {
             LocalDate date = LocalDate.parse(isoDate);
-            if (date.isBefore(LocalDate.now())) {
+            if (date.isBefore(LocalDate.now(clock))) {
                 throw new EventException("Event date cannot be in the past");
             }
         } catch (java.time.format.DateTimeParseException e) {

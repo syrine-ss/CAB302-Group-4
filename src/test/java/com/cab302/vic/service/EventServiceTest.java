@@ -5,6 +5,10 @@ import com.cab302.vic.model.Event;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneOffset;
+
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,19 +25,27 @@ class EventServiceTest {
     private FakeEventDAO eventDAO;
     private EventService service;
     private static final int COORDINATOR_ID = 42;
+    private static final LocalDate TODAY = LocalDate.of(2026, 10, 9);
 
     @BeforeEach
     void setUp() {
         eventDAO = new FakeEventDAO();
-        service = new EventService(eventDAO);
+
+        Clock fixedClock = Clock.fixed(
+                TODAY.atStartOfDay(ZoneOffset.UTC).toInstant(),
+                ZoneOffset.UTC
+        );
+
+        service = new EventService(eventDAO, fixedClock);
+
     }
 
     private static String futureDate() {
-        return LocalDate.now().plusDays(14).toString();
+        return TODAY.plusDays(14).toString();
     }
 
     private static String pastDate() {
-        return LocalDate.now().minusDays(1).toString();
+        return TODAY.minusDays(1).toString();
     }
 
     // ---------- create ----------
@@ -77,6 +89,21 @@ class EventServiceTest {
                 () -> service.create("No vols", "desc", futureDate(), "09:00", "here", 0, COORDINATOR_ID));
         assertThrows(EventException.class,
                 () -> service.create("No vols", "desc", futureDate(), "09:00", "here", -3, COORDINATOR_ID));
+    }
+
+    @Test
+    void createAcceptsTodaysDate() throws EventException {
+        Event event = service.create(
+                "Today's Event",
+                "Testing today's date",
+                TODAY.toString(),
+                "10:00",
+                "Brisbane",
+                5,
+                COORDINATOR_ID
+        );
+
+        assertEquals(TODAY.toString(), event.getEventDate());
     }
 
     // ---------- update ----------
