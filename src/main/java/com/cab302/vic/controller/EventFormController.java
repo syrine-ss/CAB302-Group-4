@@ -37,12 +37,28 @@ public class EventFormController {
 
     private Event editingEvent;
 
+
+    private static final int DEFAULT_MIN_VOLUNTEERS = 1;
+    private static final int DEFAULT_MAX_VOLUNTEERS = 500;
+    private static final int DEFAULT_VOLUNTEERS = 5;
+
     /**
      * Initialises the event form for coordinators and checks if editing an event or not.
      */
     @FXML
     public void initialize() {
-        volunteersSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 500, 5));
+        configureVolunteerSpinner();
+        configureDatePicker();
+        configureForm();
+    }
+
+    private void configureVolunteerSpinner() {
+        volunteersSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(
+                DEFAULT_MIN_VOLUNTEERS, DEFAULT_MAX_VOLUNTEERS, DEFAULT_VOLUNTEERS)
+        );
+    }
+
+    private void configureDatePicker(){
         // Prevent past dates in the date picker
         datePicker.setDayCellFactory(picker -> new javafx.scene.control.DateCell() {
             @Override
@@ -54,7 +70,9 @@ public class EventFormController {
                 }
             }
         });
+    }
 
+    private void configureForm(){
         editingEvent = CoordinatorDashboardController.selectedEvent.get();
         if (editingEvent == null) {
             headingLabel.setText("Create New Event");
