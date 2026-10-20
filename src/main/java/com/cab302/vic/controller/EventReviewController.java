@@ -237,11 +237,11 @@ public class EventReviewController {
                 } else if (comment == null) {
                     statusMessage.setText("Please enter a comment.");
                 } else if ("Deny".equals(option)) {
-                    String msg = submitDenyOrApproval(signup, comment, signup.getUserId(), false);
+                    String msg = submitDenyOrApproval(comment, signup.getUserId(), false);
                     commentBox.clear();
                     statusMessage.setText(msg);
                 } else if ("Approve".equals(option)) {
-                    String msg = submitDenyOrApproval(signup, comment, signup.getUserId(), true);
+                    String msg = submitDenyOrApproval(comment, signup.getUserId(), true);
                     commentBox.clear();
                     statusMessage.setText(msg);
                 } else {
@@ -311,7 +311,7 @@ public class EventReviewController {
         }
     }
 
-    private String submitDenyOrApproval(Signup signup, String reason, int volunteerId, boolean approved) {
+    private String submitDenyOrApproval(String reason, int volunteerId, boolean approved) {
         try {
             int coordId = coordinator.getId();
 
@@ -334,7 +334,8 @@ public class EventReviewController {
 
         } catch (HoursException e) {
             String action = approved ? "approve" : "deny";
-            return("Could not " + action + " hours entry. " + e.getMessage());
+            showError("Could not " + action + " hours entry. " + e.getMessage());
+            return("Review unsuccessful.");
         }
     }
 

@@ -47,7 +47,7 @@ public final class ServiceFactory {
         }
         this.authService = new AuthService(userDAO);
         this.eventService = new EventService(eventDAO);
-        this.signupService = new SignupService(signupDAO, userDAO, hoursDAO, eventDAO);
+        this.signupService = new SignupService(signupDAO, userDAO, eventDAO);
         this.hoursService = new HoursService(hoursDAO, signupDAO, eventDAO);
     }
 

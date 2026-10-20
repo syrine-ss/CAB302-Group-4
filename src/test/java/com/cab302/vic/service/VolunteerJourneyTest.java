@@ -43,7 +43,7 @@ class VolunteerJourneyTest {
         FakeSignupDAO signupDAO = new FakeSignupDAO();
         FakeHoursDAO hoursDAO = new FakeHoursDAO();
         events = new EventService(eventDAO);
-        signups = new SignupService(signupDAO, userDAO, hoursDAO, eventDAO);
+        signups = new SignupService(signupDAO, userDAO, eventDAO);
         hours = new HoursService(hoursDAO, signupDAO, eventDAO);
     }
 

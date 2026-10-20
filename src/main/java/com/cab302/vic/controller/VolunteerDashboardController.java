@@ -45,7 +45,7 @@ public class VolunteerDashboardController {
 
     private User user;
 
-    // TODO COMMENT
+    /** Set once when the scene is edited. Lets the controller know which event to load */
     public static final SimpleObjectProperty<Event> selectedEvent = new SimpleObjectProperty<>();
 
     /**

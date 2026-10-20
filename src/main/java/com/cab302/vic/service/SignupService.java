@@ -3,7 +3,6 @@ package com.cab302.vic.service;
 import com.cab302.vic.dao.EventDAO;
 import com.cab302.vic.dao.SignupDAO;
 import com.cab302.vic.dao.UserDAO;
-import com.cab302.vic.dao.HoursDAO;
 import com.cab302.vic.model.Event;
 import com.cab302.vic.model.Signup;
 import com.cab302.vic.model.User;
@@ -33,7 +32,6 @@ public class SignupService {
 
     private final SignupDAO signupDAO;
     private UserDAO userDAO;
-    private HoursDAO hoursDAO;
     private final EventDAO eventDAO;
     private final Clock clock;
 
@@ -43,10 +41,9 @@ public class SignupService {
      * @param eventDAO  storage for events, used to check dates and capacity
      * @param userDAO storage for users
      */
-    public SignupService(SignupDAO signupDAO, UserDAO userDAO, HoursDAO hoursDAO, EventDAO eventDAO) {
+    public SignupService(SignupDAO signupDAO, UserDAO userDAO, EventDAO eventDAO) {
         this.signupDAO = signupDAO;
         this.userDAO = userDAO;
-        this.hoursDAO = hoursDAO;
         this.eventDAO = eventDAO;
         this.clock = Clock.systemDefaultZone();
     }
