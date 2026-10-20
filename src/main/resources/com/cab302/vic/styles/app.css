@@ -151,7 +151,7 @@
     -fx-background-color: #eaf1fb;
 }
 
-.review-accordian-button {
+.review-accordion-button {
     -fx-pref-height: 32px;
     -fx-min-height: 32px;
     -fx-background-color: transparent;
@@ -161,7 +161,7 @@
     -fx-cursor: hand;
 }
 
-.review-accordian-button {
+.review-accordion-button {
     -fx-background-color: #eaf1fb;
 }
 
