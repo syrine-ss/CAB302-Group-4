@@ -167,7 +167,6 @@ public class EventReviewController {
             }
         }
 
-
         private void showPendingHoursReview(
                 Signup signup,
                 HBox row,
