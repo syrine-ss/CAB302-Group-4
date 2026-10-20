@@ -1,7 +1,6 @@
 package com.cab302.vic.controller;
 
 import com.cab302.vic.model.Event;
-import com.cab302.vic.model.User;
 import com.cab302.vic.service.*;
 
 import com.cab302.vic.util.SceneNavigator;
@@ -17,7 +16,6 @@ import java.io.IOException;
  */
 public class LogHoursController {
     @FXML private Label headingLabel;
-    @FXML private TextField titleField;
     @FXML private Spinner<Integer> hoursSpinner;
     @FXML private Label messageLabel;
 
@@ -40,11 +38,11 @@ public class LogHoursController {
 
         headingLabel.setText("Log hours for " + loggingEvent.getTitle());
 
-        populateForm(loggingEvent);
+        populateForm();
     }
 
 
-    private void populateForm(Event event) {
+    private void populateForm() {
         hoursSpinner.getValueFactory().setValue(0);
     }
 
@@ -70,7 +68,6 @@ public class LogHoursController {
 
     private void returnToDashboard() {
         VolunteerDashboardController.selectedEvent.set(null);
-        User user = SessionManager.getInstance().getCurrentUser();
 
         try {
             SceneNavigator.switchTo(headingLabel, "volunteer-dashboard.fxml", "Volunteer Dashboard");
