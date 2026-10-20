@@ -243,12 +243,10 @@ public class EventReviewController {
                     String msg = submitDenyOrApproval(comment, signup.getUserId(), false);
                     commentBox.clear();
                     statusMessage.setText(msg);
-                    refreshSignups();
                 } else if ("Approve".equals(option)) {
                     String msg = submitDenyOrApproval(comment, signup.getUserId(), true);
                     commentBox.clear();
                     statusMessage.setText(msg);
-                    refreshSignups();
                 } else {
                     showError("Unable to get review option.");
                 }
