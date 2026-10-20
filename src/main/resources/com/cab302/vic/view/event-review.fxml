@@ -27,7 +27,7 @@
             <Label text="Volunteers" styleClass="section-heading"/>
             <Label text="Review volunteers sign-ups, attendance, and approve or deny hours." styleClass="subtitle"/>
             <ListView fx:id="signupsList" VBox.vgrow="ALWAYS"/>
-<!--            <Button text="Home" onAction="#onHomeClick" styleClass="primary"/>-->
+            <Button fx:id="homeButton" text="Back" onAction="#onHomeClick" styleClass="primary"/>
         </VBox>
     </center>
 </BorderPane>

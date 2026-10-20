@@ -104,6 +104,26 @@ public class SqliteHoursDAO implements HoursDAO {
         }
     }
 
+    /**
+     * Find the hours entry for a user for a specific event using the table. Returns most
+     * recent first (descending order) in case of relogging hours.
+     * @param eventId event id
+     * @param userId user id
+     * @return List of the hours entry
+     */
+    @Override
+    public List<HoursEntry> findByEventAndUser(int eventId, int userId) {
+        return list(
+                "SELECT * FROM hours_logged " +
+                        "WHERE event_id = ? AND user_id = ? " +
+                        "ORDER BY id DESC",
+                ps -> {
+                    ps.setInt(1, eventId);
+                    ps.setInt(2, userId);
+                }
+        );
+    }
+
     // --- helpers ---
 
     private List<HoursEntry> list(String sql, SqlBinder binder) {

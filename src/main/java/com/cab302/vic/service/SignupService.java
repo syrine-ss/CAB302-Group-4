@@ -83,13 +83,27 @@ public class SignupService {
     }
 
     /**
-     * Get a signed-up volunteer as a user from a signup
+     * Find a volunteer as a user from a signup.
      * @param signup a signup
      * @return user
      */
     public User getVolunteerFromSignup(Signup signup) throws SignupException{
-        return userDAO.findById(signup.getId())
-                .orElseThrow(() -> new SignupException("Event not found"));
+        return userDAO.findById(signup.getUserId())
+                .orElseThrow(() -> new SignupException("User not found"));
+    }
+
+    /**
+     *  Returns whether a signup entry has been marked as attended for an event
+     * @param signup a signup
+     * @param event an event
+     * @return true if attended
+     */
+    public boolean signupAttended(Signup signup, Event event) {
+        int eventId = event.getId();
+        int userId = signup.getUserId();
+        return signupDAO.find(eventId, userId)
+                .map(Signup::isAttended)
+                .orElse(false);
     }
 
     /**

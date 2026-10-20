@@ -1,12 +1,10 @@
 package com.cab302.vic.controller;
 
 import com.cab302.vic.model.Event;
+import com.cab302.vic.model.HoursEntry;
 import com.cab302.vic.model.Signup;
 import com.cab302.vic.model.User;
-import com.cab302.vic.service.EventService;
-import com.cab302.vic.service.ServiceFactory;
-import com.cab302.vic.service.SignupException;
-import com.cab302.vic.service.SignupService;
+import com.cab302.vic.service.*;
 import com.cab302.vic.util.EventDisplay;
 import com.cab302.vic.util.SceneNavigator;
 import com.cab302.vic.util.SessionManager;
@@ -43,10 +41,11 @@ public class VolunteerDashboardController {
 
     private final EventService eventService = ServiceFactory.getInstance().events();
     private final SignupService signupService = ServiceFactory.getInstance().signups();
+    private final HoursService hoursService = ServiceFactory.getInstance().hours();
 
     private User user;
 
-    /** Set once when the scene is edited. Lets a controller know which event to load */
+    /** Set once when the scene is edited. Lets the controller know which event to load */
     public static final SimpleObjectProperty<Event> selectedEvent = new SimpleObjectProperty<>();
 
     /**
@@ -81,6 +80,16 @@ public class VolunteerDashboardController {
                 }
             }
         });
+    }
+
+    @FXML
+    protected void onLogHoursClick(Event event) {
+        selectedEvent.set(event);
+        try {
+            SceneNavigator.switchTo(welcomeLabel, "log-hours.fxml", "Log hours");
+        } catch (IOException e) {
+            new Alert(Alert.AlertType.ERROR, "Could not open log hours form: " + e.getMessage()).showAndWait();
+        }
     }
 
     /** Rebuilds the event cards so spot counts and buttons reflect the latest signups. */
@@ -177,7 +186,7 @@ public class VolunteerDashboardController {
     private HBox card(Event event) {
         VBox details = new VBox(4);
         Label title = new Label(event.getTitle());
-        title.getStyleClass().add("event-title");
+        title.getStyleClass().add("list-title");
         String location = safe(event.getLocation());
         Label when = new Label(location.isEmpty()
                 ? EventDisplay.when(event)
@@ -198,9 +207,16 @@ public class VolunteerDashboardController {
         details.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(details, Priority.ALWAYS);
 
+        Node logHoursButton = logHoursActionFor(event);
+
         HBox card = new HBox(12, details, actionFor(event));
+
+        if (logHoursButton != null) {
+            card.getChildren().add(logHoursButton);
+        }
+
         card.setAlignment(Pos.CENTER_LEFT);
-        card.getStyleClass().add("event-card");
+        card.getStyleClass().add("list-card");
         return card;
     }
 
@@ -239,6 +255,38 @@ public class VolunteerDashboardController {
         signUp.setOnAction(e -> signUp(event));
         return signUp;
     }
+
+    private Node logHoursActionFor(Event event) {
+
+        if (!signupService.hasPassed(event)) {
+            return null;
+        }
+
+        Optional<Signup> signup = signupService.signupsForEvent(event.getId()).stream()
+                .filter(s -> s.getUserId() == user.getId())
+                .findFirst();
+
+        if (signup.isEmpty() || !signupService.signupAttended(signup.get(), event)) {
+            return null;
+        }
+
+        Optional<HoursEntry> latestEntry = hoursService.latestHoursForEvent(
+                event.getId(),
+                user.getId()
+        );
+
+        if (latestEntry.isPresent() && latestEntry.get().getStatus() == HoursEntry.Status.APPROVED) {
+            return null;
+        }
+
+        Button logHours = new Button("Log hours");
+        logHours.getStyleClass().add("primary");
+        logHours.setAccessibleText("Log hours for " + event.getTitle());
+        logHours.setOnAction(e -> onLogHoursClick(event));
+
+        return logHours;
+    }
+
 
     private static Label status(String text) {
         Label label = new Label(text);

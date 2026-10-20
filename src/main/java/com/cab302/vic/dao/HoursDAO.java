@@ -42,4 +42,12 @@ public interface HoursDAO {
      * @return true if update was successful
      */
     boolean updateReview(HoursEntry entry);
+
+    /**
+     * Find the hours entry for a user for a specific event.
+     * @param eventId event id
+     * @param userId user id
+     * @return List of the hours entry
+     */
+    List<HoursEntry> findByEventAndUser(int eventId, int userId);
 }
