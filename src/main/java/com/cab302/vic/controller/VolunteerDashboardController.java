@@ -10,6 +10,7 @@ import com.cab302.vic.service.SignupService;
 import com.cab302.vic.util.EventDisplay;
 import com.cab302.vic.util.SceneNavigator;
 import com.cab302.vic.util.SessionManager;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -44,6 +45,9 @@ public class VolunteerDashboardController {
     private final SignupService signupService = ServiceFactory.getInstance().signups();
 
     private User user;
+
+    /** Set once when the scene is edited. Lets a controller know which event to load */
+    public static final SimpleObjectProperty<Event> selectedEvent = new SimpleObjectProperty<>();
 
     /**
      * Initialises the welcome message and events for the (volunteer) user on
