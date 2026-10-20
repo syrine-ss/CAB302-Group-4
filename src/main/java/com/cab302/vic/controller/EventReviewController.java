@@ -84,15 +84,14 @@ public class EventReviewController {
             Label hours = createHoursLabel(entry);
             hours.setAlignment(Pos.CENTER_RIGHT);
 
-            // Configure the row with the volunteer's name and hours.
+            // all entries will list the name and hours
             showUpcomingSignup(row, name, hours);
 
-            // Add attendance controls or the pending-hours review UI.
+            // if event has passed, mark attendance and review form can be shown
             if (signupService.hasPassed(reviewingEvent)) {
                 showPastSignup(signup, entry, row, mainContainer);
             }
 
-            // Add the completed row exactly once.
             if (!mainContainer.getChildren().contains(row)) {
                 mainContainer.getChildren().add(row);
             }
@@ -121,12 +120,11 @@ public class EventReviewController {
         private Label createHoursLabel(HoursEntry entry) {
             Label hours;
 
-            if (entry == null || entry.getHours() == 0) {
+            if (entry == null || entry.getHours() == 0 || entry.getStatus() == HoursEntry.Status.REJECTED) {
                 hours = new Label("0 hours logged");
             } else {
                 hours = new Label(
-                        entry.getHours() + " hours "
-                                + (entry.isPending() ? "pending" : "logged"));
+                        entry.getHours() + " hours " + (entry.isPending() ? "pending" : "logged"));
             }
 
             hours.getStyleClass().add("signup-hours");
@@ -154,13 +152,18 @@ public class EventReviewController {
                     attendance
             );
 
+            // if no approved hours yet, can mark attendance or review pending hours
             if (entry == null || entry.getHours() == 0 || !(entry.getStatus() == HoursEntry.Status.APPROVED)) {
 
-                HBox attendanceOptions = markAttendanceButton(signup);
-                row.getChildren().add(attendanceOptions);
-
-            } else if (entry.isPending()) {
-                showPendingHoursReview(signup, row, mainContainer);
+                // if no hours entry, can mark attendance
+                if (entry == null) {
+                    HBox attendanceOptions = markAttendanceButton(signup);
+                    row.getChildren().add(attendanceOptions);
+                }
+                // if pending hours show the review button instead - need this check in case of rejected entries
+                else if (entry.isPending()) {
+                    showPendingHoursReview(signup, row, mainContainer);
+                }
             }
         }
 
@@ -176,6 +179,7 @@ public class EventReviewController {
 
             VBox hiddenContent = hiddenReview(signup);
 
+            // when review is clicked, a hidden form shows
             reviewButton.setOnAction(event -> {
                 boolean expand = !hiddenContent.isVisible();
 

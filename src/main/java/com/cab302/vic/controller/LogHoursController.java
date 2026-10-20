@@ -5,6 +5,7 @@ import com.cab302.vic.service.*;
 
 import com.cab302.vic.util.SceneNavigator;
 import com.cab302.vic.util.SessionManager;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 
@@ -28,7 +29,7 @@ public class LogHoursController {
     @FXML
     public void initialize() {
         hoursSpinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 500, 5));
-        hoursSpinner.setEditable(true);
+
         loggingEvent = VolunteerDashboardController.selectedEvent.get();
 
         if (loggingEvent == null) {
@@ -44,6 +45,15 @@ public class LogHoursController {
 
     private void populateForm() {
         hoursSpinner.getValueFactory().setValue(0);
+        hoursSpinner.setEditable(true);
+        hoursSpinner.setEditable(true);
+
+        TextField editor = hoursSpinner.getEditor();
+
+        Platform.runLater(() -> {
+            editor.selectAll();
+            editor.requestFocus();
+        });
     }
 
 
