@@ -2,8 +2,10 @@ package com.cab302.vic.service;
 
 import com.cab302.vic.dao.EventDAO;
 import com.cab302.vic.dao.SignupDAO;
+import com.cab302.vic.dao.UserDAO;
 import com.cab302.vic.model.Event;
 import com.cab302.vic.model.Signup;
+import com.cab302.vic.model.User;
 
 import java.time.Clock;
 import java.time.LocalDate;
@@ -29,6 +31,7 @@ import java.util.List;
 public class SignupService {
 
     private final SignupDAO signupDAO;
+    private UserDAO userDAO;
     private final EventDAO eventDAO;
     private final Clock clock;
 
@@ -36,9 +39,13 @@ public class SignupService {
      * Creates the service using the system clock.
      * @param signupDAO storage for signups
      * @param eventDAO  storage for events, used to check dates and capacity
+     * @param userDAO storage for users
      */
-    public SignupService(SignupDAO signupDAO, EventDAO eventDAO) {
-        this(signupDAO, eventDAO, Clock.systemDefaultZone());
+    public SignupService(SignupDAO signupDAO, UserDAO userDAO, EventDAO eventDAO) {
+        this.signupDAO = signupDAO;
+        this.userDAO = userDAO;
+        this.eventDAO = eventDAO;
+        this.clock = Clock.systemDefaultZone();
     }
 
     /**
@@ -73,6 +80,30 @@ public class SignupService {
         }
         Signup signup = new Signup(0, eventId, userId, false, today().toString());
         return signupDAO.create(signup);
+    }
+
+    /**
+     * Find a volunteer as a user from a signup.
+     * @param signup a signup
+     * @return user
+     */
+    public User getVolunteerFromSignup(Signup signup) throws SignupException{
+        return userDAO.findById(signup.getUserId())
+                .orElseThrow(() -> new SignupException("User not found"));
+    }
+
+    /**
+     *  Returns whether a signup entry has been marked as attended for an event
+     * @param signup a signup
+     * @param event an event
+     * @return true if attended
+     */
+    public boolean signupAttended(Signup signup, Event event) {
+        int eventId = event.getId();
+        int userId = signup.getUserId();
+        return signupDAO.find(eventId, userId)
+                .map(Signup::isAttended)
+                .orElse(false);
     }
 
     /**

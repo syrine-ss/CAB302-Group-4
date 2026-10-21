@@ -3,6 +3,7 @@ package com.cab302.vic.service;
 import com.cab302.vic.dao.FakeEventDAO;
 import com.cab302.vic.dao.FakeHoursDAO;
 import com.cab302.vic.dao.FakeSignupDAO;
+import com.cab302.vic.dao.FakeUserDAO;
 import com.cab302.vic.model.Event;
 import com.cab302.vic.model.HoursEntry;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,10 +39,11 @@ class VolunteerJourneyTest {
     @BeforeEach
     void setUp() {
         FakeEventDAO eventDAO = new FakeEventDAO();
+        FakeUserDAO userDAO = new FakeUserDAO();
         FakeSignupDAO signupDAO = new FakeSignupDAO();
         FakeHoursDAO hoursDAO = new FakeHoursDAO();
         events = new EventService(eventDAO);
-        signups = new SignupService(signupDAO, eventDAO);
+        signups = new SignupService(signupDAO, userDAO, eventDAO);
         hours = new HoursService(hoursDAO, signupDAO, eventDAO);
     }
 
