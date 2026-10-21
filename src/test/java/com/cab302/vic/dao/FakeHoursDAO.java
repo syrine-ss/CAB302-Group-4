@@ -49,4 +49,14 @@ public class FakeHoursDAO implements HoursDAO {
     public int size() {
         return entries.size();
     }
+
+    @Override
+    public List<HoursEntry> findByEventAndUser(int eventId, int userId) {
+        return entries.stream()
+                .filter(e -> e.getEventId() == eventId)
+                .filter(e -> e.getUserId() == userId)
+                .sorted(Comparator.comparingInt(HoursEntry::getId).reversed())
+                .toList();
+    }
+
 }

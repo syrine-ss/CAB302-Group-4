@@ -11,6 +11,7 @@ import java.time.Clock;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Business rules for volunteers logging hours and coordinators reviewing them.
@@ -60,6 +61,18 @@ public class HoursService {
         this.signupDAO = signupDAO;
         this.eventDAO = eventDAO;
         this.clock = clock;
+    }
+
+    /**
+     * Gets the most recent hours entry for a volunteer and event.
+     * @param eventId the event ID
+     * @param userId  the volunteer ID
+     * @return the most recent entry, or empty if none exists
+     */
+    public Optional<HoursEntry> latestHoursForEvent(int eventId, int userId) {
+        return hoursDAO.findByEventAndUser(eventId, userId)
+                .stream()
+                .findFirst();
     }
 
     /**
