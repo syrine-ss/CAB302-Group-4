@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.cab302.vic.controller.LogHoursController"
+           styleClass="root">
+
+    <VBox maxHeight="240" maxWidth="380" spacing="10" styleClass="auth-card">
+        <padding><Insets top="24" right="24" bottom="24" left="24"/></padding>
+
+        <Label fx:id="headingLabel" text="Create New Event" styleClass="title"/>
+
+        <Label text="Please enter the hours volunteered:" styleClass="field-label"/>
+        <Spinner fx:id="hoursSpinner" editable="true" maxWidth="Infinity"/>
+
+        <Label fx:id="messageLabel" wrapText="true"/>
+
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Cancel" onAction="#onCancelClick" styleClass="secondary"/>
+            <Button text="Save" onAction="#onSaveClick" defaultButton="true" styleClass="primary"/>
+        </HBox>
+    </VBox>
+</StackPane>
+
