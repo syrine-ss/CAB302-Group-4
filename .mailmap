@@ -1,11 +1,19 @@
-# Maps the various git identities used during the project to one canonical
-# name per team member, so `git shortlog` reports contributions accurately.
+# .mailmap
+#
+# Maps the git identities used during the project to one canonical name per
+# team member, so `git shortlog` and `git log` report contributions accurately.
 # Several members committed from both the GitHub web interface and a local
-# terminal, which produced different author names for the same person.
+# terminal, which recorded a different author name, and sometimes a different
+# email, for the same person.
+#
+# Format: Canonical Name <canonical email> <email used in the commit>
 
 Syrine Shraim <b.shraim2004@gmail.com> <b.shraim2004@gmail.com>
+Maia Sherwin <maiasherwin@gmail.com> <maiasherwin@gmail.com>
 Ryan Francis <ryanfrancismail@gmail.com> <ryanfrancismail@gmail.com>
 Ryan Francis <ryanfrancismail@gmail.com> <132410116+ryanstacks@users.noreply.github.com>
+Sam Turner <samturnerap@gmail.com> <samturnerap@gmail.com>
+Sam Turner <samturnerap@gmail.com> <sam@Admins-MacBook-Pro.local>
+Peniel Desta <129389717+Pdesta@users.noreply.github.com> <129389717+Pdesta@users.noreply.github.com>
 Aedan Manche <am.university@outlook.com> <am.university@outlook.com>
 Bailey Musgrave <baileym007@hotmail.com> <baileym007@hotmail.com>
-Maia Sherwin <maiasherwin@gmail.com> <maiasherwin@gmail.com>
