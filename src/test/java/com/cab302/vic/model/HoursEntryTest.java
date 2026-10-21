@@ -58,4 +58,37 @@ class HoursEntryTest {
         assertThrows(IllegalArgumentException.class,
                 () -> HoursEntry.Status.fromDb("MAYBE"));
     }
+
+    @Test
+    void isRejectedOnlyReturnsTrueForRejectedEntries() {
+        HoursEntry entry = new HoursEntry(
+                1, 10, 20, 5.0,
+                HoursEntry.Status.PENDING,
+                "", "2026-10-09"
+        );
+
+        assertFalse(entry.isRejected());
+
+        entry.review(HoursEntry.Status.REJECTED, "Incorrect hours");
+        assertTrue(entry.isRejected());
+
+        entry.review(HoursEntry.Status.APPROVED, "");
+        assertFalse(entry.isRejected());
+    }
+
+    @Test
+    void isApprovedOnlyReturnsTrueForApprovedEntries() {
+        HoursEntry entry = new HoursEntry(
+                1, 10, 20, 5.0,
+                HoursEntry.Status.PENDING,
+                "", "2026-10-09"
+                );
+        assertFalse(entry.isApproved());
+
+        entry.review(HoursEntry.Status.APPROVED,"");
+        assertTrue(entry.isApproved());
+
+        entry.review(HoursEntry.Status.REJECTED,"Incorrect hours");
+        assertFalse(entry.isApproved());
+    }
 }

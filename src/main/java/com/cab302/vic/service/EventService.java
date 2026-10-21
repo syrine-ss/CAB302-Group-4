@@ -26,6 +26,13 @@ public class EventService {
         this(eventDAO, Clock.systemDefaultZone()); //supplies date to secondary constructor
     }
 
+    /**
+     * Creates an EventService using an injected clock for
+     * deterministic date validation and testing.
+     *
+     * @param eventDAO the data access object for events
+     * @param clock the clock used for date validation
+     */
     public EventService(EventDAO eventDAO, Clock clock) {
         this.eventDAO = eventDAO;
         this.clock = clock;

@@ -97,7 +97,8 @@ public class HoursService {
             throw new HoursException("You can only log hours for events you were marked as attending");
         }
         boolean alreadyActive = hoursDAO.findByUser(userId).stream()
-                .anyMatch(e -> e.getEventId() == eventId && e.getStatus() != HoursEntry.Status.REJECTED);
+                .anyMatch(e -> e.getEventId() == eventId
+                && !e.isRejected());
         if (alreadyActive) {
             throw new HoursException("You have already logged hours for this event");
         }
@@ -169,7 +170,7 @@ public class HoursService {
      */
     public double totalApprovedHours(int userId) {
         return hoursDAO.findByUser(userId).stream()
-                .filter(e -> e.getStatus() == HoursEntry.Status.APPROVED)
+                .filter(HoursEntry::isApproved)
                 .mapToDouble(HoursEntry::getHours)
                 .sum();
     }

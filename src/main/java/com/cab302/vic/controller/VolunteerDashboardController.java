@@ -275,7 +275,7 @@ public class VolunteerDashboardController {
                 user.getId()
         );
 
-        if (latestEntry.isPresent() && latestEntry.get().getStatus() == HoursEntry.Status.APPROVED) {
+        if (latestEntry.isPresent() && latestEntry.get().isApproved()) {
             return null;
         }
 

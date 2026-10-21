@@ -119,6 +119,26 @@ public class HoursEntry {
      *
      * @param id the new database id
      */
+
+
+    /**
+     * Returns whether this hours entry has been approved.
+     *
+     * @return true if the entry is approved, otherwise false
+     */
+    public boolean isApproved() {
+        return status == Status.APPROVED;
+    }
+
+    /**
+     * returns whether this hours entry has been rejected.
+     *
+     * @return true if rejected, otherwise false
+     */
+    public boolean isRejected() {
+        return status == Status.REJECTED;
+    }
+
     public void setId(int id) { this.id = id; }
 
     /**

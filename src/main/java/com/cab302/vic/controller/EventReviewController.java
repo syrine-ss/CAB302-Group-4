@@ -120,7 +120,7 @@ public class EventReviewController {
         private Label createHoursLabel(HoursEntry entry) {
             Label hours;
 
-            if (entry == null || entry.getHours() == 0 || entry.getStatus() == HoursEntry.Status.REJECTED) {
+            if (entry == null || entry.getHours() == 0 || entry.isRejected()) {
                 hours = new Label("0 hours logged");
             } else {
                 hours = new Label(
@@ -153,7 +153,7 @@ public class EventReviewController {
             );
 
             // if no approved hours yet, can mark attendance or review pending hours
-            if (entry == null || entry.getHours() == 0 || !(entry.getStatus() == HoursEntry.Status.APPROVED)) {
+            if (entry == null || entry.getHours() == 0 || !entry.isApproved()) {
 
                 // if no hours entry, can mark attendance
                 if (entry == null) {
