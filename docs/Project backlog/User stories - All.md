@@ -11,49 +11,49 @@ the product works without it), **Could** (desirable if time allows).
 ---
 
 ## US-01 — User Creates Account
-**Priority:** Must · **Author:** Maia
+**Priority:** Must · **Author:** Sam
 
-As a user, I want to be able to create an account so I can use the application.
+As a user, I want to be able to create an account so I can use the application. 
 
-Acceptance criteria:
-- Clearly visible sign-up button in a predictable location
-- Account creation screen with role selection (coordinator, volunteer)
-- Sign-up button replaced with username once the account is created / logged in
-- Password requirements: at least 8 characters, 1 capital letter, 1 special character
-- Success notification after successful account creation
-- Account details inserted into the database
+Acceptance criteria: 
+
+- Have a clearly visible sign-up button in a predictable location 
+- Traditional account creation screen with role selection (coordinator, volunteer) 
+- Sign-up button replaced with username once account created/logged in 
+- Password requirements, at least 8 characters, 1 capital letter, and 1 special character. 
+- Success notification after successful account creation 
+- Account details inserted into database 
 
 ---
 
 ## US-02 — Volunteer Manages Profile
-**Priority:** Should · **Author:** Maia
+**Priority:** Should · **Author:** Sam
 
-As a logged-in volunteer, I want to be able to manage my profile so that interested
-coordinators can find me.
+As a logged-in volunteer, I want to be able to manage my profile so that coordinators interested can find me. 
 
-Acceptance criteria:
-- Profile screen accessible by clicking the name in the upper right corner
-- Separate boxes for skills, areas of interest, and contact information
-- Input fields for each skill / area of interest to be listed
-- Input field for contact information with an edit button
-- Success notification on successful update of fields
-- Modified fields updated in the database
+Acceptance criteria: 
+
+- Profile screen accessible from clicking on name in upper right corner 
+- Separate box for skills, areas of interest and contact information 
+- Input fields for each box for each skill/area of interest to be listed 
+- Input field for contact information with edit button 
+- Success notification upon successful update of fields 
+- Modified fields updated in database 
 
 ---
 
 ## US-03 — Coordinator Creates Event
-**Priority:** Must · **Author:** Maia
+**Priority:** Must · **Author:** Sam
 
-As a logged-in coordinator, I want to be able to create an event so I can acquire and
-manage volunteers.
+As a logged in coordinator, I want to be able to create an event so I can acquire and manage volunteers. 
 
-Acceptance criteria:
-- Event creation button clearly visible in the upper right corner
-- Input fields for each event detail: title, description, date, time, location, and
-  number of volunteers needed
-- Create event button below the input fields
-- Success notification on successful event creation
-- Event details inserted into the database
+Acceptance criteria: 
+
+- Event creation button clearly visible in upper right corner 
+- Input fields for each event-detail including title, description, date, time, location, and number of volunteers needed 
+- Create event button below input fields 
+- Success notification upon successful event creation 
+- Event details inserted into database 
 
 ---
 
