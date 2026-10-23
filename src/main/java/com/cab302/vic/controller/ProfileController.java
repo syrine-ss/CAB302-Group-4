@@ -41,6 +41,7 @@ public class ProfileController {
     private List<Event> past = new ArrayList<>();
 
     protected final User user =  SessionManager.getInstance().getCurrentUser();
+    protected User.Role userRole = user.getRole();
 
     /**
      * Initialise the profile page.
@@ -51,12 +52,9 @@ public class ProfileController {
             return;
         }
 
-        System.out.println("ProfileController initialized");
-        System.out.println("Current user: " + user.getFullName());
-
         List<Event> allEvents;
 
-        if (user.getRole() == User.Role.VOLUNTEER) {
+        if (userRole == User.Role.VOLUNTEER) {
             allEvents = eventService.findAll();
 
             current = EventDisplay.upcoming(allEvents, signupService::hasPassed).stream()
@@ -70,7 +68,7 @@ public class ProfileController {
                     .toList();
         }
 
-        else if (user.getRole() == User.Role.COORDINATOR) {
+        else {
             allEvents = eventService.findByCoordinator(user.getId());
 
             current = EventDisplay.upcoming(allEvents, signupService::hasPassed);
@@ -93,16 +91,30 @@ public class ProfileController {
         VBox nameBox = createInfoItem("Name", user.getFullName());
 
         VBox emailBox = createInfoItem("Email", user.getEmail());
-
-        double total = hoursService.totalApprovedHours(user.getId());
-
-        VBox hoursBox = createInfoItem("Total approved hours", String.valueOf(total));
-
         HBox.setHgrow(nameBox, Priority.ALWAYS);
         HBox.setHgrow(emailBox, Priority.ALWAYS);
-        HBox.setHgrow(hoursBox, Priority.ALWAYS);
 
-        userInfo.getChildren().addAll(nameBox, emailBox, hoursBox);
+        userInfo.getChildren().addAll(nameBox, emailBox);
+
+        // if volunteer - display total hours
+        if(userRole == User.Role.VOLUNTEER) {
+            double total = hoursService.totalApprovedHours(user.getId());
+
+            VBox hoursBox = createInfoItem("Total approved hours", String.valueOf(total));
+            HBox.setHgrow(hoursBox, Priority.ALWAYS);
+            userInfo.getChildren().add(hoursBox);
+        }
+
+        // if coordinator - display amount of events hosted
+        if(userRole == User.Role.COORDINATOR) {
+            int total = eventService.findByCoordinator(user.getId()).size();
+
+            VBox eventBox = createInfoItem("Total events hosted", String.valueOf(total));
+            HBox.setHgrow(eventBox, Priority.ALWAYS);
+            userInfo.getChildren().add(eventBox);
+        }
+
+
     }
 
     private VBox createInfoItem(String heading, String value) {
@@ -137,7 +149,7 @@ public class ProfileController {
 
         current.forEach(event ->
                 currentEvents.getChildren().add(
-                        volunteerCard(event)
+                        card(event)
                 )
         );
     }
@@ -153,15 +165,11 @@ public class ProfileController {
             );
             return;
         }
-
-        past.forEach(event ->
-                pastEvents.getChildren().add(
-                        volunteerCard(event)
-                )
-        );
+        
+        past.forEach(event ->pastEvents.getChildren().add(card(event)));
     }
 
-    private HBox volunteerCard(Event event) {
+    private HBox card(Event event) {
         Label title = new Label(event.getTitle());
         title.getStyleClass().add("list-title");
         title.setWrapText(true);
@@ -171,28 +179,42 @@ public class ProfileController {
         details.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(details, Priority.ALWAYS);
 
-        HoursEntry entry = (user == null)
-                ? null
-                : hoursService.latestHoursForEvent(event.getId(), user.getId()
-        ).orElse(null);
-
-        Label hoursAmount = displayHours(entry);
-
-        HBox card = new HBox(12, details, hoursAmount);
+        HBox card = new HBox(12, details);
         card.setAlignment(Pos.CENTER_LEFT);
         card.getStyleClass().add("list-card");
         card.setMaxWidth(Double.MAX_VALUE);
 
+        if (userRole == User.Role.VOLUNTEER) {
+            HoursEntry entry = (user == null)
+                    ? null
+                    : hoursService.latestHoursForEvent(event.getId(), user.getId()
+            ).orElse(null);
+
+            Label hoursAmount = displayHours(entry);
+            hoursAmount.getStyleClass().add("event-meta");
+
+            card.getChildren().add(hoursAmount);
+        }
+
+        else {
+            int signupCount = signupService.spotsFilled(event);
+
+            Label volunteerCount = new Label(signupCount + " volunteer(s)");
+            volunteerCount.getStyleClass().add("event-meta");
+
+            card.getChildren().add(volunteerCount);
+        }
         return card;
     }
 
     private Label displayHours(HoursEntry entry) {
         Label hours;
 
-        if (entry == null || entry.getHours() == 0
-                || entry.isRejected()) {
+        if (entry == null || entry.getHours() == 0 || entry.isRejected()) {
             hours = new Label("0 hours logged");
-        } else {
+        }
+
+        else {
             hours = new Label(
                     entry.getHours() + " hours " + (entry.isPending()
                             ? "pending" : "logged")
@@ -222,19 +244,11 @@ public class ProfileController {
 
     @FXML
     private void onBackClicked() {
-        if(user.getRole() == User.Role.COORDINATOR){
+        if (userRole == User.Role.COORDINATOR) {
             returnToControllerDashboard();
         }
-        else if (user.getRole() == User.Role.VOLUNTEER) {
+        else{
             returnToVolunteerDashboard();
-        }
-        else {
-            SessionManager.getInstance().clear();
-            try {
-                SceneNavigator.switchTo(homeButton, "login-view.fxml", "Volunteer Impact Coordinator");
-            } catch (IOException e) {
-                showError("Could not return to home.");
-            }
         }
     }
 
