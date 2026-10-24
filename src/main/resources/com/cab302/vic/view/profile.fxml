@@ -93,7 +93,7 @@
         <HBox alignment="CENTER_LEFT">
             <padding><Insets top="20" right="24" bottom="20" left="24"/></padding>
 
-            <Button fx:id="homeButton" text="Back" onAction="#onBackClicked" styleClass="logout-button"/>
+            <Button fx:id="homeButton" text="Back" onAction="#onBackClicked" styleClass="primary"/>
         </HBox>
     </bottom>
 
