@@ -10,3 +10,4 @@ Thumbs.db
 *.db-journal
 *.log
 /docs/Javadoc/
+*.sqlite

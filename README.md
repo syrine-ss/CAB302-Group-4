@@ -9,50 +9,69 @@ Built for CAB302 Semester 2, 2026 under the theme "Technology for Sustainable Fu
 
 ## Where to find things
 
-A map of the assessment criteria to the evidence in this repository.
+A map of the Submission 2 criteria to the evidence. Every path below is relative to the
+root of the submission zip.
 
-### Agile planning
+### Files added to the submission zip (not in the repository)
 
-| Evidence | Path |
+| File | What it is |
 |---|---|
-| Product backlog: 23 user stories, acceptance criteria, MoSCoW priorities | `docs/Project backlog/User stories - All.md` |
-| How the backlog was built, and what changed between drafts and final | `docs/Project backlog/README.md` |
-| Individual story drafts (iteration evidence) | `docs/Project backlog/User Stories - Ryan.txt`, `docs/Project backlog/User Stories - Aedan.txt` |
-| Sprint 1 plan, release plan, risk register, and week 9 revision | `docs/planning/sprint-and-release-plan.md` |
-| Project brief and requirements | `docs/project-brief.md`, `docs/requirements.md` |
-| Meeting minutes | `docs/Minutes & Notes/` |
-| Project management board | Trello (export included in the submission zip) |
+| `git-shortlog.txt` | Commits per team member (`git shortlog --summary --numbered --all --no-merges`) |
+| `git-log.txt` | Full commit history with author, date and message |
+| Trello export | Project management board export |
+| `docs/Javadoc/index.html` | Generated Javadoc pages (`mvn javadoc:javadoc`), also downloadable as the `javadoc` artifact from every CI run |
 
 ### Object-oriented design
 
 | Evidence | Path |
 |---|---|
-| Class diagram (layered, colour-coded by package) | `docs/design/class-diagram.png` |
-| Written design rationale: OO principles, patterns, known limitations | `docs/design/oo-design-notes.md` |
-| MVC controllers | `src/main/java/com/cab302/vic/controller/` |
-| Business rules and validation | `src/main/java/com/cab302/vic/service/` |
+| Patterns introduced by refactoring, with before and after | `docs/refactoring-and-patterns.md` |
+| One write-up per later refactor (Clock injection, HoursEntry encapsulation, extract method) | `docs/Refactors/` |
+| Factory (held as a Singleton) | `src/main/java/com/cab302/vic/service/ServiceFactory.java` |
+| Builder | `src/main/java/com/cab302/vic/model/Event.java` (`Event.Builder`) |
+| Dependency Injection (constructor) | `src/main/java/com/cab302/vic/service/EventService.java` (`Clock`), and every service taking its DAOs |
 | DAO interfaces and SQLite implementations | `src/main/java/com/cab302/vic/dao/` |
-| Domain model | `src/main/java/com/cab302/vic/model/` |
-| Low-fidelity UI sketches | `docs/design/low-fidelity/` |
-| Mid-fidelity UI mockups | `docs/design/mid-fidelity/` |
+| MVC: FXML views and controllers | `src/main/resources/com/cab302/vic/view/`, `src/main/java/com/cab302/vic/controller/` |
+| Class diagram and design rationale | `docs/design/class-diagram.png`, `docs/design/oo-design-notes.md` |
 
-### Test-driven development
+### Continuous integration and build
 
 | Evidence | Path |
 |---|---|
-| Service-level behaviour tests | `src/test/java/com/cab302/vic/service/` |
-| Password hashing tests | `src/test/java/com/cab302/vic/util/PasswordHasherTest.java` |
-| Model tests | `src/test/java/com/cab302/vic/model/` |
-| Test doubles: in-memory DAOs that isolate the database | `src/test/java/com/cab302/vic/dao/` |
+| GitHub Actions workflow: compile, test, coverage, JAR with the build script, launch test, Javadoc | `.github/workflows/ci.yml` |
+| Build scripts | `build.sh`, `build.ps1`, `docs/build-and-run.md` |
+| Javadoc configuration | `pom.xml` (`maven-javadoc-plugin`) |
+| Branching workflow: feature branches, reviewed pull requests into `main` | `git-log.txt`, and the Workflow section below |
+| Change log by sprint | `CHANGELOG.md` |
 
-### Version control and CI
+### Testing
 
-| Evidence | Where |
+| Evidence | Path |
 |---|---|
-| Commit history and contributor summary | `git-shortlog.txt` and `git-log.txt` in the submission zip |
-| Author identity mapping (several members committed from both the web UI and a terminal) | `.mailmap` |
-| Continuous integration: builds and runs the full test suite on every push and pull request | `.github/workflows/ci.yml` |
-| Branches and pull requests | GitHub repository history |
+| Service, model and utility tests | `src/test/java/com/cab302/vic/` |
+| Test doubles: in-memory DAOs that isolate the database | `src/test/java/com/cab302/vic/dao/` |
+| End-to-end volunteer journey | `src/test/java/com/cab302/vic/service/VolunteerJourneyTest.java` |
+| Coverage | JaCoCo report, downloadable as the `jacoco-coverage-report` artifact from every CI run |
+
+### Feedback-driven improvement and UX validation
+
+| Evidence | Path |
+|---|---|
+| Feedback log: every finding linked to its decision and the PR that changed it | `docs/feedback-log.md` |
+| Usability and accessibility overview, with before and after numbers | `docs/usability/README.md` |
+| Heuristic review (16 findings, severity, fix) | `docs/usability/heuristic-review.md` |
+| Usability test plan, SUS form and round 2 results | `docs/usability/usability-test-plan.md`, `docs/usability/sus-questionnaire.md`, `docs/usability/results-round-2.md` |
+| Accessibility checklist (WCAG 2.1 AA), 11 to 19 of 22 | `docs/usability/accessibility-checklist.md` |
+
+### Agile planning
+
+| Evidence | Path |
+|---|---|
+| Product backlog: user stories, acceptance criteria, MoSCoW priorities | `docs/Project backlog/User stories - All.md` |
+| Sprint and release plan, with the Week 9 revision | `docs/planning/sprint-and-release-plan.md` |
+| Final sprint plan and task split | `docs/sprint-week-13.md` |
+| Project brief and requirements | `docs/project-brief.md`, `docs/requirements.md` |
+| Meeting minutes | `docs/Minutes & Notes/` |
 
 ---
 

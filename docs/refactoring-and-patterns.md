@@ -4,7 +4,8 @@ Volunteer Impact Coordinator, CAB302 Group 4
 
 This document covers the two refactors made during the Week 11 sprint, the
 Factory and Builder patterns they introduced, and the patterns that were
-already in place. For the overall architecture and OO principles, see
+already in place. The later refactors from the Week 13 sprint are listed in the
+summary below, each with its own write-up in [`Refactors/`](Refactors/). For the overall architecture and OO principles, see
 [`design/oo-design-notes.md`](design/oo-design-notes.md).
 
 ## Summary
@@ -13,9 +14,13 @@ already in place. For the overall architecture and OO principles, see
 |---|---|---|---|
 | `ServiceFactory` | Factory (held as a Singleton) | Every controller built its own service and SQLite DAO, so all five were tied to SQLite | `service/ServiceFactory.java` |
 | `Event.Builder` | Builder | `Event` was created through an eight-argument constructor that was easy to get wrong | `model/Event.java` |
+| `Clock` in `EventService` (PR #39) | Dependency Injection (constructor) | The past-date rule read the system clock, so tests depended on the day they ran | `service/EventService.java`, [`Refactors/EventService-Clock_Dependency.md`](Refactors/EventService-Clock_Dependency.md) |
+| `HoursEntry` status predicates (PR #47) | Encapsulation | Status was checked by comparing enum values in several classes | `model/HoursEntry.java`, [`Refactors/HoursEntry-Status_Encapsulation.md`](Refactors/HoursEntry-Status_Encapsulation.md) |
+| `openEventForm()` and event form set-up (PRs #33, #34) | Extract Method | Repeated set-up code in long event handlers | `controller/CoordinatorDashboardController.java`, `controller/EventFormController.java`, [`Refactors/Refactor_OpenEventForm.md`](Refactors/Refactor_OpenEventForm.md) |
 
-Both were refactors in the strict sense: the app behaves exactly as before,
-and the existing tests pass unchanged.
+All were refactors in the strict sense: the app behaves exactly as before.
+The Factory and Builder changes passed the existing tests unchanged; the Clock
+injection changed `EventServiceTest` to use a fixed date, which is the point of it.
 
 ---
 

@@ -92,4 +92,17 @@ jobs:
           if-no-files-found: error
 
       - name: Generate Javadoc
-        run: mvn javadoc:javadoc
+        run: mvn -B javadoc:javadoc
+
+      # Keeps the generated Javadoc pages from every run as a downloadable
+      # artifact, so the documentation is delivered with each build rather than
+      # thrown away. pom.xml writes it to target/docs/javadoc.
+      - name: Upload Javadoc
+        uses: actions/upload-artifact@v4
+        with:
+          name: javadoc
+          path: |
+            target/docs/javadoc/
+            target/site/apidocs/
+            target/reports/apidocs/
+          if-no-files-found: warn
