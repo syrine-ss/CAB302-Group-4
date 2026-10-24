@@ -109,6 +109,11 @@ public class CoordinatorDashboardController {
     protected void onCancelEventClick() {
         Event event = eventList.getSelectionModel().getSelectedItem();
 
+        if (event == null) {
+            showError("Select an event to cancel first.");
+            return;
+        }
+
         if (signupService.hasPassed(event)) {
             new Alert(Alert.AlertType.ERROR, "Can not delete events that have passed.").showAndWait();
             return;
