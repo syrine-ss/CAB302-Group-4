@@ -387,6 +387,11 @@ public class EventReviewController {
         }
     }
 
+    @FXML
+    protected void onRefresh() {
+        refreshSignups();
+    }
+
     private String fullNameFromSignup(Signup signup) {
         try {
             User user = signupService.getVolunteerFromSignup(signup);
