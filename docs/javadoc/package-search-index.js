@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.cab302.vic"},{"l":"com.cab302.vic.controller"},{"l":"com.cab302.vic.dao"},{"l":"com.cab302.vic.model"},{"l":"com.cab302.vic.service"},{"l":"com.cab302.vic.util"}];updateSearchResults();
