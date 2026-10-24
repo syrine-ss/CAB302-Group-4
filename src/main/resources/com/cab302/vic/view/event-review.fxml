@@ -43,10 +43,10 @@
         </VBox>
     </center>
     <bottom>
-        <HBox alignment="CENTER_LEFT">
+        <HBox alignment="CENTER_LEFT" spacing="12">
             <padding><Insets top="20" right="24" bottom="20" left="24"/></padding>
-
             <Button text="Back" onAction="#onHomeClick" styleClass="primary"/>
+            <Button text="Refresh" onAction="#onRefresh" styleClass="secondary"/>
         </HBox>
     </bottom>
 </BorderPane>
