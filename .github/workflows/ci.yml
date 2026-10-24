@@ -3,7 +3,8 @@ name: CI
 # Runs on every push and every pull request against main, so broken code
 # is caught before it is merged. Compiles, runs the tests, writes a coverage
 # report, packages the runnable JAR with build.sh, starts it on a virtual
-# display to check it launches, and keeps the JAR as a downloadable artifact.
+# display to check it launches, generates the Javadoc, and keeps the JAR,
+# the reports and the Javadoc as downloadable artifacts.
 on:
   push:
     branches: [ main ]
@@ -91,5 +92,20 @@ jobs:
           path: target/*-all.jar
           if-no-files-found: error
 
+      # Compiles the Javadoc comments into a full HTML documentation set. The
+      # javadoc plugin in pom.xml writes it to target/docs/javadoc. This runs
+      # after the JAR build because build.sh runs mvn clean, which would delete
+      # the generated pages.
       - name: Generate Javadoc
-        run: mvn javadoc:javadoc
+        run: mvn -B javadoc:javadoc
+
+      # Publishes the generated Javadoc so it can be downloaded from the run.
+      # A committed copy is also kept at docs/javadoc/ so the documentation
+      # travels with the repository and the submission zip.
+      - name: Upload Javadoc
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: javadoc
+          path: target/docs/javadoc/
+          if-no-files-found: error

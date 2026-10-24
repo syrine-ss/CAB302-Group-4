@@ -9,9 +9,58 @@ Built for CAB302 Semester 2, 2026 under the theme "Technology for Sustainable Fu
 
 ## Where to find things
 
-A map of the assessment criteria to the evidence in this repository.
+A map of the assessment criteria to the evidence in this repository. The first three
+sections follow the marking criteria; the last two hold the planning and version control
+evidence that supports them.
 
-### Agile planning
+### Object-oriented design
+
+| Evidence | Path |
+|---|---|
+| Class diagram, layered and colour-coded by package | `docs/design/class-diagram.png` |
+| Diagram source, so it can be regenerated when the code changes | `docs/design/class-diagram.dot` |
+| Written design rationale: OO principles, patterns, known limitations | `docs/design/oo-design-notes.md` |
+| Patterns and refactors, with before and after rationale | `docs/refactoring-and-patterns.md` |
+| Individual refactor write-ups: Clock injection, status encapsulation, event form | `docs/Refactors/` |
+| Factory: builds the services so controllers no longer construct their own DAOs | `src/main/java/com/cab302/vic/service/ServiceFactory.java` |
+| Builder: replaces the eight-argument event constructor | `src/main/java/com/cab302/vic/model/Event.java` |
+| Singletons: database connection and session state | `src/main/java/com/cab302/vic/dao/DatabaseManager.java`, `src/main/java/com/cab302/vic/util/SessionManager.java` |
+| DAO interfaces and their SQLite implementations | `src/main/java/com/cab302/vic/dao/` |
+| MVC controllers | `src/main/java/com/cab302/vic/controller/` |
+| Business rules and validation | `src/main/java/com/cab302/vic/service/` |
+| Domain model | `src/main/java/com/cab302/vic/model/` |
+
+### Continuous integration and automated build
+
+| Evidence | Path |
+|---|---|
+| GitHub Actions workflow: compile, test, coverage, package, smoke test, Javadoc | `.github/workflows/ci.yml` |
+| Build scripts used by both developers and CI | `build.sh`, `build.ps1` |
+| How to build and run the packaged application | `docs/build-and-run.md` |
+| Generated Javadoc, complete HTML documentation set | `docs/javadoc/index.html` |
+| Javadoc also published as a downloadable artifact from every CI run | GitHub Actions, artifact `javadoc` |
+| JaCoCo coverage report, downloadable from every CI run | GitHub Actions, artifact `jacoco-coverage-report` |
+| Service-level behaviour tests | `src/test/java/com/cab302/vic/service/` |
+| Model tests | `src/test/java/com/cab302/vic/model/` |
+| Password hashing and session tests | `src/test/java/com/cab302/vic/util/` |
+| Test doubles: in-memory DAOs that isolate the database | `src/test/java/com/cab302/vic/dao/` |
+
+### Feedback-driven improvement
+
+| Evidence | Path |
+|---|---|
+| Feedback log: every finding traced to a decision, a change and a result | `docs/feedback-log.md` |
+| Sprint retrospectives and the work deliberately carried forward | `docs/feedback-log.md` (Retrospectives) |
+| Usability evaluation overview | `docs/usability/README.md` |
+| Heuristic review of the volunteer, login and register screens | `docs/usability/heuristic-review.md` |
+| Usability test plan and task script | `docs/usability/usability-test-plan.md` |
+| Round 2 results after the fixes: tasks completed, errors, mean SUS 88.75 | `docs/usability/results-round-2.md` |
+| SUS questionnaire used | `docs/usability/sus-questionnaire.md` |
+| Accessibility checklist, 11 of 22 passed to 19 of 22 | `docs/usability/accessibility-checklist.md` |
+| Change log: what landed each sprint, against user story IDs | `CHANGELOG.md` |
+| Final sprint plan | `docs/sprint-week-13.md` |
+
+### Planning and process
 
 | Evidence | Path |
 |---|---|
@@ -21,38 +70,17 @@ A map of the assessment criteria to the evidence in this repository.
 | Sprint 1 plan, release plan, risk register, and week 9 revision | `docs/planning/sprint-and-release-plan.md` |
 | Project brief and requirements | `docs/project-brief.md`, `docs/requirements.md` |
 | Meeting minutes | `docs/Minutes & Notes/` |
-| Project management board | Trello (export included in the submission zip) |
-
-### Object-oriented design
-
-| Evidence | Path |
-|---|---|
-| Class diagram (layered, colour-coded by package) | `docs/design/class-diagram.png` |
-| Written design rationale: OO principles, patterns, known limitations | `docs/design/oo-design-notes.md` |
-| MVC controllers | `src/main/java/com/cab302/vic/controller/` |
-| Business rules and validation | `src/main/java/com/cab302/vic/service/` |
-| DAO interfaces and SQLite implementations | `src/main/java/com/cab302/vic/dao/` |
-| Domain model | `src/main/java/com/cab302/vic/model/` |
 | Low-fidelity UI sketches | `docs/design/low-fidelity/` |
 | Mid-fidelity UI mockups | `docs/design/mid-fidelity/` |
+| Project management board | Trello (export included in the submission zip) |
 
-### Test-driven development
-
-| Evidence | Path |
-|---|---|
-| Service-level behaviour tests | `src/test/java/com/cab302/vic/service/` |
-| Password hashing tests | `src/test/java/com/cab302/vic/util/PasswordHasherTest.java` |
-| Model tests | `src/test/java/com/cab302/vic/model/` |
-| Test doubles: in-memory DAOs that isolate the database | `src/test/java/com/cab302/vic/dao/` |
-
-### Version control and CI
+### Version control
 
 | Evidence | Where |
 |---|---|
 | Commit history and contributor summary | `git-shortlog.txt` and `git-log.txt` in the submission zip |
 | Author identity mapping (several members committed from both the web UI and a terminal) | `.mailmap` |
-| Continuous integration: builds and runs the full test suite on every push and pull request | `.github/workflows/ci.yml` |
-| Branches and pull requests | GitHub repository history |
+| Feature branches and pull requests, with review comments | GitHub repository history |
 
 ---
 
@@ -130,6 +158,10 @@ docs/
 ├── Project backlog/           User stories, individual drafts
 ├── planning/                  Sprint and release plan
 ├── design/                    Class diagram, design notes, UI fidelities
+├── Refactors/                 Individual refactor write-ups
+├── usability/                 Heuristic review, test plan, results, accessibility
+├── javadoc/                   Generated API documentation (open index.html)
+├── feedback-log.md            Findings traced to decisions, changes and results
 └── Minutes & Notes/           Meeting minutes
 ```
 

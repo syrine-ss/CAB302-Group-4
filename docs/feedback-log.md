@@ -29,9 +29,9 @@ Status key: ✅ done · 🔄 in progress · ⏳ planned
 | C3 | Peer review of PR #26 (JaCoCo) | `build.sh` runs `mvn clean`, which would delete the coverage report before it was uploaded; `Launcher` was counted in coverage although it only starts JavaFX | Upload coverage before building the JAR; exclude `Launcher` | Commits `079daa2`, `4ec8853` in PR #26 | ✅ |
 | C4 | Peer review of PR #31 (Javadoc) | Private constructors added to `EventFormController` and `VolunteerDashboardController` would stop FXML creating them, crashing both screens; `SessionManager`'s private constructor had been removed | Remove the controller constructors and restore `SessionManager()` before merging | Commits `58935a7`, `ee52aca` in PR #31 | ✅ |
 | C5 | CI failure on PR #29 | A private `VolunteerImpactApp` constructor stopped the app launching; the JAR smoke test caught it | Remove the constructor | Commit `ecbd697`, merged in PR #31 | ✅ |
-| C6 | JaCoCo coverage report | `util` package at 50%: `SessionManager` has no tests | Add `SessionManagerTest`; exclude `SceneNavigator`, which needs a live JavaFX stage | PR … | ⏳ |
-| C7 | Sprint 2 planning | Controllers still call `ServiceFactory.getInstance()` directly, so they cannot be given test services | Dependency injection through a JavaFX controller factory | PR … | ⏳ |
-| C8 | Sprint 2 planning | Dashboards only refresh after the user's own action, not when data changes | Observer pattern for signup and hours changes | PR … | ⏳ |
+| C6 | JaCoCo coverage report | `util` package at 50%: `SessionManager` has no tests | Add `SessionManagerTest`; exclude `SceneNavigator`, which needs a live JavaFX stage | Not implemented; see Carried forward under Retrospectives | ⏳ |
+| C7 | Sprint 2 planning | Controllers still call `ServiceFactory.getInstance()` directly, so they cannot be given test services | Dependency injection through a JavaFX controller factory | Not implemented; see Carried forward under Retrospectives | ⏳ |
+| C8 | Sprint 2 planning | Dashboards only refresh after the user's own action, not when data changes | Observer pattern for signup and hours changes | Not implemented; see Carried forward under Retrospectives | ⏳ |
 
 ## User interface and accessibility
 
@@ -66,6 +66,22 @@ both participants completed every volunteer task without help, with a mean SUS o
 
 ## Retrospectives
 
-| # | Retrospective | Action agreed | Followed up in | Status |
-|---|---|---|---|---|
-| R1 | Sprint 2 retro (date) | … | … | ⏳ |
+Held at the end of each sprint, after the checkpoint for that sprint. Each row records
+what the team agreed to change about how it worked, and where that change can be seen
+in the repository.
+
+| # | Retrospective | What went well | What did not | Action agreed | Followed up in | Status |
+|---|---|---|---|---|---|---|
+| R1 | Sprint 2, after the week 9 submission | A working prototype with authentication, events and both dashboards; CI running on every push | Most development was carried by one member, and much of the code went straight to `main` rather than through review | Every feature goes through a feature branch and a pull request with a tagged reviewer; remaining features and refactors split so each member owns pull requests under their own name | P1, P2 and P4 above; pull requests #20 onwards | ✅ |
+| R2 | Sprint 3, 7 Oct, after the week 11 branch was reverted | The features themselves worked | The sprint's work landed as one large commit, which could not be reviewed properly and did not show who had written what | Revert and rebuild the same features as one pull request each, merged without squashing so the test-then-implement commits stay visible | Pull requests #21 to #28; P3 above; the Removed note in `CHANGELOG.md` | ✅ |
+| R3 | Sprint 4, after the week 13 checkpoint | Usability testing produced measurable improvement: mean SUS 88.75, accessibility checklist from 11 of 22 passed to 19 of 22 | Three architecture improvements were identified but not implemented, and two members withdrew in week 8 without their tasks being handed over | Record unimplemented work explicitly rather than dropping it, so it is visible as known future work rather than an omission | C6, C7 and C8 above | ✅ |
+
+### Carried forward
+
+Three items were identified and deliberately not implemented before submission. They are
+recorded here rather than removed, so the decision is visible:
+
+- **C6** — tests for `SessionManager`, and a coverage exclusion for `SceneNavigator`
+- **C7** — dependency injection into the controllers through a JavaFX controller factory
+- **C8** — Observer pattern so dashboards refresh when data changes rather than only after
+  the user's own action
