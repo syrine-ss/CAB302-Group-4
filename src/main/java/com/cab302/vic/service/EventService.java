@@ -119,6 +119,16 @@ public class EventService {
     }
 
     /**
+     * Cancel event. Only deletes from event table currently.
+     * @param eventId event id
+     */
+    public void cancelEvent(int eventId) throws EventException {
+        if (!eventDAO.delete(eventId)){
+            throw new EventException("Failed to save changes");
+        }
+    }
+
+    /**
      * Find event by event id
      * @param id event id
      * @return return a list containing the event, or an empty list

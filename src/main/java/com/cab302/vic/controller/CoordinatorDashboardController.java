@@ -2,8 +2,11 @@ package com.cab302.vic.controller;
 
 import com.cab302.vic.model.Event;
 import com.cab302.vic.model.User;
+import com.cab302.vic.service.EventException;
 import com.cab302.vic.service.EventService;
 import com.cab302.vic.service.ServiceFactory;
+import com.cab302.vic.service.SignupService;
+import com.cab302.vic.util.EventDisplay;
 import com.cab302.vic.util.SceneNavigator;
 import com.cab302.vic.util.SessionManager;
 import javafx.beans.property.SimpleObjectProperty;
@@ -17,7 +20,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Dashboard shown to coordinators after login.
@@ -29,6 +34,7 @@ public class CoordinatorDashboardController {
     @FXML private ListView<Event> eventList;
 
     private final EventService eventService = ServiceFactory.getInstance().events();
+    private final SignupService signupService = ServiceFactory.getInstance().signups();
 
     /** Set once when the scene is edited. Lets a controller know which event to load */
     public static final SimpleObjectProperty<Event> selectedEvent = new SimpleObjectProperty<>();
@@ -48,6 +54,10 @@ public class CoordinatorDashboardController {
     private void refreshEvents() {
         User user = SessionManager.getInstance().getCurrentUser();
         List<Event> events = eventService.findByCoordinator(user.getId());
+        events = events.stream()
+                .sorted(Comparator.comparing(Event::getEventDate).reversed())
+                .collect(Collectors.toList());
+
         eventList.setItems(FXCollections.observableArrayList(events));
     }
 
@@ -96,6 +106,30 @@ public class CoordinatorDashboardController {
     }
 
     @FXML
+    protected void onCancelEventClick() {
+        Event event = eventList.getSelectionModel().getSelectedItem();
+
+        if (signupService.hasPassed(event)) {
+            new Alert(Alert.AlertType.ERROR, "Can not delete events that have passed.").showAndWait();
+            return;
+        }
+
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
+                "Are you sure you want to delete this event?", ButtonType.YES, ButtonType.NO);
+        confirm.setHeaderText(null);
+        confirm.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.YES) {
+                try {
+                    eventService.cancelEvent(event.getId());
+                    refreshEvents();
+                } catch (EventException e) {
+                    showError("Could not cancel event: " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    @FXML
     protected void onProfileClick() {
         try {
             SceneNavigator.switchTo(welcomeLabel, "profile.fxml", "Profile");
@@ -139,7 +173,7 @@ public class CoordinatorDashboardController {
             box.getStyleClass().add("list-card");
             Label title = new Label(event.getTitle());
             title.getStyleClass().add("list-title");
-            Label meta = new Label(event.getEventDate() + " at " + safe(event.getLocation())
+            Label meta = new Label(EventDisplay.when(event) + " at " + safe(event.getLocation())
                     + "  |  " + event.getVolunteersNeeded() + " volunteers needed");
             meta.getStyleClass().add("event-meta");
             box.getChildren().addAll(title, meta);

@@ -30,6 +30,7 @@
             <HBox alignment="CENTER_LEFT" spacing="10">
                 <Label text="Your Events" styleClass="section-heading"/>
                 <Region HBox.hgrow="ALWAYS"/>
+                <Button text ="Cancel selected" onAction="#onCancelEventClick" styleClass="danger"/>
                 <Button text="Edit selected" onAction="#onEditSelectedEventClick" styleClass="secondary"/>
                 <Button text="Review selected" onAction="#onReviewSelectedEventClick" styleClass="secondary"/>
                 <Button text="+ New Event" onAction="#onCreateEventClick" styleClass="primary"/>
