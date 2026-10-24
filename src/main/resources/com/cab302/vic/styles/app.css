@@ -88,6 +88,19 @@
     -fx-underline: true;
 }
 
+/* Keyboard focus (WCAG 2.4.7). Setting -fx-background-color on .primary, .secondary
+   and .danger replaces JavaFX's built-in focus ring, so Tab gave no visible sign of
+   which button was selected. Draw an outline instead: #1e3a5f is 10.6:1 or more
+   against the page and white backgrounds. */
+.primary:focused,
+.secondary:focused,
+.danger:focused {
+    -fx-border-color: #1e3a5f;
+    -fx-border-width: 2;
+    -fx-border-radius: 6;
+    -fx-border-insets: -3;
+}
+
 .error {
     -fx-text-fill: #c0392b;
 }
