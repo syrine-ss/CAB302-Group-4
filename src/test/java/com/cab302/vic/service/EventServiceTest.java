@@ -167,14 +167,16 @@ class EventServiceTest {
     // ---------- delete ----------
 
     @Test
-    void cancelEventThrowsIfNull() throws EventException {
+    void cancelEventThrowsIfEventMissing() throws EventException {
         Event original = service.create("Title", "desc", futureDate(), "09:00",
                 "loc", 5, COORDINATOR_ID);
 
-        eventDAO.delete(original.getId());
+        int id = original.getId();
+
+        eventDAO.delete(id);
 
         EventException exception = assertThrows(EventException.class, () -> {
-            service.cancelEvent(original.getId());
+            service.cancelEvent(id);
         });
 
         assertEquals("Event could not be found.", exception.getMessage());
