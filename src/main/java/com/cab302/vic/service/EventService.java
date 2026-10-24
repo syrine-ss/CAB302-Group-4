@@ -124,7 +124,7 @@ public class EventService {
      */
     public void cancelEvent(int eventId) throws EventException {
         if (!eventDAO.delete(eventId)){
-            throw new EventException("Failed to save changes");
+            throw new EventException("Event could not be found.");
         }
     }
 
