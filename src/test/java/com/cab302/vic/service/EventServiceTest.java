@@ -6,7 +6,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.Clock;
-import java.time.Instant;
 import java.time.ZoneOffset;
 
 import java.time.LocalDate;
@@ -163,5 +162,29 @@ class EventServiceTest {
         service.create("C", "d", futureDate(), "11:00", "l", 5, 2);
 
         assertEquals(3, service.findAll().size());
+    }
+
+    // ---------- delete ----------
+
+    @Test
+    void cancelEventThrowsIfNull() throws EventException {
+        Event original = service.create("Title", "desc", futureDate(), "09:00",
+                "loc", 5, COORDINATOR_ID);
+
+        eventDAO.delete(original.getId());
+
+        EventException exception = assertThrows(EventException.class, () -> {
+            service.cancelEvent(original.getId());
+        });
+
+        assertEquals("Event could not be found.", exception.getMessage());
+    }
+
+    @Test
+    void cancelEventSuccessful() throws EventException {
+        Event original = service.create("Title", "desc", futureDate(), "09:00",
+                "loc", 5, COORDINATOR_ID);
+
+        assertDoesNotThrow(() -> service.cancelEvent(original.getId()));
     }
 }
