@@ -8,9 +8,10 @@ the dates the work landed on `main`. Entries reference user story IDs from
 
 ---
 
-## Sprint 4 — Weeks 11 to 13 (1 October to 19 October 2026)
+## Sprint 4 — Weeks 11 to 13 (1 October to 25 October 2026)
 
-**Theme:** rebuild the week 11 feature set, polish, accessibility, and release tooling.
+**Theme:** rebuild the week 11 feature set, finish the remaining Must-have screens, polish,
+accessibility, release tooling and submission packaging.
 
 ### Added
 
@@ -31,8 +32,20 @@ the dates the work landed on `main`. Entries reference user story IDs from
 - `docs/refactoring-and-patterns.md` — written rationale for the refactors and the
   patterns used
 - `docs/sprint-week-13.md` — sprint plan for the final two weeks
-- Heuristic review, round 2 usability results and a UX feedback log
-- Keyboard and error-handling checks recorded in an accessibility checklist
+- Volunteer hours logging screen (US-05), PR #46
+- Coordinator attendance register and hours review screen (US-16, US-22), PRs #45 and #50
+- Profile screens for both roles, PR #49
+- Cancel event on the coordinator dashboard, with a confirmation step, a guard against
+  cancelling events that have already passed, and two `EventService` tests, PR #51
+- Usability evaluation set in `docs/usability/`, PR #40: heuristic review, usability test
+  plan, SUS questionnaire, round 2 results and an accessibility checklist
+- `docs/feedback-log.md`, tying each finding to the decision taken and the commit that
+  followed, PR #40
+- `docs/Refactors/` — individual write-ups for the `Clock` injection, the `HoursEntry`
+  status encapsulation and the event form extraction
+- Mid-fidelity mockup for the event review screen
+- Javadoc published as a downloadable artifact from every CI run, and the generated HTML
+  committed to `docs/javadoc/` so the documentation ships with the submission
 
 ### Changed
 
@@ -43,6 +56,13 @@ the dates the work landed on `main`. Entries reference user story IDs from
   two event-form entry points collapsed into one `openEventForm` method
 - `EventFormController` tidied along the same lines
 - Class diagram updated to cover the new DAOs, the factory and the builder
+- `HoursEntry` status checks encapsulated behind `isApproved()` and `isRejected()`, so
+  controllers and services no longer compare the enum directly, PR #47
+- Coordinator dashboard lists events newest first and uses `EventDisplay.when` for
+  readable dates, PR #51
+- README evidence map restructured around the three marking criteria, with rows added for
+  the usability evidence, the feedback log, the change log and the Javadoc
+- `.mailmap` extended to cover the remaining author identities, PR #48
 
 ### Removed
 
