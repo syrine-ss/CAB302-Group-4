@@ -187,6 +187,15 @@ public class SignupService {
     }
 
     /**
+     * Get the current amount of signups for an event
+     * @param event the event
+     * @return number of signups
+     */
+    public int spotsFilled(Event event) {
+        return signupDAO.countForEvent(event.getId());
+    }
+
+    /**
      * Attendance can be marked from the day of the event onwards, so a
      * coordinator can do it the same afternoon.
      * @param event the event

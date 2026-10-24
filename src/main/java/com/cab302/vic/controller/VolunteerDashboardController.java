@@ -66,6 +66,15 @@ public class VolunteerDashboardController {
     }
 
     @FXML
+    protected void onProfileClick() {
+        try {
+            SceneNavigator.switchTo(welcomeLabel, "profile.fxml", "Profile");
+        } catch (IOException e) {
+            new Alert(Alert.AlertType.ERROR, "Could not open profile: " + e.getMessage()).showAndWait();
+        }
+    }
+
+    @FXML
     protected void onLogoutClick() {
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION,
                 "Are you sure you want to log out?", ButtonType.YES, ButtonType.NO);

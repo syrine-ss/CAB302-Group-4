@@ -18,6 +18,7 @@
             <Label text="Volunteer Impact Coordinator" styleClass="brand"/>
             <Region HBox.hgrow="ALWAYS"/>
             <Label fx:id="welcomeLabel"/>
+            <Button text="Profile" onAction="#onProfileClick" styleClass="secondary"/>
             <Button text="Log out" onAction="#onLogoutClick" styleClass="danger"/>
         </HBox>
     </top>
