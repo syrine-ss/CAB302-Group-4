@@ -3,6 +3,7 @@ package com.cab302.vic.controller;
 
 import com.cab302.vic.model.Event;
 import com.cab302.vic.model.HoursEntry;
+import com.cab302.vic.model.Signup;
 import com.cab302.vic.model.User;
 import com.cab302.vic.service.EventService;
 import com.cab302.vic.service.HoursService;
@@ -197,10 +198,21 @@ public class ProfileController {
         }
 
         else {
-            int signupCount = signupService.spotsFilled(event);
-
-            Label volunteerCount = new Label(signupCount + " volunteer(s)");
+            List<Signup> signups = signupService.signupsForEvent(event.getId());
+            Label volunteerCount = new Label();
             volunteerCount.getStyleClass().add("event-meta");
+
+            if (signupService.hasPassed(event)) {
+                long attendedCount = signups.stream()
+                        .filter(Signup::isAttended)
+                        .count();
+
+                volunteerCount.setText(Math.toIntExact(attendedCount) + " volunteer(s) attended");
+
+            }
+            else {
+                volunteerCount.setText(signupService.spotsFilled(event) + " volunteer(s) signed up");
+            }
 
             card.getChildren().add(volunteerCount);
         }
