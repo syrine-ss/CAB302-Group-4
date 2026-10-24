@@ -32,6 +32,9 @@ Status key: ✅ done · 🔄 in progress · ⏳ planned
 | C6 | JaCoCo coverage report | `util` package at 50%: `SessionManager` has no tests | Add `SessionManagerTest`; exclude `SceneNavigator`, which needs a live JavaFX stage | Not implemented; see Carried forward under Retrospectives | ⏳ |
 | C7 | Sprint 2 planning | Controllers still call `ServiceFactory.getInstance()` directly, so they cannot be given test services | Dependency injection through a JavaFX controller factory | Not implemented; see Carried forward under Retrospectives | ⏳ |
 | C8 | Sprint 2 planning | Dashboards only refresh after the user's own action, not when data changes | Observer pattern for signup and hours changes | Not implemented; see Carried forward under Retrospectives | ⏳ |
+| C9 | Refactoring task, Week 13 sprint plan | `HoursEntry` status was compared with enum values in several services and controllers | Encapsulate the checks in the model as predicates (`isApproved()`, `isRejected()`) | PR #47 (`docs/Refactors/HoursEntry-Status_Encapsulation.md`) | ✅ |
+| C10 | Refactoring task, Week 13 sprint plan | The coordinator dashboard and event form repeated set-up code inside long event handlers | Extract methods: `openEventForm()` and the event form's configure methods | PRs #33, #34 (`docs/Refactors/Refactor_OpenEventForm.md`) | ✅ |
+| C11 | Testability of date rules | `EventService` read the system clock, so tests about past dates depended on the day they ran | Inject a `Clock` through the constructor (dependency injection at the service level; the controller-level injection in C7 is still open) | PR #39 (`docs/Refactors/EventService-Clock_Dependency.md`) | ✅ |
 
 ## User interface and accessibility
 
