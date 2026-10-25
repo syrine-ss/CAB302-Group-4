@@ -29,9 +29,13 @@ Status key: ✅ done · 🔄 in progress · ⏳ planned
 | C3 | Peer review of PR #26 (JaCoCo) | `build.sh` runs `mvn clean`, which would delete the coverage report before it was uploaded; `Launcher` was counted in coverage although it only starts JavaFX | Upload coverage before building the JAR; exclude `Launcher` | Commits `079daa2`, `4ec8853` in PR #26 | ✅ |
 | C4 | Peer review of PR #31 (Javadoc) | Private constructors added to `EventFormController` and `VolunteerDashboardController` would stop FXML creating them, crashing both screens; `SessionManager`'s private constructor had been removed | Remove the controller constructors and restore `SessionManager()` before merging | Commits `58935a7`, `ee52aca` in PR #31 | ✅ |
 | C5 | CI failure on PR #29 | A private `VolunteerImpactApp` constructor stopped the app launching; the JAR smoke test caught it | Remove the constructor | Commit `ecbd697`, merged in PR #31 | ✅ |
-| C6 | JaCoCo coverage report | `util` package at 50%: `SessionManager` has no tests | Add `SessionManagerTest`; exclude `SceneNavigator`, which needs a live JavaFX stage | PR … | ⏳ |
-| C7 | Sprint 2 planning | Controllers still call `ServiceFactory.getInstance()` directly, so they cannot be given test services | Dependency injection through a JavaFX controller factory | PR … | ⏳ |
-| C8 | Sprint 2 planning | Dashboards only refresh after the user's own action, not when data changes | Observer pattern for signup and hours changes | PR … | ⏳ |
+| C6 | JaCoCo coverage report | `util` package at 50%: `SessionManager` has no tests | Add `SessionManagerTest`; exclude `SceneNavigator`, which needs a live JavaFX stage | Not done: the final sprint prioritised the remaining Must-have screens (US-05, US-16, profile). `util` did gain `EventDisplayTest` | Deferred |
+| C7 | Sprint 2 planning | Controllers still call `ServiceFactory.getInstance()` directly, so they cannot be given test services | Dependency injection through a JavaFX controller factory | Partly done: constructor injection was applied at the service level (C11). Injecting services into the controllers is still open | Partly done |
+| C8 | Sprint 2 planning | Dashboards only refresh after the user's own action, not when data changes | Observer pattern for signup and hours changes | Not done: each screen reloads its data when it opens, which covers a single-user desktop app; a refresh button was added to the event review page instead | Deferred |
+| C9 | Refactoring task, Week 13 sprint plan | `HoursEntry` status was compared with enum values in several services and controllers | Encapsulate the checks in the model as predicates (`isApproved()`, `isRejected()`) | PR #47 (`docs/Refactors/HoursEntry-Status_Encapsulation.md`) | ✅ |
+| C10 | Refactoring task, Week 13 sprint plan | The coordinator dashboard and event form repeated set-up code inside long methods | Extract methods: `openEventForm()` and the event form's configure methods | PRs #33, #34 (`docs/Refactors/Refactor_OpenEventForm.md`, `docs/Refactors/Refactor_initialiseMethod.md`) | ✅ |
+| C11 | Testability of date rules | `EventService` read the system clock, so tests about past dates depended on the day they ran | Inject a `Clock` through the constructor | PR #39 (`docs/Refactors/EventService-Clock_Dependency.md`) | ✅ |
+| C12 | Peer review of PR #51 | Clicking "Cancel selected" with no event selected threw a NullPointerException | Guard against no selection, as Edit and Review already did, and add tests | Commits `edfdbef`, `c8edef6` in PR #51 | ✅ |
 
 ## User interface and accessibility
 
@@ -66,6 +70,18 @@ both participants completed every volunteer task without help, with a mean SUS o
 
 ## Retrospectives
 
-| # | Retrospective | Action agreed | Followed up in | Status |
-|---|---|---|---|---|
-| R1 | Sprint 2 retro (date) | … | … | ⏳ |
+We did not hold a formal retrospective meeting at the end of every sprint. Instead, the
+team stopped to review how it was working at the points below, usually in our Discord
+channel, and agreed a change. Each row records the trigger, what we changed, and where
+the change can be seen.
+
+| # | When | What prompted it | What we agreed | Evidence | Status |
+|---|---|---|---|---|---|
+| R1 | After Submission 1 feedback | Tutor: most code went straight to `main`, and one member was carrying most of the development | Every feature on its own branch and pull request with a reviewer; remaining work split so each member owns their own pull requests | P1, P2 above; pull requests #20 onwards; `docs/sprint-week-13.md` | ✅ |
+| R2 | 7 Oct | The Week 11 features had landed as one large commit (#18) that could not be reviewed properly | Revert it and rebuild the same features as one reviewed pull request each | Revert commit `532df8a`; pull requests #20 to #28 | ✅ |
+| R3 | 10 Oct | Review requests were being missed | Post review requests in a `pr-review` channel and tag a named reviewer | P4 above | ✅ |
+| R4 | 17 Oct | Two open pull requests changed the same stylesheet (`app.css`) | Agree a merge order: the dashboard PR first, then the `list-card` rename on top | PR #37 merged 17 Oct; `list-card` rename followed in commit `7adea08` | ✅ |
+
+**Looking back:** these changes were made when a problem had already slowed us down.
+A short retrospective at the end of every sprint, rather than reacting mid-sprint, is the
+main process change we would make on a future project.
