@@ -71,16 +71,20 @@ both participants completed every volunteer task without help, with a mean SUS o
 ## Retrospectives
 
 We did not hold a formal retrospective meeting at the end of every sprint. Instead, the
-team stopped to review how it was working at the points below, usually in our Discord
-channel, and agreed a change. Each row records the trigger, what we changed, and where
+team stopped to review how it was working at the points below, in our team chat and
+meetings, and agreed a change. Each row records the trigger, what we changed, and where
 the change can be seen.
 
 | # | When | What prompted it | What we agreed | Evidence | Status |
 |---|---|---|---|---|---|
-| R1 | After Submission 1 feedback | Tutor: most code went straight to `main`, and one member was carrying most of the development | Every feature on its own branch and pull request with a reviewer; remaining work split so each member owns their own pull requests | P1, P2 above; pull requests #20 onwards; `docs/sprint-week-13.md` | ✅ |
-| R2 | 7 Oct | The Week 11 features had landed as one large commit (#18) that could not be reviewed properly | Revert it and rebuild the same features as one reviewed pull request each | Revert commit `532df8a`; pull requests #20 to #28 | ✅ |
-| R3 | 10 Oct | Review requests were being missed | Post review requests in a `pr-review` channel and tag a named reviewer | P4 above | ✅ |
-| R4 | 17 Oct | Two open pull requests changed the same stylesheet (`app.css`) | Agree a merge order: the dashboard PR first, then the `list-card` rename on top | PR #37 merged 17 Oct; `list-card` rename followed in commit `7adea08` | ✅ |
+| R1 | Week 9 | Two members withdrew in week 8, taking the team from seven to five, and Sprint 1 had run over | Redistribute their work rather than drop it, recover their finished mockups, and re-plan the remaining sprints for five people | "Week 9 revision" in `docs/planning/sprint-and-release-plan.md`; Team section of `README.md` | ✅ |
+| R2 | After Submission 1 feedback | Tutor: most code went straight to `main`, and one member was carrying most of the development | Every feature on its own branch and pull request with a reviewer; remaining work split so each member owns their own pull requests | P1, P2 above; pull requests #20 onwards | ✅ |
+| R3 | 7 Oct | The Week 11 features had landed as one large commit (#18) that could not be reviewed properly | Revert it and rebuild the same features as one reviewed pull request each | Revert commit `532df8a`; pull requests #20 to #28 | ✅ |
+| R4 | 10 Oct | Review requests were being missed in the main chat | Post review requests in a `pr-review` channel and tag a named reviewer | P4 above | ✅ |
+| R5 | 15 Oct | Work for the final sprint was unassigned and the deadline was close | A written sprint plan giving every remaining task an owner, with a Monday checkpoint to leave time for fixes | `docs/sprint-week-13.md` (PR #38) | ✅ |
+| R6 | 17 Oct | Two open pull requests changed the same stylesheet (`app.css`) | Agree a merge order in the channel: the dashboard PR first, then the `list-card` rename on top | PR #37 merged 17 Oct; `list-card` rename followed in commit `7adea08` | ✅ |
+
+
 
 **Looking back:** these changes were made when a problem had already slowed us down.
 A short retrospective at the end of every sprint, rather than reacting mid-sprint, is the
